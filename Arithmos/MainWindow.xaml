@@ -1,0 +1,495 @@
+﻿<!--
+Copyright (c) 2018 Daniel Lascelles, https://github.com/dlascelles
+This code is licensed under The MIT License. See LICENSE file in the project root for full license information.
+License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
+-->
+<Window x:Class="Arithmos.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Arithmos"
+        xmlns:model="clr-namespace:ArithmosModels;assembly=ArithmosModels"
+        xmlns:converters="clr-namespace:ArithmosViewModels.Converters;assembly=ArithmosViewModels"
+        xmlns:viewModels="clr-namespace:ArithmosViewModels;assembly=ArithmosViewModels"
+        mc:Ignorable="d"
+        Title="Arithmos 1.0.0 - Gematria Calculator and Scanner" Height="478" Width="951.583" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <viewModels:MainViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <converters:CalculationMethodConverter x:Key="CalculationMethodConverter" x:Shared="False"/>
+        <converters:PhraseSeparatorConverter x:Key="PhraseSeparatorConverter" x:Shared="False"/>
+        <converters:AlphabetConverter x:Key="AlphabetConverter" x:Shared="False"/>
+    </Window.Resources>
+    <Grid>
+        <TabControl TabStripPlacement="Left">
+            <TabItem Header="Calculator" DataContext="{Binding ChildViews[0]}" Height="50" Width="70">
+                <TabItem.Resources>
+                    <FrameworkElement x:Key="ProxyElement" DataContext="{Binding ChildViews[0]}"/>
+                </TabItem.Resources>
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50*"></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="calculatorPhraseGrid" ItemsSource="{Binding Phrases, IsAsync=True}" EnableRowVirtualization="True" Grid.Column="0" Grid.Row="0" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="True" EnableColumnVirtualization="True" Margin="0,5,0,0" SelectionChanged="PhraseGrid_SelectionChanged">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="IsSelected"
+                                    Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </Style>
+                            <local:BindingAssistant x:Key="BindingAssist" Content="{Binding}"/>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Marked" Width="50" IsReadOnly="False"  DisplayIndex="0">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsMarked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Text" Binding="{Binding PhraseText, UpdateSourceTrigger=PropertyChanged}" Width="35*" IsReadOnly="False" DisplayIndex="1"/>
+                            <DataGridTextColumn Header="Gematria" Binding="{Binding Gematria}" Visibility="{Binding Content.SettingsService.ShowGematria, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="2"/>
+                            <DataGridTextColumn Header="Ordinal" Binding="{Binding Ordinal}" Visibility="{Binding Content.SettingsService.ShowOrdinal, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="3"/>
+                            <DataGridTextColumn Header="Reduced" Binding="{Binding Reduced}" Visibility="{Binding Content.SettingsService.ShowReduced, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="4"/>
+                            <DataGridTextColumn Header="Sumerian" Binding="{Binding Sumerian}" Visibility="{Binding Content.SettingsService.ShowSumerian, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="5"/>
+                            <DataGridTextColumn Header="Primes" Binding="{Binding Primes}" Visibility="{Binding Content.SettingsService.ShowPrimes, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="6"/>
+                            <DataGridTextColumn Header="Squared" Binding="{Binding Squared}" Visibility="{Binding Content.SettingsService.ShowSquared, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="7"/>
+                            <DataGridTextColumn Header="Mispar Gadol" Binding="{Binding MisparGadol}" Visibility="{Binding Content.SettingsService.ShowMisparGadol, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="85" IsReadOnly="True" DisplayIndex="8"/>
+                            <DataGridTextColumn Header="Mispar Shemi" Binding="{Binding MisparShemi}" Visibility="{Binding Content.SettingsService.ShowMisparShemi, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="85" IsReadOnly="True" DisplayIndex="9"/>
+                            <DataGridTextColumn Header="Alphabet" Binding="{Binding Phrase.Alphabet}" Visibility="{Binding Content.SettingsService.ShowAlphabet, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="10"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Grid.Column="0" Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Command="{Binding ClearAllItemsCommand}" >Clear All</Button>
+                        <Button Grid.Column="1"  Command="{Binding CopyMarkedItemsCommand}"  Margin="0">Copy Marked</Button>
+                        <Button Grid.Column="2"  Command="{Binding UnmarkSelectedItemsCommand}"  Margin="0" IsEnabled="{Binding SelectedItems.Count, ElementName=calculatorPhraseGrid, Mode=OneWay}">Unmark Selected</Button>
+                        <Button Grid.Column="3" Command="{Binding MarkSelectedItemsCommand}"  Margin="0" IsEnabled="{Binding SelectedItems.Count, ElementName=calculatorPhraseGrid, Mode=OneWay}">Mark Selected</Button>
+                        <Button Grid.Column="4" Command="{Binding UnmarkAllItemsCommand}"  Margin="0">Unmark All</Button>
+                        <Button Grid.Column="5" Command="{Binding MarkAllItemsCommand}"  Margin="0">Mark All</Button>
+                        <Button Grid.Column="6" Command="{Binding SaveMarkedItemsCommand}" >Save Marked</Button>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Scanner" DataContext="{Binding ChildViews[1]}" Height="50" Width="70">
+                <Grid IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20*"/>
+                        </Grid.RowDefinitions>
+                        <GroupBox Header="Values to look for" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding NumericValue, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#}}" MaxLines="1" MaxLength="6">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding Command="{Binding AddNumericValueCommand}" Key="Return" />
+                                    </TextBox.InputBindings>
+                                </TextBox>
+                                <Button Grid.Column="1" Grid.Row="0" Command="{Binding AddNumericValueCommand}" Margin="1,0" >Add</Button>
+                                <Button Grid.Column="2" Grid.Row="0" Command="{Binding ClearNumericValuesCommand}" >Clear</Button>
+                                <ListBox x:Name="ScannerNumericValuesListBox" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding NumericValues}" BorderThickness="1" Margin="0,1,0,0" HorizontalContentAlignment="Stretch">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="25"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="{Binding}" VerticalAlignment="Center"/>
+                                                <Button Grid.Column="1" Content="X" Foreground="Red" FontWeight="Bold" ToolTip="Remove value"  Command="{Binding ElementName=ScannerNumericValuesListBox, Path=DataContext.RemoveNumericValueCommand}" CommandParameter="{Binding}" VerticalAlignment="Center"/>
+                                            </Grid >
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Methods to use" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+                            <StackPanel Orientation="Vertical">
+                                <CheckBox Content="Gematria" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.Gematria}}" Visibility="{Binding SettingsService.ShowGematria, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Ordinal" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.Ordinal}}" Visibility="{Binding SettingsService.ShowOrdinal, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Reduced" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.Reduced}}" Visibility="{Binding SettingsService.ShowReduced, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Sumerian" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.Sumerian}}" Visibility="{Binding SettingsService.ShowSumerian, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Primes" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.Primes}}" Visibility="{Binding SettingsService.ShowPrimes, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Squared" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.Squared}}" Visibility="{Binding SettingsService.ShowSquared, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Mispar Gadol" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.MisparGadol}}" Visibility="{Binding SettingsService.ShowMisparGadol, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Mispar Shemi" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.MisparShemi}}" Visibility="{Binding SettingsService.ShowMisparShemi, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Scan Options" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="25"/>
+                                    <RowDefinition Height="20"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" >Min. characters per phrase</TextBlock>
+                                <TextBox Grid.Row="1" Text="{Binding MinimumCharacters}" MaxLength="9"></TextBox>
+                                <TextBlock Grid.Row="2" >Min. words per phrase</TextBlock>
+                                <TextBox Grid.Row="3" Text="{Binding MinimumWordsPerPhrase}" MaxLength="9"></TextBox>
+                                <TextBlock Grid.Row="4" >Max. words per phrase</TextBlock>
+                                <TextBox Grid.Row="5" Text="{Binding MaximumWordsPerPhrase}" MaxLength="9"></TextBox>
+                                <CheckBox Grid.Row="6" IsChecked="{Binding GetAllText}" Margin="0,5,0,0" ToolTip="Will get all the words and phrases regardless of their values">Get all text</CheckBox>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Phrase Separators" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">
+                            <StackPanel Orientation="Vertical">
+                                <CheckBox Content="New Line" IsChecked="{Binding PhraseSeparator, Converter={StaticResource PhraseSeparatorConverter}, ConverterParameter={x:Static model:PhraseSeparator.NewLine}}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Comma" IsChecked="{Binding PhraseSeparator, Converter={StaticResource PhraseSeparatorConverter}, ConverterParameter={x:Static model:PhraseSeparator.Comma}}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Semicolon" IsChecked="{Binding PhraseSeparator, Converter={StaticResource PhraseSeparatorConverter}, ConverterParameter={x:Static model:PhraseSeparator.Semicolon}}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Gr. Semicolon" IsChecked="{Binding PhraseSeparator, Converter={StaticResource PhraseSeparatorConverter}, ConverterParameter={x:Static model:PhraseSeparator.GreekSemicolon}}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Tab" IsChecked="{Binding PhraseSeparator, Converter={StaticResource PhraseSeparatorConverter}, ConverterParameter={x:Static model:PhraseSeparator.Tab}}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Colon" IsChecked="{Binding PhraseSeparator, Converter={StaticResource PhraseSeparatorConverter}, ConverterParameter={x:Static model:PhraseSeparator.Colon}}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Fullstop" IsChecked="{Binding PhraseSeparator, Converter={StaticResource PhraseSeparatorConverter}, ConverterParameter={x:Static model:PhraseSeparator.FullStop}}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Space" IsChecked="{Binding PhraseSeparator, Converter={StaticResource PhraseSeparatorConverter}, ConverterParameter={x:Static model:PhraseSeparator.Space}}" Margin="0,5,0,0"></CheckBox>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" Header="Text Source">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="20*"/>
+                                </Grid.RowDefinitions>
+                                <TextBox Grid.Column="0" Grid.Row="1" VerticalContentAlignment="Center" IsEnabled="False" Text="{Binding FilePath}"></TextBox>
+                                <Button x:Name="btnBrowse" Grid.Column="1"  Grid.Row="1" Click="BtnBrowse_Click" Margin="1,0" >Browse...</Button>
+                                <Button Grid.Column="2"  Grid.Row="1" Command="{Binding ScanFileCommand}" >Scan File</Button>
+                                <TextBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding ImportedText, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,1,0" AcceptsReturn="True" TextWrapping="Wrap" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" AcceptsTab="True"/>
+                                <Button Grid.Column="2"  Grid.Row="2" Command="{Binding ScanTextCommand}" VerticalAlignment="Center" Margin="0,5,0,0" >Scan Text</Button>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <DataGrid x:Name="phraseGrid" ItemsSource="{Binding Phrases, IsAsync=True}" EnableRowVirtualization="True" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" EnableColumnVirtualization="True" Margin="0,5,0,0" SelectionChanged="PhraseGrid_SelectionChanged">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="IsSelected"
+                                    Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </Style>
+                            <local:BindingAssistant x:Key="BindingAssist" Content="{Binding}"/>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Marked" Width="50" IsReadOnly="False"  DisplayIndex="0">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsMarked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Text" Binding="{Binding Phrase.NormalizedText}" Width="35*" IsReadOnly="True" DisplayIndex="1"/>
+                            <DataGridTextColumn Header="Gematria" Binding="{Binding Gematria}" Visibility="{Binding Content.SettingsService.ShowGematria, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="2"/>
+                            <DataGridTextColumn Header="Ordinal" Binding="{Binding Ordinal}" Visibility="{Binding Content.SettingsService.ShowOrdinal, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="3"/>
+                            <DataGridTextColumn Header="Reduced" Binding="{Binding Reduced}" Visibility="{Binding Content.SettingsService.ShowReduced, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="4"/>
+                            <DataGridTextColumn Header="Sumerian" Binding="{Binding Sumerian}" Visibility="{Binding Content.SettingsService.ShowSumerian, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="5"/>
+                            <DataGridTextColumn Header="Primes" Binding="{Binding Primes}" Visibility="{Binding Content.SettingsService.ShowPrimes, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="6"/>
+                            <DataGridTextColumn Header="Squared" Binding="{Binding Squared}" Visibility="{Binding Content.SettingsService.ShowSquared, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="7"/>
+                            <DataGridTextColumn Header="Mispar Gadol" Binding="{Binding MisparGadol}" Visibility="{Binding Content.SettingsService.ShowMisparGadol, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="85" IsReadOnly="True" DisplayIndex="8"/>
+                            <DataGridTextColumn Header="Mispar Shemi" Binding="{Binding MisparShemi}" Visibility="{Binding Content.SettingsService.ShowMisparShemi, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="85" IsReadOnly="True" DisplayIndex="9"/>
+                            <DataGridTextColumn Header="Alphabet" Binding="{Binding Phrase.Alphabet}" Visibility="{Binding Content.SettingsService.ShowAlphabet, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="10"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Grid.Column="0" Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="12*"/>
+                            <ColumnDefinition Width="12*"/>
+                            <ColumnDefinition Width="12*"/>
+                            <ColumnDefinition Width="12*"/>
+                            <ColumnDefinition Width="12*"/>
+                            <ColumnDefinition Width="11*"/>
+                            <ColumnDefinition Width="19*"/>
+                            <ColumnDefinition Width="11*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Command="{Binding ClearAllItemsCommand}" >Clear All</Button>
+                        <Button Grid.Column="1"  Command="{Binding CopyMarkedItemsCommand}"  Margin="0">Copy Marked</Button>
+                        <Button Grid.Column="2"  Command="{Binding UnmarkSelectedItemsCommand}"  Margin="0" IsEnabled="{Binding SelectedItems.Count, ElementName=phraseGrid, Mode=OneWay}">Unmark Selected</Button>
+                        <Button Grid.Column="3" Command="{Binding MarkSelectedItemsCommand}"  Margin="0" IsEnabled="{Binding SelectedItems.Count, ElementName=phraseGrid, Mode=OneWay}">Mark Selected</Button>
+                        <Button Grid.Column="4" Command="{Binding UnmarkAllItemsCommand}"  Margin="0">Unmark All</Button>
+                        <Button Grid.Column="5" Command="{Binding MarkAllItemsCommand}"  Margin="0">Mark All</Button>
+                        <TextBox Grid.Column="6" x:Name="operationTextBox" Text="{Binding CurrentOperation.Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Padding="0,3,3,0"></TextBox>
+                        <TextBlock Grid.Column="6" IsHitTestVisible="False" Text="Type a description to save" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0" Foreground="DarkGray">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Text, ElementName=operationTextBox}" Value="">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                        <Button Grid.Column="7" Command="{Binding SaveMarkedItemsCommand}" >Save Marked</Button>
+                    </Grid>
+                    <ProgressBar Grid.Row="1" IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Height="20"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Explorer" DataContext="{Binding ChildViews[2]}" Height="50" Width="70">
+                <Grid IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
+                    <interactivity:Interaction.Triggers>
+                        <interactivity:EventTrigger EventName="Loaded">
+                            <interactivity:InvokeCommandAction Command="{Binding LoadAllOperationsCommand}"/>
+                        </interactivity:EventTrigger>
+                    </interactivity:Interaction.Triggers>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="130"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20*"/>
+                        </Grid.RowDefinitions>
+                        <GroupBox Header="Values to look for" Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding NumericValue, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#}}" MaxLines="1" MaxLength="6">
+                                    <TextBox.InputBindings>
+                                        <KeyBinding Command="{Binding AddNumericValueCommand}" Key="Return" />
+                                    </TextBox.InputBindings>
+                                </TextBox>
+                                <Button Grid.Column="1" Grid.Row="0" Command="{Binding AddNumericValueCommand}" Margin="1,0" >Add</Button>
+                                <Button Grid.Column="2" Grid.Row="0" Command="{Binding ClearNumericValuesCommand}" >Clear</Button>
+                                <ListBox x:Name="ExplorerNumericValuesListBox" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding NumericValues}" BorderThickness="1" Margin="0,1,0,0" HorizontalContentAlignment="Stretch">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="25"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="{Binding}" VerticalAlignment="Center"/>
+                                                <Button Grid.Column="1" Content="X" Foreground="Red" FontWeight="Bold" ToolTip="Remove value"  Command="{Binding ElementName=ExplorerNumericValuesListBox, Path=DataContext.RemoveNumericValueCommand}" CommandParameter="{Binding}" VerticalAlignment="Center"/>
+                                            </Grid >
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Method" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+                            <StackPanel Orientation="Vertical">
+                                <CheckBox Content="Gematria" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.Gematria}}" Visibility="{Binding SettingsService.ShowGematria, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Ordinal" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.Ordinal}}" Visibility="{Binding SettingsService.ShowOrdinal, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Reduced" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.Reduced}}" Visibility="{Binding SettingsService.ShowReduced, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Sumerian" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.Sumerian}}" Visibility="{Binding SettingsService.ShowSumerian, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Primes" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.Primes}}" Visibility="{Binding SettingsService.ShowPrimes, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Squared" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.Squared}}" Visibility="{Binding SettingsService.ShowSquared, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Mispar Gadol" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.MisparGadol}}" Visibility="{Binding SettingsService.ShowMisparGadol, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Mispar Shemi" IsChecked="{Binding CalculationMethod, Converter={StaticResource CalculationMethodConverter}, ConverterParameter={x:Static model:CalculationMethod.MisparShemi}}" Visibility="{Binding SettingsService.ShowMisparShemi, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Margin="0,5,0,0"></CheckBox>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Alphabet" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2">
+                            <StackPanel Orientation="Vertical">
+                                <CheckBox Content="English" IsChecked="{Binding Alphabet, Converter={StaticResource AlphabetConverter}, ConverterParameter={x:Static model:Alphabet.English}}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Hebrew" IsChecked="{Binding Alphabet, Converter={StaticResource AlphabetConverter}, ConverterParameter={x:Static model:Alphabet.Hebrew}}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Greek" IsChecked="{Binding Alphabet, Converter={StaticResource AlphabetConverter}, ConverterParameter={x:Static model:Alphabet.Greek}}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Mixed" IsChecked="{Binding Alphabet, Converter={StaticResource AlphabetConverter}, ConverterParameter={x:Static model:Alphabet.Mixed}}" Margin="0,5,0,0"></CheckBox>
+                            </StackPanel>
+                        </GroupBox>
+                        <Grid Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">
+                            <Button Command="{Binding SearchPhrasesCommand}"  VerticalAlignment="Center" Height="50" Margin="2,0">Search</Button>
+                        </Grid>
+                        <GroupBox Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" Header="Saved Operations">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="105"/>
+                                    <ColumnDefinition Width="105"/>
+                                    <ColumnDefinition Width="105"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20*"/>
+                                    <RowDefinition Height="25"/>
+                                </Grid.RowDefinitions>
+                                <DataGrid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" x:Name="savedOperationsGrid" ItemsSource="{Binding Operations}" AutoGenerateColumns="False" IsReadOnly="True">
+                                    <DataGrid.Resources>
+                                        <Style TargetType="DataGridRow">
+                                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </Style>
+                                    </DataGrid.Resources>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Id" Binding="{Binding Operation.Id}" Width="10*" IsReadOnly="True" DisplayIndex="0"/>
+                                        <DataGridTextColumn Header="Description" Binding="{Binding Operation.Description}" Width="40*" IsReadOnly="True" DisplayIndex="1"/>
+                                        <DataGridTextColumn Header="Date" Binding="{Binding Operation.EntryDate, StringFormat=dd/MM/yyyy}" Width="20*" IsReadOnly="True" DisplayIndex="2"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <Button Grid.Column="1" Grid.Row="1"  Command="{Binding LoadAllOrphansCommand}"  Margin="0" ToolTip="Loads all phrases that don't have an associated operation">Load All Orphans</Button>
+                                <Button Grid.Column="2" Grid.Row="1"  Command="{Binding LoadSelectedOperationsCommand}"  Margin="0" IsEnabled="{Binding SelectedItems.Count, ElementName=savedOperationsGrid, Mode=OneWay}" ToolTip="Loads all phrases that are associated with the selected operations">Load Selected</Button>
+                                <Button Grid.Column="3" Grid.Row="1"  Command="{Binding DeleteSelectedOperationsCommand}"  Margin="0" Foreground="Red" IsEnabled="{Binding SelectedItems.Count, ElementName=savedOperationsGrid, Mode=OneWay}" ToolTip="Deletes all phrases that are associated with the selected operations">Delete Selected</Button>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                    <DataGrid x:Name="savedPhrasesGrid" IsEnabled="{Binding ExplorerPhraseGridEnabled}" ItemsSource="{Binding Phrases, IsAsync=True}" EnableRowVirtualization="True" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" EnableColumnVirtualization="True" Margin="0,5,0,0" SelectionChanged="PhraseGrid_SelectionChanged">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="IsSelected"
+                                    Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </Style>
+                            <local:BindingAssistant x:Key="BindingAssist" Content="{Binding}"/>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Marked" Width="50" IsReadOnly="False"  DisplayIndex="0">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IsMarked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Text" Binding="{Binding Phrase.NormalizedText}" Width="35*" IsReadOnly="True" DisplayIndex="1"/>
+                            <DataGridTextColumn Header="Gematria" Binding="{Binding Gematria}" Visibility="{Binding Content.SettingsService.ShowGematria, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="2"/>
+                            <DataGridTextColumn Header="Ordinal" Binding="{Binding Ordinal}" Visibility="{Binding Content.SettingsService.ShowOrdinal, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="3"/>
+                            <DataGridTextColumn Header="Reduced" Binding="{Binding Reduced}" Visibility="{Binding Content.SettingsService.ShowReduced, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="4"/>
+                            <DataGridTextColumn Header="Sumerian" Binding="{Binding Sumerian}" Visibility="{Binding Content.SettingsService.ShowSumerian, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="5"/>
+                            <DataGridTextColumn Header="Primes" Binding="{Binding Primes}" Visibility="{Binding Content.SettingsService.ShowPrimes, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="6"/>
+                            <DataGridTextColumn Header="Squared" Binding="{Binding Squared}" Visibility="{Binding Content.SettingsService.ShowSquared, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="7"/>
+                            <DataGridTextColumn Header="Mispar Gadol" Binding="{Binding MisparGadol}" Visibility="{Binding Content.SettingsService.ShowMisparGadol, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="85" IsReadOnly="True" DisplayIndex="8"/>
+                            <DataGridTextColumn Header="Mispar Shemi" Binding="{Binding MisparShemi}" Visibility="{Binding Content.SettingsService.ShowMisparShemi, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="85" IsReadOnly="True" DisplayIndex="9"/>
+                            <DataGridTextColumn Header="Alphabet" Binding="{Binding Phrase.Alphabet}" Visibility="{Binding Content.SettingsService.ShowAlphabet, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="10"/>
+                            <DataGridTextColumn Header="Op. Id" Binding="{Binding Phrase.OperationId}" Width="45" IsReadOnly="True" DisplayIndex="11"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Grid.Column="0" Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="20*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Command="{Binding ClearAllItemsCommand}" >Clear All</Button>
+                        <Button Grid.Column="1"  Command="{Binding CopyMarkedItemsCommand}"  Margin="0">Copy Marked</Button>
+                        <Button Grid.Column="2"  Command="{Binding UnmarkSelectedItemsCommand}"  Margin="0" IsEnabled="{Binding SelectedItems.Count, ElementName=savedPhrasesGrid, Mode=OneWay}">Unmark Selected</Button>
+                        <Button Grid.Column="3" Command="{Binding MarkSelectedItemsCommand}"  Margin="0" IsEnabled="{Binding SelectedItems.Count, ElementName=savedPhrasesGrid, Mode=OneWay}">Mark Selected</Button>
+                        <Button Grid.Column="4" Command="{Binding UnmarkAllItemsCommand}"  Margin="0">Unmark All</Button>
+                        <Button Grid.Column="5" Command="{Binding MarkAllItemsCommand}"  Margin="0">Mark All</Button>
+                        <Button Grid.Column="6" Command="{Binding DeleteMarkedItemsCommand}" Foreground="REd">Delete Marked</Button>
+                    </Grid>
+                    <ProgressBar Grid.Row="1" IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Height="20"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Settings" DataContext="{Binding ChildViews[3]}" Height="50" Width="70">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Row="0" Header="Calculation methods visibility">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Vertical">
+                                <CheckBox Content="Gematria" IsChecked="{Binding SettingsService.ShowGematria}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Ordinal" IsChecked="{Binding SettingsService.ShowOrdinal}"  Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Reduced"  IsChecked="{Binding SettingsService.ShowReduced}"  Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Sumerian"  IsChecked="{Binding SettingsService.ShowSumerian}"  Margin="0,5,0,0"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Vertical">
+                                <CheckBox Content="Primes"  IsChecked="{Binding SettingsService.ShowPrimes}"  Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Squared"  IsChecked="{Binding SettingsService.ShowSquared}"  Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Mispar Gadol" IsChecked="{Binding SettingsService.ShowMisparGadol}"  Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Mispar Shemi"  IsChecked="{Binding SettingsService.ShowMisparShemi}"  Margin="0,5,0,0"></CheckBox>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="1" Header="Calculation methods default selection">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Vertical">
+                                <CheckBox Content="Gematria" IsChecked="{Binding SettingsService.SelectGematria}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Ordinal" IsChecked="{Binding SettingsService.SelectOrdinal}"  Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Reduced"  IsChecked="{Binding SettingsService.SelectReduced}"  Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Sumerian"  IsChecked="{Binding SettingsService.SelectSumerian}"  Margin="0,5,0,0"></CheckBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Vertical">
+                                <CheckBox Content="Primes"  IsChecked="{Binding SettingsService.SelectPrimes}"  Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Squared"  IsChecked="{Binding SettingsService.SelectSquared}"  Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Mispar Gadol" IsChecked="{Binding SettingsService.SelectMisparGadol}"  Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Mispar Shemi"  IsChecked="{Binding SettingsService.SelectMisparShemi}"  Margin="0,5,0,0"></CheckBox>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="2" Header="Alphabet default selection">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Orientation="Vertical">
+                                <CheckBox Content="English" IsChecked="{Binding SettingsService.SelectEnglish}" Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Hebrew" IsChecked="{Binding SettingsService.SelectHebrew}"  Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Greek"  IsChecked="{Binding SettingsService.SelectGreek}"  Margin="0,5,0,0"></CheckBox>
+                                <CheckBox Content="Mixed"  IsChecked="{Binding SettingsService.SelectMixed}"  Margin="0,5,0,0"></CheckBox>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
