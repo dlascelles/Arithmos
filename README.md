@@ -6,7 +6,19 @@ You can also scan books in the form of text files to look for specific values or
 
 It allows you to create your very own database of phrases with their gematria values.
 
-It supports English, Greek and Hebrew characters. For the calculation it uses eight systems / methods: Standard Gematria, Ordinal, Reduced, Sumerian, Primes, Squared Standard Values, Mispar Gadol and Mispar Shemi.
+It supports *English*, *Greek* and *Hebrew* characters. 
+
+For the calculation it uses the following systems / methods: 
+* Standard Gematria 
+* Ordinal 
+* Reduced 
+* Sumerian
+* Primes
+* Squared Standard Values
+* Mispar Gadol 
+* Mispar Shemi
+
+**Download the latest stable release from here: [Arithmos Latest Release](https://github.com/dlascelles/Arithmos/releases)**
 
 You can learn more about Gematria here: [Gematria](https://en.wikipedia.org/wiki/Gematria)
 
@@ -17,7 +29,7 @@ You can learn more about Gematria here: [Gematria](https://en.wikipedia.org/wiki
 ![Explorer](https://user-images.githubusercontent.com/52032313/61368519-b5ca3700-a896-11e9-8010-919c5aaec84a.png)
 
 # Dependencies
-The application is build using the .NET Framework 4.8
+The application is built using the .NET Framework 4.8
 
 # License
 MIT License
