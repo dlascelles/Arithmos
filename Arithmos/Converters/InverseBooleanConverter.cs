@@ -6,7 +6,7 @@
 using System;
 using System.Windows.Data;
 
-namespace ArithmosViewModels.Converters
+namespace Arithmos.Converters
 {
     /// <summary>
     /// Reverses the incoming boolean value.

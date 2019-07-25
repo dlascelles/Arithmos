@@ -8,25 +8,25 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace ArithmosViewModels.Converters
+namespace Arithmos.Converters
 {
     /// <summary>
-    /// Used to convert CalculationMethod enum values to UI Checkboxes
+    /// Used to convert PhraseSeparator enum values to UI Checkboxes
     /// </summary>
-    public class CalculationMethodConverter : IValueConverter
+    public class PhraseSeparatorConverter : IValueConverter
     {
-        private CalculationMethod method;
+        private PhraseSeparator separator;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            CalculationMethod temp = (CalculationMethod)parameter;
-            this.method = (CalculationMethod)value;
-            return ((temp & this.method) != 0);
+            PhraseSeparator temp = (PhraseSeparator)parameter;
+            this.separator = (PhraseSeparator)value;
+            return ((temp & this.separator) != 0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            this.method ^= (CalculationMethod)parameter;
-            return this.method;
+            this.separator ^= (PhraseSeparator)parameter;
+            return this.separator;
         }
     }
 }

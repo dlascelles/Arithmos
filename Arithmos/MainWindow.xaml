@@ -11,7 +11,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Arithmos"
         xmlns:model="clr-namespace:ArithmosModels;assembly=ArithmosModels"
-        xmlns:converters="clr-namespace:ArithmosViewModels.Converters;assembly=ArithmosViewModels"
+        xmlns:converters="clr-namespace:Arithmos.Converters"
         xmlns:viewModels="clr-namespace:ArithmosViewModels;assembly=ArithmosViewModels"
         mc:Ignorable="d"
         Title="Arithmos 1.0.0 - Gematria Calculator and Scanner" Height="478" Width="951.583" WindowStartupLocation="CenterScreen">

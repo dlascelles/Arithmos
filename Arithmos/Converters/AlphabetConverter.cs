@@ -8,25 +8,25 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace ArithmosViewModels.Converters
+namespace Arithmos.Converters
 {
     /// <summary>
-    /// Used to convert PhraseSeparator enum values to UI Checkboxes
+    /// Used to convert Alphabet enum values to UI Checkboxes
     /// </summary>
-    public class PhraseSeparatorConverter : IValueConverter
+    public class AlphabetConverter : IValueConverter
     {
-        private PhraseSeparator separator;
+        private Alphabet alphabet;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            PhraseSeparator temp = (PhraseSeparator)parameter;
-            this.separator = (PhraseSeparator)value;
-            return ((temp & this.separator) != 0);
+            Alphabet temp = (Alphabet)parameter;
+            this.alphabet = (Alphabet)value;
+            return ((temp & this.alphabet) != 0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            this.separator ^= (PhraseSeparator)parameter;
-            return this.separator;
+            this.alphabet ^= (Alphabet)parameter;
+            return this.alphabet;
         }
     }
 }

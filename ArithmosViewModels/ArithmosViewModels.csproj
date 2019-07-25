@@ -73,10 +73,6 @@
     </Compile>
     <Compile Include="CalculatorViewModel.cs" />
     <Compile Include="CommonViewModel.cs" />
-    <Compile Include="Converters\AlphabetConverter.cs" />
-    <Compile Include="Converters\CalculationMethodConverter.cs" />
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="Converters\PhraseSeparatorConverter.cs" />
     <Compile Include="ExplorerViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Messages\ConfirmationMessage.cs" />

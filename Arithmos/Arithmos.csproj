@@ -119,6 +119,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BindingAssistant.cs" />
+    <Compile Include="Converters\AlphabetConverter.cs" />
+    <Compile Include="Converters\CalculationMethodConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\PhraseSeparatorConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

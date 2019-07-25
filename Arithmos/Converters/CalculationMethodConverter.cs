@@ -8,25 +8,25 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace ArithmosViewModels.Converters
+namespace Arithmos.Converters
 {
     /// <summary>
-    /// Used to convert Alphabet enum values to UI Checkboxes
+    /// Used to convert CalculationMethod enum values to UI Checkboxes
     /// </summary>
-    public class AlphabetConverter : IValueConverter
+    public class CalculationMethodConverter : IValueConverter
     {
-        private Alphabet alphabet;
+        private CalculationMethod method;
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Alphabet temp = (Alphabet)parameter;
-            this.alphabet = (Alphabet)value;
-            return ((temp & this.alphabet) != 0);
+            CalculationMethod temp = (CalculationMethod)parameter;
+            this.method = (CalculationMethod)value;
+            return ((temp & this.method) != 0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            this.alphabet ^= (Alphabet)parameter;
-            return this.alphabet;
+            this.method ^= (CalculationMethod)parameter;
+            return this.method;
         }
     }
 }
