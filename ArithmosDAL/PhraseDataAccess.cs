@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ArithmosDAL
@@ -54,7 +55,7 @@ namespace ArithmosDAL
         /// Creates multiple phrases
         /// </summary>
         /// <param name="phrases">A list of phrases</param>
-        public async Task<int> CreateAsync(List<Phrase> phrases)
+        public async Task<int> CreateAsync(List<Phrase> phrases, CancellationToken cts)
         {
             int result = 0;
 
@@ -68,6 +69,12 @@ namespace ArithmosDAL
                     {
                         foreach (Phrase phrase in phrases)
                         {
+                            if (cts.IsCancellationRequested)
+                            {
+                                con.Cancel();
+                                return -1;
+                            }
+
                             if (this.IsValidPhrase(phrase))
                             {
                                 cmd.Parameters.Clear();
@@ -98,7 +105,7 @@ namespace ArithmosDAL
         /// </summary>
         /// <param name="phrases">A list of phrases</param>
         /// <param name="operation">An Operation</param>
-        public async Task<int> CreateAsync(List<Phrase> phrases, Operation operation)
+        public async Task<int> CreateAsync(List<Phrase> phrases, Operation operation, CancellationToken cts)
         {
             int result = 0;
 
@@ -119,6 +126,11 @@ namespace ArithmosDAL
                                 cmd.Parameters.Clear();
                                 foreach (Phrase phrase in phrases)
                                 {
+                                    if (cts.IsCancellationRequested)
+                                    {
+                                        con.Cancel();
+                                        return -1;
+                                    }
                                     if (this.IsValidPhrase(phrase))
                                     {
                                         cmd.CommandText = $"INSERT OR IGNORE INTO Phrase (Text, GematriaValue, OrdinalValue, ReducedValue, SumerianValue, PrimesValue, SquaredValue, MisparGadolValue, MisparShemiValue,  Alphabet, OperationId) VALUES (@Text, @GematriaValue, @OrdinalValue, @ReducedValue, @SumerianValue, @PrimesValue, @SquaredValue, @MisparGadolValue, @MisparShemiValue,  @Alphabet, @OperationId)";

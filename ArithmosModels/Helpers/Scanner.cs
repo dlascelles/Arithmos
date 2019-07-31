@@ -10,6 +10,7 @@ using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ArithmosModels.Helpers
@@ -25,7 +26,7 @@ namespace ArithmosModels.Helpers
         /// <param name="minCharsPerPhrase">Set the minimum number of characters for each phrase</param>
         /// <param name="maximumWordsPerPhrase">Set the maximum amount of words for each phrase</param>
         /// <returns>A list of phrases that match our criteria</returns>
-        public static async Task<List<Phrase>> ScanFileAsync(string filePath, int[] values, CalculationMethod calculationMethod, PhraseSeparator phraseSeparator = PhraseSeparator.All, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1)
+        public static async Task<List<Phrase>> ScanFileAsync(string filePath, int[] values, CalculationMethod calculationMethod, PhraseSeparator phraseSeparator = PhraseSeparator.All, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1, CancellationToken cts = default)
         {
             List<Phrase> phrasesFound = new List<Phrase>();
 
@@ -36,7 +37,7 @@ namespace ArithmosModels.Helpers
                     using (StreamReader sr = new StreamReader(mappedStream, UTF8Encoding.UTF8))
                     {
                         string text = sr.ReadToEnd();
-                        phrasesFound = await ScanTextAsync(text, values, calculationMethod, phraseSeparator, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase);
+                        phrasesFound = await ScanTextAsync(text, values, calculationMethod, phraseSeparator, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase, cts);
                     }
                 }
             }
@@ -51,7 +52,7 @@ namespace ArithmosModels.Helpers
         /// <param name="minCharsPerPhrase">Set the minimum number of characters for each phrase</param>
         /// <param name="maximumWordsPerPhrase">Set the maximum amount of words for each phrase</param>
         /// <returns>A list of phrases that match our criteria</returns>
-        public static async Task<List<Phrase>> ScanFileAsync(string filePath, PhraseSeparator phraseSeparator = PhraseSeparator.All, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1)
+        public static async Task<List<Phrase>> ScanFileAsync(string filePath, PhraseSeparator phraseSeparator = PhraseSeparator.All, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1, CancellationToken cts = default)
         {
             List<Phrase> phrasesFound = new List<Phrase>();
 
@@ -62,7 +63,7 @@ namespace ArithmosModels.Helpers
                     using (StreamReader sr = new StreamReader(mappedStream, UTF8Encoding.UTF8))
                     {
                         string text = sr.ReadToEnd();
-                        phrasesFound = await ScanTextAsync(text, phraseSeparator, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase);
+                        phrasesFound = await ScanTextAsync(text, phraseSeparator, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase, cts);
                     }
                 }
             }
@@ -79,7 +80,7 @@ namespace ArithmosModels.Helpers
         /// <param name="minCharsPerPhrase">Set the minimum number of characters for each phrase</param>
         /// <param name="maximumWordsPerPhrase">Set the maximum amount of words for each phrase</param>
         /// <returns>A list of phrases that match our criteria</returns>
-        public static async Task<List<Phrase>> ScanTextAsync(string text, int[] values, CalculationMethod calculationMethod, PhraseSeparator phraseSeparator = PhraseSeparator.All, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1)
+        public static async Task<List<Phrase>> ScanTextAsync(string text, int[] values, CalculationMethod calculationMethod, PhraseSeparator phraseSeparator = PhraseSeparator.All, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1, CancellationToken cts = default)
         {
             List<Phrase> phrasesFound = new List<Phrase>();
 
@@ -89,7 +90,7 @@ namespace ArithmosModels.Helpers
 
                 if (words != null && words.Count() > 0)
                 {
-                    phrasesFound = await ScanAsync(words, phraseSeparator, values, calculationMethod, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase);
+                    phrasesFound = await ScanAsync(words, phraseSeparator, values, calculationMethod, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase, cts);
                 }
             }
 
@@ -103,7 +104,7 @@ namespace ArithmosModels.Helpers
         /// <param name="minCharsPerPhrase">Set the minimum number of characters for each phrase</param>
         /// <param name="maximumWordsPerPhrase">Set the maximum amount of words for each phrase</param>
         /// <returns>A list of phrases that match our criteria</returns>
-        public static async Task<List<Phrase>> ScanTextAsync(string text, PhraseSeparator phraseSeparator = PhraseSeparator.All, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1)
+        public static async Task<List<Phrase>> ScanTextAsync(string text, PhraseSeparator phraseSeparator = PhraseSeparator.All, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1, CancellationToken cts = default)
         {
             List<Phrase> phrasesFound = new List<Phrase>();
 
@@ -113,7 +114,7 @@ namespace ArithmosModels.Helpers
 
                 if (words != null && words.Count() > 0)
                 {
-                    phrasesFound = await ScanAsync(words, phraseSeparator, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase);
+                    phrasesFound = await ScanAsync(words, phraseSeparator, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase, cts);
                 }
             }
 
@@ -129,7 +130,7 @@ namespace ArithmosModels.Helpers
         /// <param name="minCharsPerPhrase">Set the minimum number of characters for each phrase</param>
         /// <param name="maximumWordsPerPhrase">Set the maximum amount of words for each phrase</param>
         /// <returns>A list of phrases that match our criteria</returns>
-        public static async Task<List<Phrase>> ScanAsync(string[] splittedPhrases, PhraseSeparator phraseSeparator, int[] values, CalculationMethod calculationMethod, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1)
+        public static async Task<List<Phrase>> ScanAsync(string[] splittedPhrases, PhraseSeparator phraseSeparator, int[] values, CalculationMethod calculationMethod, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1, CancellationToken cts = default)
         {
             HashSet<Phrase> matchedPhrases = new HashSet<Phrase>();
 
@@ -143,6 +144,11 @@ namespace ArithmosModels.Helpers
                     {
                         for (int i = 0; i < totalSplitted; i++)
                         {
+                            if (cts.IsCancellationRequested)
+                            {
+                                matchedPhrases.Clear();
+                                break;
+                            }
                             int counter = 0;
                             bool isMaxPassed = false;
                             bool isLimitReached = false;
@@ -195,6 +201,11 @@ namespace ArithmosModels.Helpers
 
                         for (int i = 0; i < totalSplitted; i++)
                         {
+                            if (cts.IsCancellationRequested)
+                            {
+                                matchedPhrases.Clear();
+                                break;
+                            }
                             Phrase phrase = new Phrase(splittedPhrases[i]);
                             int countWords = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Count();
                             if (phrase.NormalizedText.Length >= minCharsPerPhrase && countWords >= minimumWordsPerPhrase && countWords <= maximumWordsPerPhrase)
@@ -219,7 +230,7 @@ namespace ArithmosModels.Helpers
         /// <param name="minCharsPerPhrase">Set the minimum number of characters for each phrase</param>
         /// <param name="maximumWordsPerPhrase">Set the maximum amount of words for each phrase</param>
         /// <returns>A list of phrases that match our criteria</returns>
-        public static async Task<List<Phrase>> ScanAsync(string[] splittedPhrases, PhraseSeparator phraseSeparator, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1)
+        public static async Task<List<Phrase>> ScanAsync(string[] splittedPhrases, PhraseSeparator phraseSeparator, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1, CancellationToken cts = default)
         {
             HashSet<Phrase> matchedPhrases = new HashSet<Phrase>();
 
@@ -232,6 +243,11 @@ namespace ArithmosModels.Helpers
                     {
                         for (int i = 0; i < totalSplitted; i++)
                         {
+                            if (cts.IsCancellationRequested)
+                            {
+                                matchedPhrases.Clear();
+                                break;
+                            }
                             int counter = 0;
                             bool isLimitReached = false;
                             while (!isLimitReached)
@@ -271,6 +287,11 @@ namespace ArithmosModels.Helpers
 
                         for (int i = 0; i < totalSplitted; i++)
                         {
+                            if (cts.IsCancellationRequested)
+                            {
+                                matchedPhrases.Clear();
+                                break;
+                            }
                             Phrase phrase = new Phrase(splittedPhrases[i]);
                             int countWords = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Count();
                             if (phrase.NormalizedText.Length >= minCharsPerPhrase && countWords >= minimumWordsPerPhrase && countWords <= maximumWordsPerPhrase)
@@ -320,7 +341,7 @@ namespace ArithmosModels.Helpers
             if (!phraseSeparator.HasFlag(PhraseSeparator.NewLine)) separators.Add(Environment.NewLine);
             return separators.ToArray();
         }
-               
+
         private static readonly string[] allSeparators = new string[] { " ", ",", ";", ":", ".", "·", "\t", Environment.NewLine };
 
         private static MemoryMappedFile mmf = null;

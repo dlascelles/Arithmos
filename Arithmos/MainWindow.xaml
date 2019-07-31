@@ -85,13 +85,13 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                 </Grid>
             </TabItem>
             <TabItem Header="Scanner" DataContext="{Binding ChildViews[1]}" Height="50" Width="70">
-                <Grid IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="200"/>
                         <RowDefinition Height="100*"/>
                         <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Margin="0">
+                    <Grid Grid.Row="0" Margin="0" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="140"/>
                             <ColumnDefinition Width="120"/>
@@ -201,7 +201,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                             </Grid>
                         </GroupBox>
                     </Grid>
-                    <DataGrid x:Name="phraseGrid" ItemsSource="{Binding Phrases, IsAsync=True}" EnableRowVirtualization="True" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" EnableColumnVirtualization="True" Margin="0,5,0,0" SelectionChanged="PhraseGrid_SelectionChanged">
+                    <DataGrid x:Name="phraseGrid" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}" ItemsSource="{Binding Phrases, IsAsync=True}" EnableRowVirtualization="True" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" EnableColumnVirtualization="True" Margin="0,5,0,0" SelectionChanged="PhraseGrid_SelectionChanged">
                         <DataGrid.Resources>
                             <Style TargetType="DataGridRow">
                                 <Setter Property="IsSelected"
@@ -229,7 +229,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                             <DataGridTextColumn Header="Alphabet" Binding="{Binding Phrase.Alphabet}" Visibility="{Binding Content.SettingsService.ShowAlphabet, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="10"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Grid Grid.Column="0" Grid.Row="2">
+                    <Grid Grid.Column="0" Grid.Row="2" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="12*"/>
                             <ColumnDefinition Width="12*"/>
@@ -261,11 +261,14 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                         </TextBlock>
                         <Button Grid.Column="7" Command="{Binding SaveMarkedItemsCommand}" >Save Marked</Button>
                     </Grid>
-                    <ProgressBar Grid.Row="1" IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Height="20"/>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Orientation="Vertical" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                        <ProgressBar IsIndeterminate="True" Height="24"/>
+                        <Button Command="{Binding CancelCommand}" Content="Cancel" Height="24"></Button>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Explorer" DataContext="{Binding ChildViews[2]}" Height="50" Width="70">
-                <Grid IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
+                <Grid>
                     <interactivity:Interaction.Triggers>
                         <interactivity:EventTrigger EventName="Loaded">
                             <interactivity:InvokeCommandAction Command="{Binding LoadAllOperationsCommand}"/>
@@ -276,7 +279,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                         <RowDefinition Height="100*"/>
                         <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Margin="0">
+                    <Grid Grid.Row="0" Margin="0" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="130"/>
                             <ColumnDefinition Width="130"/>
@@ -375,7 +378,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                             </Grid>
                         </GroupBox>
                     </Grid>
-                    <DataGrid x:Name="savedPhrasesGrid" IsEnabled="{Binding ExplorerPhraseGridEnabled}" ItemsSource="{Binding Phrases, IsAsync=True}" EnableRowVirtualization="True" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" EnableColumnVirtualization="True" Margin="0,5,0,0" SelectionChanged="PhraseGrid_SelectionChanged">
+                    <DataGrid x:Name="savedPhrasesGrid" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}" ItemsSource="{Binding Phrases, IsAsync=True}" EnableRowVirtualization="True" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" EnableColumnVirtualization="True" Margin="0,5,0,0" SelectionChanged="PhraseGrid_SelectionChanged">
                         <DataGrid.Resources>
                             <Style TargetType="DataGridRow">
                                 <Setter Property="IsSelected"
@@ -404,7 +407,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                             <DataGridTextColumn Header="Op. Id" Binding="{Binding Phrase.OperationId}" Width="45" IsReadOnly="True" DisplayIndex="11"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Grid Grid.Column="0" Grid.Row="2">
+                    <Grid Grid.Column="0" Grid.Row="2" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="20*"/>
                             <ColumnDefinition Width="20*"/>
@@ -422,7 +425,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                         <Button Grid.Column="5" Command="{Binding MarkAllItemsCommand}"  Margin="0">Mark All</Button>
                         <Button Grid.Column="6" Command="{Binding DeleteMarkedItemsCommand}" Foreground="REd">Delete Marked</Button>
                     </Grid>
-                    <ProgressBar Grid.Row="1" IsIndeterminate="True" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Height="20"/>
+                    <ProgressBar  IsIndeterminate="True" Height="24" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Settings" DataContext="{Binding ChildViews[3]}" Height="50" Width="70">

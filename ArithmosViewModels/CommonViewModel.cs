@@ -12,13 +12,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows;
 
 namespace ArithmosViewModels
 {
     public class CommonViewModel : ModelBase
     {
-        protected IPhraseDataService phraseDataService = new PhraseDataService();
         public CommonViewModel()
         {
             this.ClearAllItemsCommand = new RelayCommand(this.ClearAllItems, this.CanClearAllItems);
@@ -30,6 +30,7 @@ namespace ArithmosViewModels
             this.UnmarkAllItemsCommand = new RelayCommand(this.UnmarkAllItems, this.CanUnmarkAllItems);
             this.MarkAllItemsCommand = new RelayCommand(this.MarkAllItems, this.CanMarkAllItems);
             this.CopyMarkedItemsCommand = new RelayCommand(this.CopyMarkedItems, this.CanCopyMarkedItems);
+            this.CancelCommand = new RelayCommand(this.CancelOperation, this.CanCancelOperation());
         }
 
         public CommonViewModel(IPhraseDataService phraseDataService, ISettingsService settingsService) : this()
@@ -187,6 +188,19 @@ namespace ArithmosViewModels
             return this.Phrases != null && this.Phrases.Count > 0;
         }
 
+        public RelayCommand CancelCommand { get; private set; }
+        public void CancelOperation()
+        {
+            if (this.cts != null)
+            {
+                this.cts.Cancel();
+            }
+        }
+        public bool CanCancelOperation()
+        {
+            return this.IsBusy;
+        }
+
         private bool isBusy = false;
         public bool IsBusy
         {
@@ -200,6 +214,10 @@ namespace ArithmosViewModels
             get { return this.calculationMethod; }
             set { this.SetField(ref this.calculationMethod, value); }
         }
+
+        protected IPhraseDataService phraseDataService = new PhraseDataService();
+
+        protected CancellationTokenSource cts;
 
         private int numericValue;
         public int NumericValue

@@ -5,6 +5,7 @@
 */
 using ArithmosModels;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ArithmosViewModels.Services
@@ -12,8 +13,8 @@ namespace ArithmosViewModels.Services
     public interface IPhraseDataService
     {
         Task<int> CreateAsync(Phrase phrase);
-        Task<int> CreateAsync(List<Phrase> phrases);
-        Task<int> CreateAsync(List<Phrase> phrases, Operation operation);
+        Task<int> CreateAsync(List<Phrase> phrases, CancellationToken cts);
+        Task<int> CreateAsync(List<Phrase> phrases, Operation operation, CancellationToken cts);
         Task<List<Phrase>> RetrieveAsync(List<int> values, CalculationMethod calculationMethod, Alphabet alphabet);
         Task<List<Phrase>> RetrieveAsync(List<Operation> operations);
         Task<List<Phrase>> RetrieveOrphansAsync();

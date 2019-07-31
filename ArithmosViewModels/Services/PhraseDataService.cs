@@ -6,6 +6,7 @@
 using ArithmosDAL;
 using ArithmosModels;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ArithmosViewModels.Services
@@ -32,14 +33,14 @@ namespace ArithmosViewModels.Services
             return await Task.Run(async () => { return await new PhraseDataAccess().CreateAsync(phrase); });
         }
 
-        public async Task<int> CreateAsync(List<Phrase> phrases)
+        public async Task<int> CreateAsync(List<Phrase> phrases, CancellationToken cts)
         {
-            return await Task.Run(async () => { return await new PhraseDataAccess().CreateAsync(phrases); });
+            return await Task.Run(async () => { return await new PhraseDataAccess().CreateAsync(phrases, cts); });
         }
 
-        public async Task<int> CreateAsync(List<Phrase> phrases, Operation operation)
+        public async Task<int> CreateAsync(List<Phrase> phrases, Operation operation, CancellationToken cts)
         {
-            return await Task.Run(async () => { return await new PhraseDataAccess().CreateAsync(phrases, operation); });
+            return await Task.Run(async () => { return await new PhraseDataAccess().CreateAsync(phrases, operation, cts); });
         }
 
         public async Task<int> DeleteAsync(List<Phrase> phrases)

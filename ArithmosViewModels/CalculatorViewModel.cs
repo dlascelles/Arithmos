@@ -15,10 +15,7 @@ namespace ArithmosViewModels
 {
     public class CalculatorViewModel : CommonViewModel
     {
-        public CalculatorViewModel()
-        {
-            this.SaveMarkedItemsCommand = new RelayCommand(async () => await this.SaveMarkedItemsAsync(), this.CanSaveMarkedItems);
-        }
+        public CalculatorViewModel() : this(new PhraseDataService(), new SettingsService()) { }
         public CalculatorViewModel(IPhraseDataService phraseDataService, ISettingsService settingsService) : base(phraseDataService, settingsService)
         {
             this.SaveMarkedItemsCommand = new RelayCommand(async () => await this.SaveMarkedItemsAsync(), this.CanSaveMarkedItems);
@@ -32,7 +29,7 @@ namespace ArithmosViewModels
             try
             {
                 this.IsBusy = true;
-                int savedItems = await this.phraseDataService.CreateAsync(this.GetMarkedPhrases());
+                int savedItems = await this.phraseDataService.CreateAsync(this.GetMarkedPhrases(), default);
                 this.IsBusy = false;
                 NotificationMessage savedMessage = new NotificationMessage(this, $"{savedItems} phrases have been successfully saved.");
                 Messenger.Default.Send(savedMessage);

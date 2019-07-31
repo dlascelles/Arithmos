@@ -21,15 +21,7 @@ namespace ArithmosViewModels
     {
         private readonly IOperationDataService operationDataService = new OperationDataService();
 
-        public ExplorerViewModel()
-        {
-            this.LoadSelectedOperationsCommand = new RelayCommand(async () => await this.LoadSelectedOperationsAsync(), this.CanLoadSelectedOperations);
-            this.DeleteSelectedOperationsCommand = new RelayCommand(this.DeleteSelectedOperations, this.CanDeleteSelectedOperations);
-            this.DeleteMarkedItemsCommand = new RelayCommand(this.DeleteMarkedItems, this.CanDeleteMarkedItems);
-            this.SearchPhrasesCommand = new RelayCommand(async () => await this.SearchPhrasesAsync(), this.CanSearchPhrases);
-            this.LoadAllOperationsCommand = new RelayCommand(async () => await this.LoadAllOperationsAsync(), this.CanLoadAllOperations);
-            this.LoadAllOrphansCommand = new RelayCommand(async () => await this.LoadAllOrphansAsync(), this.CanLoadAllOrphans);
-        }
+        public ExplorerViewModel() : this(new PhraseDataService(), new SettingsService()) { }
 
         public ExplorerViewModel(IPhraseDataService phraseDataService, ISettingsService settingsService) : base(phraseDataService, settingsService)
         {

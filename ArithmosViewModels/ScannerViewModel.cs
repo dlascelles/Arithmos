@@ -12,18 +12,14 @@ using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ArithmosViewModels
 {
     public class ScannerViewModel : CommonViewModel
     {
-        public ScannerViewModel()
-        {
-            this.ScanFileCommand = new RelayCommand(async () => await this.ScanFileAsync(), this.CanScanFile);
-            this.ScanTextCommand = new RelayCommand(async () => await this.ScanTextAsync(), this.CanScanText);
-            this.SaveMarkedItemsCommand = new RelayCommand(async () => await this.SaveMarkedItems(), this.CanSaveMarkedItems);
-        }
+        public ScannerViewModel() : this(new PhraseDataService(), new SettingsService()) { }
 
         public ScannerViewModel(IPhraseDataService phraseDataService, ISettingsService settingsService) : base(phraseDataService, settingsService)
         {
@@ -40,10 +36,15 @@ namespace ArithmosViewModels
             try
             {
                 this.IsBusy = true;
-                int savedItems = await this.phraseDataService.CreateAsync(this.GetMarkedPhrases(), this.CurrentOperation);
+                string message = "";
+                using (this.cts = new CancellationTokenSource())
+                {
+                    int savedItems = await this.phraseDataService.CreateAsync(this.GetMarkedPhrases(), this.CurrentOperation, this.cts.Token);
+                    message = this.cts.IsCancellationRequested ? $"Operation interrupted by user." : $"{savedItems} phrases have been successfully saved.";
+                }
                 this.CurrentOperation = new Operation();
                 this.IsBusy = false;
-                NotificationMessage savedMessage = new NotificationMessage(this, $"{savedItems} phrases have been successfully saved.");
+                NotificationMessage savedMessage = new NotificationMessage(this, message);
                 Messenger.Default.Send(savedMessage);
             }
             catch (Exception ex)
@@ -69,20 +70,25 @@ namespace ArithmosViewModels
                 this.IsBusy = true;
                 this.Phrases.Clear();
                 List<Phrase> phrases = new List<Phrase>();
-                if (!this.GetAllText)
+                string message = "";
+                using (this.cts = new CancellationTokenSource())
                 {
-                    phrases = await Scanner.ScanFileAsync(this.FilePath, this.NumericValues.ToArray(), this.CalculationMethod, this.PhraseSeparator, this.MinimumCharacters, this.MinimumWordsPerPhrase, this.MaximumWordsPerPhrase);
-                }
-                else
-                {
-                    phrases = await Scanner.ScanFileAsync(this.FilePath, this.PhraseSeparator, this.MinimumCharacters, this.MinimumWordsPerPhrase, this.MaximumWordsPerPhrase);
+                    if (!this.GetAllText)
+                    {
+                        phrases = await Scanner.ScanFileAsync(this.FilePath, this.NumericValues.ToArray(), this.CalculationMethod, this.PhraseSeparator, this.MinimumCharacters, this.MinimumWordsPerPhrase, this.MaximumWordsPerPhrase, this.cts.Token);
+                    }
+                    else
+                    {
+                        phrases = await Scanner.ScanFileAsync(this.FilePath, this.PhraseSeparator, this.MinimumCharacters, this.MinimumWordsPerPhrase, this.MaximumWordsPerPhrase, this.cts.Token);
+                    }
+                    message = this.cts.IsCancellationRequested ? $"Operation interrupted by user." : $"The file was successfully scanned. {phrases.Count} unique phrases were extracted.";
                 }
                 foreach (Phrase phrase in phrases)
                 {
                     this.Phrases.Add(new PhraseViewModel(phrase));
                 }
                 this.IsBusy = false;
-                NotificationMessage scannedMessage = new NotificationMessage(this, $"The file was successfully scanned. {this.Phrases.Count} unique phrases were extracted.");
+                NotificationMessage scannedMessage = new NotificationMessage(this, message);
                 Messenger.Default.Send(scannedMessage);
             }
             catch (Exception ex)
@@ -108,20 +114,25 @@ namespace ArithmosViewModels
                 this.IsBusy = true;
                 this.Phrases.Clear();
                 List<Phrase> phrases = new List<Phrase>();
-                if (!this.GetAllText)
+                string message = "";
+                using (this.cts = new CancellationTokenSource())
                 {
-                    phrases = await Scanner.ScanTextAsync(this.ImportedText, this.NumericValues.ToArray(), this.CalculationMethod, this.PhraseSeparator, this.MinimumCharacters, this.MinimumWordsPerPhrase, this.MaximumWordsPerPhrase);
-                }
-                else
-                {
-                    phrases = await Scanner.ScanTextAsync(this.ImportedText, this.PhraseSeparator, this.MinimumCharacters, this.MinimumWordsPerPhrase, this.MaximumWordsPerPhrase);
+                    if (!this.GetAllText)
+                    {
+                        phrases = await Scanner.ScanTextAsync(this.ImportedText, this.NumericValues.ToArray(), this.CalculationMethod, this.PhraseSeparator, this.MinimumCharacters, this.MinimumWordsPerPhrase, this.MaximumWordsPerPhrase, this.cts.Token);
+                    }
+                    else
+                    {
+                        phrases = await Scanner.ScanTextAsync(this.ImportedText, this.PhraseSeparator, this.MinimumCharacters, this.MinimumWordsPerPhrase, this.MaximumWordsPerPhrase, this.cts.Token);
+                    }
+                    message = this.cts.IsCancellationRequested ? $"Operation interrupted by user." : $"The text was successfully scanned. {phrases.Count} unique phrases were extracted.";
                 }
                 foreach (Phrase phrase in phrases)
                 {
                     this.Phrases.Add(new PhraseViewModel(phrase));
                 }
                 this.IsBusy = false;
-                NotificationMessage scannedMessage = new NotificationMessage(this, $"The text was successfully scanned. {this.Phrases.Count} unique phrases were extracted.");
+                NotificationMessage scannedMessage = new NotificationMessage(this, message);
                 Messenger.Default.Send(scannedMessage);
             }
             catch (Exception ex)
