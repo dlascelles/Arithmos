@@ -117,7 +117,6 @@ namespace ArithmosViewModels
                     }
                     finally
                     {
-                        this.ExplorerPhraseGridEnabled = true;
                         this.IsBusy = false;
                     }
                 }
@@ -139,10 +138,8 @@ namespace ArithmosViewModels
                     try
                     {
                         this.IsBusy = true;
-                        this.ExplorerPhraseGridEnabled = false;
                         int deletedPhrases = await this.phraseDataService.DeleteAsync(this.GetMarkedPhrases());
                         await this.RemoveMarkedItemsAsync();
-                        this.ExplorerPhraseGridEnabled = true;
                         this.IsBusy = false;
                         NotificationMessage deletedMessage = new NotificationMessage(this, $"{deletedPhrases} phrases have been deleted.");
                         Messenger.Default.Send(deletedMessage);
@@ -154,7 +151,6 @@ namespace ArithmosViewModels
                     }
                     finally
                     {
-                        this.ExplorerPhraseGridEnabled = true;
                         this.IsBusy = false;
                     }
                 }
@@ -223,13 +219,6 @@ namespace ArithmosViewModels
         {
             get { return this.alphabet; }
             set { this.SetField(ref this.alphabet, value); }
-        }
-
-        private bool explorerPhraseGridEnabled = true;
-        public bool ExplorerPhraseGridEnabled
-        {
-            get { return this.explorerPhraseGridEnabled; }
-            set { this.SetField(ref this.explorerPhraseGridEnabled, value); }
         }
 
         private ObservableCollection<OperationViewModel> operations = new ObservableCollection<OperationViewModel>();
