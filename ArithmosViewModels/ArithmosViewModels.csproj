@@ -76,6 +76,7 @@
     <Compile Include="ExplorerViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Messages\ConfirmationMessage.cs" />
+    <Compile Include="Messages\FileDialogMessage.cs" />
     <Compile Include="Messages\SettingsUpdatedMessage.cs" />
     <Compile Include="OperationViewModel.cs" />
     <Compile Include="PhraseViewModel.cs" />

@@ -20,6 +20,15 @@ namespace Arithmos
             Messenger.Default.Register<NotificationMessage>(this, this.IncomingNotification);
             Messenger.Default.Register<ErrorMessage>(this, this.IncomingErrorMessage);
             Messenger.Default.Register<ConfirmationMessage>(this, this.IncomingConfirmation);
+            Messenger.Default.Register<FileDialogMessage>(this, this.IncomingFileRequest);
+        }
+
+        private void IncomingFileRequest(FileDialogMessage msg)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Title = msg.Notification;
+            ofd.ShowDialog();
+            msg.Execute(ofd.FileName);
         }
 
         private void IncomingConfirmation(ConfirmationMessage msg)
@@ -47,14 +56,6 @@ namespace Arithmos
         private void IncomingNotification(NotificationMessage message)
         {
             MessageBox.Show(this, message.Notification, Application.Current.MainWindow.GetType().Assembly.GetName().Name, MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        private void BtnBrowse_Click(object sender, RoutedEventArgs e)
-        {
-            ScannerViewModel svm = (ScannerViewModel)(this.DataContext as MainViewModel).ChildViews[1];
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.ShowDialog();
-            svm.FilePath = ofd.FileName;
         }
 
         //We need this here in order for datagrid row virtualization, otherwise our "IsSelected" bindings don't work.

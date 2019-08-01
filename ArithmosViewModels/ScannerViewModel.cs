@@ -11,6 +11,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace ArithmosViewModels
             this.ScanFileCommand = new RelayCommand(async () => await this.ScanFileAsync(), this.CanScanFile);
             this.ScanTextCommand = new RelayCommand(async () => await this.ScanTextAsync(), this.CanScanText);
             this.SaveMarkedItemsCommand = new RelayCommand(async () => await this.SaveMarkedItems(), this.CanSaveMarkedItems);
+            this.GetFilePathCommand = new RelayCommand(this.GetFilePath, this.CanGetFilePath);
             this.phraseDataService = phraseDataService;
             this.SettingsService = settingsService;
         }
@@ -148,6 +150,24 @@ namespace ArithmosViewModels
         public bool CanScanText()
         {
             return !String.IsNullOrEmpty(this.ImportedText) && this.CalculationMethod != CalculationMethod.None && ((this.NumericValues != null && this.NumericValues.Count() > 0) || (this.GetAllText && this.MinimumCharacters >= 0));
+        }
+
+        public RelayCommand GetFilePathCommand { get; private set; }
+        public void GetFilePath()
+        {
+            FileDialogMessage fdm = new FileDialogMessage(this, "Select a file to scan", (file) =>
+                {
+                    if (File.Exists(file))
+                    {
+                        this.FilePath = file;
+                    }
+
+                });
+            Messenger.Default.Send(fdm);
+        }
+        public bool CanGetFilePath()
+        {
+            return true;
         }
 
         private string filePath = "";
