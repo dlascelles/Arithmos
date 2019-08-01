@@ -25,7 +25,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -95,10 +95,12 @@
     <ProjectReference Include="..\ArithmosDAL\ArithmosDAL.csproj">
       <Project>{B539779D-3607-46CD-A35C-95340C018D29}</Project>
       <Name>ArithmosDAL</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\ArithmosModels\ArithmosModels.csproj">
       <Project>{53751BA9-2C56-4963-94CC-64A8A2C935FB}</Project>
       <Name>ArithmosModels</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

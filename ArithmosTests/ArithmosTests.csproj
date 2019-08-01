@@ -64,6 +64,7 @@
     <ProjectReference Include="..\ArithmosModels\ArithmosModels.csproj">
       <Project>{53751ba9-2c56-4963-94cc-64a8a2c935fb}</Project>
       <Name>ArithmosModels</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
