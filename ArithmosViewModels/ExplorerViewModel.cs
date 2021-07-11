@@ -6,8 +6,8 @@
 using ArithmosModels;
 using ArithmosViewModels.Messages;
 using ArithmosViewModels.Services;
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,12 +31,18 @@ namespace ArithmosViewModels
             this.SearchPhrasesCommand = new RelayCommand(async () => await this.SearchPhrasesAsync(), this.CanSearchPhrases);
             this.LoadAllOperationsCommand = new RelayCommand(async () => await this.LoadAllOperationsAsync(), this.CanLoadAllOperations);
             this.LoadAllOrphansCommand = new RelayCommand(async () => await this.LoadAllOrphansAsync(), this.CanLoadAllOrphans);
+            this.Phrases.CollectionChanged += Phrases_CollectionChanged;
             this.phraseDataService = phraseDataService;
             this.SettingsService = settingsService;
             if (this.SettingsService.SelectEnglish) { this.Alphabet |= Alphabet.English; }
             if (this.SettingsService.SelectHebrew) { this.Alphabet |= Alphabet.Hebrew; }
             if (this.SettingsService.SelectGreek) { this.Alphabet |= Alphabet.Greek; }
             if (this.SettingsService.SelectMixed) { this.Alphabet |= Alphabet.Mixed; }
+        }
+
+        private void Phrases_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            this.DeleteMarkedItemsCommand.NotifyCanExecuteChanged();
         }
 
         public RelayCommand LoadAllOperationsCommand { get; private set; }
@@ -94,34 +100,34 @@ namespace ArithmosViewModels
         }
 
         public RelayCommand DeleteSelectedOperationsCommand { get; private set; }
-        public void DeleteSelectedOperations()
+        public async void DeleteSelectedOperations()
         {
-            ConfirmationMessage cm = new ConfirmationMessage(this, "Are you sure you want to delete the selected operations?", async (selection) =>
+            ConfirmationMessage cm = new ConfirmationMessage();
+            cm.Message = "Are you sure you want to delete the selected operations?";
+            await WeakReferenceMessenger.Default.Send(cm);
+            if (await cm.Response == true)
             {
-                if (selection == true)
+                try
                 {
-                    try
-                    {
-                        this.IsBusy = true;
-                        int deletedOperations = await this.operationDataService.DeleteAsync(this.GetSelectedOperations());
-                        await this.LoadAllOperationsAsync();
-                        await this.RefreshItemsAsync();
-                        this.IsBusy = false;
-                        NotificationMessage deletedMessage = new NotificationMessage(this, $"{deletedOperations} operations have been deleted.");
-                        Messenger.Default.Send(deletedMessage);
-                    }
-                    catch (Exception ex)
-                    {
-                        ErrorMessage errorMessage = new ErrorMessage(this, ex.Message);
-                        Messenger.Default.Send(errorMessage);
-                    }
-                    finally
-                    {
-                        this.IsBusy = false;
-                    }
+                    this.IsBusy = true;
+                    int deletedOperations = await this.operationDataService.DeleteAsync(this.GetSelectedOperations());
+                    await this.LoadAllOperationsAsync();
+                    await this.RefreshItemsAsync();
+                    this.IsBusy = false;
+                    NotificationMessage deletedMessage = new NotificationMessage($"{deletedOperations} operations have been deleted.");
+                    WeakReferenceMessenger.Default.Send(deletedMessage);
                 }
-            });
-            Messenger.Default.Send(cm);
+                catch (Exception ex)
+                {
+                    ErrorMessage errorMessage = new ErrorMessage();
+                    errorMessage.Message = ex.Message;
+                    WeakReferenceMessenger.Default.Send(errorMessage);
+                }
+                finally
+                {
+                    this.IsBusy = false;
+                }
+            }
         }
         public bool CanDeleteSelectedOperations()
         {
@@ -129,33 +135,33 @@ namespace ArithmosViewModels
         }
 
         public RelayCommand DeleteMarkedItemsCommand { get; private set; }
-        public void DeleteMarkedItems()
+        public async void DeleteMarkedItems()
         {
-            ConfirmationMessage cm = new ConfirmationMessage(this, "Are you sure you want to delete the marked items?", async (selection) =>
+            ConfirmationMessage cm = new ConfirmationMessage();
+            cm.Message = "Are you sure you want to delete the selected phrases?";
+            await WeakReferenceMessenger.Default.Send(cm);
+            if (await cm.Response == true)
             {
-                if (selection == true)
+                try
                 {
-                    try
-                    {
-                        this.IsBusy = true;
-                        int deletedPhrases = await this.phraseDataService.DeleteAsync(this.GetMarkedPhrases());
-                        await this.RemoveMarkedItemsAsync();
-                        this.IsBusy = false;
-                        NotificationMessage deletedMessage = new NotificationMessage(this, $"{deletedPhrases} phrases have been deleted.");
-                        Messenger.Default.Send(deletedMessage);
-                    }
-                    catch (Exception ex)
-                    {
-                        ErrorMessage errorMessage = new ErrorMessage(this, ex.Message);
-                        Messenger.Default.Send(errorMessage);
-                    }
-                    finally
-                    {
-                        this.IsBusy = false;
-                    }
+                    this.IsBusy = true;
+                    int deletedPhrases = await this.phraseDataService.DeleteAsync(this.GetMarkedPhrases());
+                    await this.RemoveMarkedItemsAsync();
+                    this.IsBusy = false;
+                    NotificationMessage deletedMessage = new NotificationMessage($"{deletedPhrases} phrases have been deleted.");
+                    WeakReferenceMessenger.Default.Send(deletedMessage);
                 }
-            });
-            Messenger.Default.Send(cm);
+                catch (Exception ex)
+                {
+                    ErrorMessage errorMessage = new ErrorMessage();
+                    errorMessage.Message = ex.Message;
+                    WeakReferenceMessenger.Default.Send(errorMessage);
+                }
+                finally
+                {
+                    this.IsBusy = false;
+                }
+            }
         }
         public bool CanDeleteMarkedItems()
         {

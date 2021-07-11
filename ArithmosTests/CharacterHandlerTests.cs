@@ -6,6 +6,7 @@
 using ArithmosModels;
 using ArithmosModels.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
 
 namespace ArithmosTests
@@ -23,8 +24,8 @@ namespace ArithmosTests
             Assert.IsTrue(CharacterHandler.GetAlphabet("ΚΑΙ ΑΝΑΣΤΕΝΑΞΑΣ ΤΩΙ ΠΝΕΥΜΑΤΙ ΑΥΤΟΥ ΛΕΓΕΙ ΤΙ Η ΓΕΝΕΑ ΑΥΤΗ ΣΗΜΕΙΟΝ ΕΠΙΖΗΤΕΙ ΑΜΗΝ ΛΕΓΩ ΥΜΙΝ ΕΙ ΔΟΘΗΣΕΤΑΙ ΤΗΙ ΓΕΝΕΑΙ ΤΑΥΤΗΙ ΣΗΜΕΙΟΝ") == Alphabet.Greek);
             Assert.IsTrue(CharacterHandler.GetAlphabet("ארוחת צהריים") == Alphabet.Hebrew);
             Assert.IsTrue(CharacterHandler.GetAlphabet("ΑΝΑΣΤΕΝΑΞΑΣארוחת צהרייםIPSUM") == Alphabet.Mixed);
-
-            string path = @"..\\..\\Assets\\moby-dick.txt";
+           
+            string path = @$"{Environment.CurrentDirectory}\\Assets\\moby-dick.txt";
             string alltext = "";
             using (StreamReader sr = new StreamReader(path))
             {
@@ -32,7 +33,7 @@ namespace ArithmosTests
             }
             Assert.IsTrue(CharacterHandler.GetAlphabet(alltext) == Alphabet.English);
 
-            path = @"..\\..\\Assets\\prometheus.txt";
+            path = @$"{Environment.CurrentDirectory}\\Assets\\prometheus.txt";
             alltext = "";
             using (StreamReader sr = new StreamReader(path))
             {
@@ -40,7 +41,7 @@ namespace ArithmosTests
             }
             Assert.IsTrue(CharacterHandler.GetAlphabet(alltext) == Alphabet.Greek);
 
-            path = @"..\\..\\Assets\\hunger.txt";
+            path = @$"{Environment.CurrentDirectory}\\Assets\\hunger.txt";
             alltext = "";
             using (StreamReader sr = new StreamReader(path))
             {

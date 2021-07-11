@@ -6,8 +6,8 @@
 using ArithmosModels;
 using ArithmosViewModels.Messages;
 using ArithmosViewModels.Services;
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -23,14 +23,39 @@ namespace ArithmosViewModels
         {
             this.ClearAllItemsCommand = new RelayCommand(this.ClearAllItems, this.CanClearAllItems);
             this.AddNumericValueCommand = new RelayCommand(this.AddNumericValue, this.CanAddNumericValue);
-            this.RemoveNumericValueCommand = new RelayCommand<int>(this.RemoveNumericValue, this.CanRemoveNumericValue());
+            this.RemoveNumericValueCommand = new RelayCommand<int>(this.RemoveNumericValue, this.CanRemoveNumericValue);
             this.ClearNumericValuesCommand = new RelayCommand(this.ClearNumericValues, this.CanClearNumericValues);
             this.UnmarkSelectedItemsCommand = new RelayCommand(this.UnmarkSelectedItems, this.CanUnmarkSelectedItems);
             this.MarkSelectedItemsCommand = new RelayCommand(this.MarkSelectedItems, this.CanMarkSelectedItems);
             this.UnmarkAllItemsCommand = new RelayCommand(this.UnmarkAllItems, this.CanUnmarkAllItems);
             this.MarkAllItemsCommand = new RelayCommand(this.MarkAllItems, this.CanMarkAllItems);
             this.CopyMarkedItemsCommand = new RelayCommand(this.CopyMarkedItems, this.CanCopyMarkedItems);
-            this.CancelCommand = new RelayCommand(this.CancelOperation, this.CanCancelOperation());
+            this.CancelCommand = new RelayCommand(this.CancelOperation, this.CanCancelOperation);
+            this.Phrases.CollectionChanged += Phrases_CollectionChanged;
+            this.NumericValues.CollectionChanged += NumericValues_CollectionChanged;
+        }
+
+        private void NumericValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            this.GroupNotifyCanExecuteChanged();
+        }
+
+        private void GroupNotifyCanExecuteChanged()
+        {
+            this.ClearNumericValuesCommand.NotifyCanExecuteChanged();
+            this.ClearAllItemsCommand.NotifyCanExecuteChanged();
+            this.UnmarkSelectedItemsCommand.NotifyCanExecuteChanged();
+            this.MarkSelectedItemsCommand.NotifyCanExecuteChanged();
+            this.UnmarkAllItemsCommand.NotifyCanExecuteChanged();
+            this.MarkAllItemsCommand.NotifyCanExecuteChanged();
+            this.CopyMarkedItemsCommand.NotifyCanExecuteChanged();
+            this.AddNumericValueCommand.NotifyCanExecuteChanged();
+            this.RemoveNumericValueCommand.NotifyCanExecuteChanged();
+        }
+
+        private void Phrases_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            this.GroupNotifyCanExecuteChanged();
         }
 
         public CommonViewModel(IPhraseDataService phraseDataService, ISettingsService settingsService) : this()
@@ -45,7 +70,7 @@ namespace ArithmosViewModels
             if (this.SettingsService.SelectSquared && this.SettingsService.ShowSquared) { this.CalculationMethod |= CalculationMethod.Squared; }
             if (this.SettingsService.SelectMisparGadol && this.SettingsService.ShowMisparGadol) { this.CalculationMethod |= CalculationMethod.MisparGadol; }
             if (this.SettingsService.SelectMisparShemi && this.SettingsService.ShowMisparShemi) { this.CalculationMethod |= CalculationMethod.MisparShemi; }
-            Messenger.Default.Register<SettingsUpdatedMessage>(this, this.MessagesUpdated);
+            WeakReferenceMessenger.Default.Register<CommonViewModel, SettingsUpdatedMessage>(this, static (r, m) => r.MessagesUpdated(m));
         }
 
         private void MessagesUpdated(SettingsUpdatedMessage obj)
@@ -91,7 +116,7 @@ namespace ArithmosViewModels
                 this.NumericValues.Remove(value);
             }
         }
-        public bool CanRemoveNumericValue()
+        public bool CanRemoveNumericValue(int value)
         {
             return true;
         }
@@ -223,7 +248,11 @@ namespace ArithmosViewModels
         public int NumericValue
         {
             get { return this.numericValue; }
-            set { this.SetField(ref this.numericValue, value); }
+            set
+            {
+                this.SetField(ref this.numericValue, value);
+                this.GroupNotifyCanExecuteChanged();
+            }
         }
 
         private ISettingsService settingsService;

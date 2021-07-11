@@ -5,8 +5,8 @@
 */
 using ArithmosViewModels.Messages;
 using ArithmosViewModels.Services;
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +21,12 @@ namespace ArithmosViewModels
             this.SaveMarkedItemsCommand = new RelayCommand(async () => await this.SaveMarkedItemsAsync(), this.CanSaveMarkedItems);
             this.phraseDataService = phraseDataService;
             this.SettingsService = settingsService;
+            this.Phrases.CollectionChanged += Phrases_CollectionChanged;
+        }
+
+        private void Phrases_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            this.SaveMarkedItemsCommand.NotifyCanExecuteChanged();
         }
 
         public RelayCommand SaveMarkedItemsCommand { get; private set; }
@@ -31,13 +37,14 @@ namespace ArithmosViewModels
                 this.IsBusy = true;
                 int savedItems = await this.phraseDataService.CreateAsync(this.GetMarkedPhrases(), default);
                 this.IsBusy = false;
-                NotificationMessage savedMessage = new NotificationMessage(this, $"{savedItems} phrases have been successfully saved.");
-                Messenger.Default.Send(savedMessage);
+                NotificationMessage savedMessage = new NotificationMessage($"{savedItems} phrases have been successfully saved.");
+                WeakReferenceMessenger.Default.Send(savedMessage);
             }
             catch (Exception ex)
             {
-                ErrorMessage errorMessage = new ErrorMessage(this, ex.Message);
-                Messenger.Default.Send(errorMessage);
+                ErrorMessage errorMessage = new ErrorMessage();
+                errorMessage.Message = ex.Message;
+                WeakReferenceMessenger.Default.Send(errorMessage);
             }
             finally
             {

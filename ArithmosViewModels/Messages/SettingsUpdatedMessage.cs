@@ -3,12 +3,16 @@
 * This code is licensed under The MIT License. See LICENSE file in the project root for full license information.
 * License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 */
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 
 namespace ArithmosViewModels.Messages
 {
-    public class SettingsUpdatedMessage : NotificationMessage
+    public class SettingsUpdatedMessage : RequestMessage<string>
     {
-        public SettingsUpdatedMessage(object sender, string message) : base(sender, message) { }
+        public SettingsUpdatedMessage(string message)
+        {
+            this.Message = message;
+        }
+        public string Message { get; set; }
     }
 }

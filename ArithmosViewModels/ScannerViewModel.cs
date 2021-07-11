@@ -7,8 +7,8 @@ using ArithmosModels;
 using ArithmosModels.Helpers;
 using ArithmosViewModels.Messages;
 using ArithmosViewModels.Services;
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,6 +30,29 @@ namespace ArithmosViewModels
             this.GetFilePathCommand = new RelayCommand(this.GetFilePath, this.CanGetFilePath);
             this.phraseDataService = phraseDataService;
             this.SettingsService = settingsService;
+            this.NumericValues.CollectionChanged += NumericValues_CollectionChanged;
+            this.CurrentOperation.PropertyChanged += CurrentOperation_PropertyChanged;
+        }
+
+        private void CurrentOperation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Description")
+            {
+                this.GroupNotifyCanExecuteChanged();
+            }
+        }
+
+        private void NumericValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            this.GroupNotifyCanExecuteChanged();
+        }
+
+        private void GroupNotifyCanExecuteChanged()
+        {
+            this.ScanFileCommand.NotifyCanExecuteChanged();
+            this.ScanTextCommand.NotifyCanExecuteChanged();
+            this.SaveMarkedItemsCommand.NotifyCanExecuteChanged();
+            this.GetFilePathCommand.NotifyCanExecuteChanged();
         }
 
         public RelayCommand SaveMarkedItemsCommand { get; private set; }
@@ -46,13 +69,14 @@ namespace ArithmosViewModels
                 }
                 this.CurrentOperation = new Operation();
                 this.IsBusy = false;
-                NotificationMessage savedMessage = new NotificationMessage(this, message);
-                Messenger.Default.Send(savedMessage);
+                NotificationMessage savedMessage = new NotificationMessage(message);
+                WeakReferenceMessenger.Default.Send(savedMessage);
             }
             catch (Exception ex)
             {
-                ErrorMessage errorMessage = new ErrorMessage(this, ex.Message);
-                Messenger.Default.Send(errorMessage);
+                ErrorMessage errorMessage = new ErrorMessage();
+                errorMessage.Message = ex.Message;
+                WeakReferenceMessenger.Default.Send(errorMessage);
             }
             finally
             {
@@ -90,13 +114,14 @@ namespace ArithmosViewModels
                     this.Phrases.Add(new PhraseViewModel(phrase));
                 }
                 this.IsBusy = false;
-                NotificationMessage scannedMessage = new NotificationMessage(this, message);
-                Messenger.Default.Send(scannedMessage);
+                NotificationMessage scannedMessage = new NotificationMessage(message);
+                WeakReferenceMessenger.Default.Send(scannedMessage);
             }
             catch (Exception ex)
             {
-                ErrorMessage errorMessage = new ErrorMessage(this, ex.Message);
-                Messenger.Default.Send(errorMessage);
+                ErrorMessage errorMessage = new ErrorMessage();
+                errorMessage.Message = ex.Message;
+                WeakReferenceMessenger.Default.Send(errorMessage);
             }
             finally
             {
@@ -134,13 +159,14 @@ namespace ArithmosViewModels
                     this.Phrases.Add(new PhraseViewModel(phrase));
                 }
                 this.IsBusy = false;
-                NotificationMessage scannedMessage = new NotificationMessage(this, message);
-                Messenger.Default.Send(scannedMessage);
+                NotificationMessage scannedMessage = new NotificationMessage(message);
+                WeakReferenceMessenger.Default.Send(scannedMessage);
             }
             catch (Exception ex)
             {
-                ErrorMessage errorMessage = new ErrorMessage(this, ex.Message);
-                Messenger.Default.Send(errorMessage);
+                ErrorMessage errorMessage = new ErrorMessage();
+                errorMessage.Message = ex.Message;
+                WeakReferenceMessenger.Default.Send(errorMessage);
             }
             finally
             {
@@ -153,17 +179,16 @@ namespace ArithmosViewModels
         }
 
         public RelayCommand GetFilePathCommand { get; private set; }
-        public void GetFilePath()
+        public async void GetFilePath()
         {
-            FileDialogMessage fdm = new FileDialogMessage(this, "Select a file to scan", (file) =>
-                {
-                    if (File.Exists(file))
-                    {
-                        this.FilePath = file;
-                    }
-
-                });
-            Messenger.Default.Send(fdm);
+            FileDialogMessage fdm = new FileDialogMessage();
+            fdm.Message = "Select a file to scan";
+            await WeakReferenceMessenger.Default.Send(fdm);
+            string file = await fdm.Response;
+            if (File.Exists(file))
+            {
+                this.FilePath = file;
+            }
         }
         public bool CanGetFilePath()
         {
@@ -174,21 +199,33 @@ namespace ArithmosViewModels
         public string FilePath
         {
             get { return this.filePath; }
-            set { this.SetField(ref this.filePath, value); }
+            set 
+            { 
+                this.SetField(ref this.filePath, value);
+                this.GroupNotifyCanExecuteChanged();
+            }
         }
 
         private string importedText = "";
         public string ImportedText
         {
             get { return this.importedText; }
-            set { this.SetField(ref this.importedText, value); }
+            set 
+            { 
+                this.SetField(ref this.importedText, value);
+                this.GroupNotifyCanExecuteChanged();
+            }
         }
 
         private bool getAllText = false;
         public bool GetAllText
         {
             get { return this.getAllText; }
-            set { this.SetField(ref this.getAllText, value); }
+            set 
+            { 
+                this.SetField(ref this.getAllText, value);
+                this.GroupNotifyCanExecuteChanged();
+            }
         }
 
         private int minimumCharacters = 3;
@@ -244,7 +281,10 @@ namespace ArithmosViewModels
         public Operation CurrentOperation
         {
             get { return this.currentOperation; }
-            set { this.SetField(ref this.currentOperation, value); }
+            set 
+            { 
+                this.SetField(ref this.currentOperation, value);
+            }
         }
     }
 }

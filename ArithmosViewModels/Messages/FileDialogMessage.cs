@@ -4,13 +4,12 @@
 * License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 */
 
-using GalaSoft.MvvmLight.Messaging;
-using System;
+using Microsoft.Toolkit.Mvvm.Messaging.Messages;
 
 namespace ArithmosViewModels.Messages
 {
-    public class FileDialogMessage : NotificationMessageAction<string>
+    public class FileDialogMessage : AsyncRequestMessage<string>
     {
-        public FileDialogMessage(object sender, string message, Action<string> callback) : base(sender, message, callback) { }
+        public string Message { get; set; }
     }
 }

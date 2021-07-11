@@ -5,7 +5,7 @@
 */
 using ArithmosViewModels;
 using ArithmosViewModels.Messages;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Messaging;
 using Microsoft.Win32;
 using System.Linq;
 using System.Windows;
@@ -17,45 +17,45 @@ namespace Arithmos
         public MainWindow()
         {
             this.InitializeComponent();
-            Messenger.Default.Register<NotificationMessage>(this, this.IncomingNotification);
-            Messenger.Default.Register<ErrorMessage>(this, this.IncomingErrorMessage);
-            Messenger.Default.Register<ConfirmationMessage>(this, this.IncomingConfirmation);
-            Messenger.Default.Register<FileDialogMessage>(this, this.IncomingFileRequest);
+            WeakReferenceMessenger.Default.Register<MainWindow, NotificationMessage>(this, static (r, m) => r.IncomingNotification(m));
+            WeakReferenceMessenger.Default.Register<MainWindow, ErrorMessage>(this, static (r, m) => r.IncomingErrorMessage(m));
+            WeakReferenceMessenger.Default.Register<MainWindow, ConfirmationMessage>(this, static (r, m) => r.IncomingConfirmation(m));
+            WeakReferenceMessenger.Default.Register<MainWindow, FileDialogMessage>(this, static (r, m) => r.IncomingFileRequest(m));
         }
 
         private void IncomingFileRequest(FileDialogMessage msg)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Title = msg.Notification;
+            ofd.Title = msg.Message;
             ofd.ShowDialog();
-            msg.Execute(ofd.FileName);
+            msg.Reply(ofd.FileName);
         }
 
         private void IncomingConfirmation(ConfirmationMessage msg)
         {
-            MessageBoxResult result = MessageBox.Show(msg.Notification, Application.Current.MainWindow.GetType().Assembly.GetName().Name, MessageBoxButton.YesNo);
+            MessageBoxResult result = MessageBox.Show(msg.Message, Application.Current.MainWindow.GetType().Assembly.GetName().Name, MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             {
-                msg.Execute(true);
+                msg.Reply(true);
             }
             else if (result == MessageBoxResult.No)
             {
-                msg.Execute(false);
+                msg.Reply(false);
             }
             else
             {
-                msg.Execute(null);
+                msg.Reply((bool?)null);
             }
         }
 
-        private void IncomingErrorMessage(ErrorMessage message)
+        private void IncomingErrorMessage(ErrorMessage msg)
         {
-            MessageBox.Show(this, message.Notification, Application.Current.MainWindow.GetType().Assembly.GetName().Name, MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(this, msg.Message, Application.Current.MainWindow.GetType().Assembly.GetName().Name, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private void IncomingNotification(NotificationMessage message)
+        private void IncomingNotification(NotificationMessage msg)
         {
-            MessageBox.Show(this, message.Notification, Application.Current.MainWindow.GetType().Assembly.GetName().Name, MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(this, msg.Message, Application.Current.MainWindow.GetType().Assembly.GetName().Name, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         //We need this here in order for datagrid row virtualization, otherwise our "IsSelected" bindings don't work.

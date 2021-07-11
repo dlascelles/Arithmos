@@ -56,7 +56,7 @@ namespace ArithmosTests
         public async Task EnglishScanFileTestAsync()
         {
             HashSet<Phrase> matched = new HashSet<Phrase>();
-            string path = @"..\\..\\Assets\\bible.txt";
+            string path = @$"{Environment.CurrentDirectory}\\Assets\\bible.txt";
             matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 123 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 15);
             Assert.IsTrue(matched.Contains(new Phrase("FISH")));
@@ -124,7 +124,7 @@ namespace ArithmosTests
                 Assert.IsTrue(phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Count() == 6);
             }
 
-            path = @"..\\..\\Assets\\moby-dick.txt";
+            path = @$"{Environment.CurrentDirectory}\\Assets\\moby-dick.txt";
             matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 26);
             Assert.IsTrue(matched.Contains(new Phrase("EVIL")));
@@ -153,7 +153,7 @@ namespace ArithmosTests
                 Assert.IsTrue(phrase.Alphabet == Alphabet.English);
             }
 
-            path = @"..\\..\\Assets\\paradise-lost.txt";
+            path = @$"{Environment.CurrentDirectory}\\Assets\\paradise-lost.txt";
             matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444, 555, 666, 777, 888 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 42);
             Assert.IsTrue(matched.Contains(new Phrase("WINGS")));
@@ -333,7 +333,7 @@ Wyoming";
         public async Task GreekScanFileTestAsync()
         {
             HashSet<Phrase> matched = new HashSet<Phrase>();
-            string path = @"..\\..\\Assets\\apocalypse.txt";
+            string path = @$"{Environment.CurrentDirectory}\\Assets\\apocalypse.txt";
             matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 3);
             Assert.IsTrue(matched.Contains(new Phrase("ΒΑΣΑΝΙΖΟΜΕΝΗ")));
@@ -376,7 +376,7 @@ Wyoming";
                 Assert.IsTrue(phrase.Alphabet == Alphabet.Greek);
             }
 
-            path = @"..\\..\\Assets\\prometheus.txt";
+            path = @$"{Environment.CurrentDirectory}\\Assets\\prometheus.txt";
             matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 666 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 2);
             Assert.IsTrue(matched.Contains(new Phrase("ΕΚΛΥΣΑΙ")));
@@ -411,7 +411,7 @@ Wyoming";
         public async Task HebrewScanFileTestAsync()
         {
             HashSet<Phrase> matched = new HashSet<Phrase>();
-            string path = @"..\\..\\Assets\\hunger.txt";
+            string path = @$"{Environment.CurrentDirectory}\\Assets\\hunger.txt";
             matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 8);
             Assert.IsTrue(matched.Contains(new Phrase("מדת")));

@@ -5,7 +5,7 @@
 */
 using ArithmosModels;
 using ArithmosViewModels.Messages;
-using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Toolkit.Mvvm.Messaging;
 
 namespace ArithmosViewModels.Services
 {
@@ -210,8 +210,8 @@ namespace ArithmosViewModels.Services
             ArithmosSettings.Default.SelectGreek = this.SelectGreek;
             ArithmosSettings.Default.SelectMixed = this.SelectMixed;
             ArithmosSettings.Default.Save();
-            SettingsUpdatedMessage settingsUpdatedMessage = new SettingsUpdatedMessage(this, "Settings successfully saved");
-            Messenger.Default.Send(settingsUpdatedMessage);
+            SettingsUpdatedMessage settingsUpdatedMessage = new SettingsUpdatedMessage("Settings successfully saved");
+            WeakReferenceMessenger.Default.Send(settingsUpdatedMessage);
         }
     }
 }

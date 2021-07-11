@@ -5,7 +5,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 -->
 <Window x:Class="Arithmos.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -26,7 +26,11 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
         <converters:AlphabetConverter x:Key="AlphabetConverter" x:Shared="False"/>
     </Window.Resources>
     <Grid>
-        <TabControl TabStripPlacement="Left">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="117*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl TabStripPlacement="Left" Grid.ColumnSpan="2">
             <TabItem Header="Calculator" DataContext="{Binding ChildViews[0]}" Height="50" Width="70">
                 <TabItem.Resources>
                     <FrameworkElement x:Key="ProxyElement" DataContext="{Binding ChildViews[0]}"/>
@@ -130,7 +134,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                                                     <ColumnDefinition Width="25"/>
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock Grid.Column="0" Text="{Binding}" VerticalAlignment="Center"/>
-                                                <Button Grid.Column="1" Content="X" Foreground="Red" FontWeight="Bold" ToolTip="Remove value"  Command="{Binding ElementName=ScannerNumericValuesListBox, Path=DataContext.RemoveNumericValueCommand}" CommandParameter="{Binding}" VerticalAlignment="Center"/>
+                                                <Button Grid.Column="1" Content="X" Foreground="Red" FontWeight="Bold" ToolTip="Remove value"  Command="{Binding ElementName=ScannerNumericValuesListBox, Path=DataContext.RemoveNumericValueCommand,Delay=1}" CommandParameter="{Binding}" VerticalAlignment="Center"/>
                                             </Grid >
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
