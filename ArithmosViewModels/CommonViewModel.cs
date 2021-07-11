@@ -6,6 +6,7 @@
 using ArithmosModels;
 using ArithmosViewModels.Messages;
 using ArithmosViewModels.Services;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ using System.Windows;
 
 namespace ArithmosViewModels
 {
-    public class CommonViewModel : ModelBase
+    public class CommonViewModel : ObservableObject
     {
         public CommonViewModel()
         {
@@ -229,15 +230,15 @@ namespace ArithmosViewModels
         private bool isBusy = false;
         public bool IsBusy
         {
-            get { return this.isBusy; }
-            set { this.SetField(ref this.isBusy, value); }
+            get => this.isBusy;
+            set => SetProperty(ref this.isBusy, value);
         }
 
         private CalculationMethod calculationMethod = CalculationMethod.None;
         public CalculationMethod CalculationMethod
         {
-            get { return this.calculationMethod; }
-            set { this.SetField(ref this.calculationMethod, value); }
+            get => this.calculationMethod;
+            set => SetProperty(ref this.calculationMethod, value);
         }
 
         protected IPhraseDataService phraseDataService = new PhraseDataService();
@@ -247,10 +248,10 @@ namespace ArithmosViewModels
         private int numericValue;
         public int NumericValue
         {
-            get { return this.numericValue; }
+            get => this.numericValue;
             set
             {
-                this.SetField(ref this.numericValue, value);
+                SetProperty(ref this.numericValue, value);
                 this.GroupNotifyCanExecuteChanged();
             }
         }
@@ -258,22 +259,22 @@ namespace ArithmosViewModels
         private ISettingsService settingsService;
         public ISettingsService SettingsService
         {
-            get { return this.settingsService; }
-            set { this.SetField(ref this.settingsService, value); }
+            get => this.settingsService;
+            set => SetProperty(ref this.settingsService, value);
         }
 
         private ObservableCollection<int> numericValues = new ObservableCollection<int> { };
         public ObservableCollection<int> NumericValues
         {
-            get { return this.numericValues; }
-            set { this.SetField(ref this.numericValues, value); }
+            get => this.numericValues;
+            set => SetProperty(ref this.numericValues, value);
         }
 
         private ObservableCollection<PhraseViewModel> phrases = new ObservableCollection<PhraseViewModel>();
         public ObservableCollection<PhraseViewModel> Phrases
         {
-            get { return this.phrases; }
-            set { this.SetField(ref this.phrases, value); }
+            get => this.phrases;
+            set => SetProperty(ref this.phrases, value);
         }
     }
 }

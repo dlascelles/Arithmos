@@ -4,10 +4,11 @@
 * License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 */
 using ArithmosModels;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace ArithmosViewModels
 {
-    public class PhraseViewModel : ModelBase
+    public class PhraseViewModel : ObservableObject
     {
         public PhraseViewModel() { }
 
@@ -19,24 +20,24 @@ namespace ArithmosViewModels
         private bool isSelected = false;
         public bool IsSelected
         {
-            get { return this.isSelected; }
-            set { this.SetField(ref this.isSelected, value); }
+            get => this.isSelected;
+            set => SetProperty(ref this.isSelected, value);
         }
 
         private bool isMarked = false;
         public bool IsMarked
         {
-            get { return this.isMarked; }
-            set { this.SetField(ref this.isMarked, value); }
+            get => this.isMarked;
+            set => SetProperty(ref this.isMarked, value);
         }
 
         private string phraseText = "";
         public string PhraseText
         {
-            get { return this.phraseText; }
+            get => this.phraseText;
             set
             {
-                if (this.SetField(ref this.phraseText, value))
+                if (SetProperty(ref this.phraseText, value))
                 {
                     this.Phrase = new Phrase(this.phraseText);
                 }
@@ -49,7 +50,7 @@ namespace ArithmosViewModels
             get { return this.phrase; }
             set
             {
-                this.SetField(ref this.phrase, value);
+                SetProperty(ref this.phrase, value);
                 this.Gematria = this.Phrase.Values[CalculationMethod.Gematria];
                 this.Ordinal = this.Phrase.Values[CalculationMethod.Ordinal];
                 this.Reduced = this.Phrase.Values[CalculationMethod.Reduced];
@@ -64,57 +65,57 @@ namespace ArithmosViewModels
         private int gematria = 0;
         public int Gematria
         {
-            get { return this.gematria; }
-            set { this.SetField(ref this.gematria, value); }
+            get => this.gematria;
+            set => SetProperty(ref this.gematria, value);
         }
 
         private int ordinal = 0;
         public int Ordinal
         {
-            get { return this.ordinal; }
-            set { this.SetField(ref this.ordinal, value); }
+            get => this.ordinal;
+            set => SetProperty(ref this.ordinal, value);
         }
 
         private int reduced = 0;
         public int Reduced
         {
-            get { return this.reduced; }
-            set { this.SetField(ref this.reduced, value); }
+            get => this.reduced;
+            set => SetProperty(ref this.reduced, value);
         }
 
         private int sumerian = 0;
         public int Sumerian
         {
-            get { return this.sumerian; }
-            set { this.SetField(ref this.sumerian, value); }
+            get => this.sumerian;
+            set => SetProperty(ref this.sumerian, value);
         }
 
         private int primes = 0;
         public int Primes
         {
-            get { return this.primes; }
-            set { this.SetField(ref this.primes, value); }
+            get => this.primes;
+            set => SetProperty(ref this.primes, value);
         }
 
         private int squared = 0;
         public int Squared
         {
-            get { return this.squared; }
-            set { this.SetField(ref this.squared, value); }
+            get => this.squared;
+            set => SetProperty(ref this.squared, value);
         }
 
         private int misparGadol = 0;
         public int MisparGadol
         {
-            get { return this.misparGadol; }
-            set { this.SetField(ref this.misparGadol, value); }
+            get => this.misparGadol;
+            set => SetProperty(ref this.misparGadol, value);
         }
 
         private int misparShemi = 0;
         public int MisparShemi
         {
-            get { return this.misparShemi; }
-            set { this.SetField(ref this.misparShemi, value); }
+            get => this.misparShemi;
+            set => SetProperty(ref this.misparShemi, value);
         }
     }
 }

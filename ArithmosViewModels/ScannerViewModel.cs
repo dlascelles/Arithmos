@@ -64,10 +64,10 @@ namespace ArithmosViewModels
                 string message = "";
                 using (this.cts = new CancellationTokenSource())
                 {
-                    int savedItems = await this.phraseDataService.CreateAsync(this.GetMarkedPhrases(), this.CurrentOperation, this.cts.Token);
+                    int savedItems = await this.phraseDataService.CreateAsync(this.GetMarkedPhrases(), this.CurrentOperation.Operation, this.cts.Token);
                     message = this.cts.IsCancellationRequested ? $"Operation interrupted by user." : $"{savedItems} phrases have been successfully saved.";
                 }
-                this.CurrentOperation = new Operation();
+                this.CurrentOperation = new OperationViewModel(new Operation());
                 this.IsBusy = false;
                 NotificationMessage savedMessage = new NotificationMessage(message);
                 WeakReferenceMessenger.Default.Send(savedMessage);
@@ -198,10 +198,10 @@ namespace ArithmosViewModels
         private string filePath = "";
         public string FilePath
         {
-            get { return this.filePath; }
-            set 
-            { 
-                this.SetField(ref this.filePath, value);
+            get => this.filePath;
+            set
+            {
+                SetProperty(ref this.filePath, value);
                 this.GroupNotifyCanExecuteChanged();
             }
         }
@@ -209,10 +209,10 @@ namespace ArithmosViewModels
         private string importedText = "";
         public string ImportedText
         {
-            get { return this.importedText; }
-            set 
-            { 
-                this.SetField(ref this.importedText, value);
+            get => this.importedText;
+            set
+            {
+                SetProperty(ref this.importedText, value);
                 this.GroupNotifyCanExecuteChanged();
             }
         }
@@ -220,10 +220,10 @@ namespace ArithmosViewModels
         private bool getAllText = false;
         public bool GetAllText
         {
-            get { return this.getAllText; }
-            set 
-            { 
-                this.SetField(ref this.getAllText, value);
+            get => this.getAllText;
+            set
+            {
+                SetProperty(ref this.getAllText, value);
                 this.GroupNotifyCanExecuteChanged();
             }
         }
@@ -231,59 +231,59 @@ namespace ArithmosViewModels
         private int minimumCharacters = 3;
         public int MinimumCharacters
         {
-            get { return this.minimumCharacters; }
+            get => this.minimumCharacters;
             set
             {
                 if (value < 0) value = 3;
-                this.SetField(ref this.minimumCharacters, value);
+                SetProperty(ref this.minimumCharacters, value);
             }
         }
 
         private int minimumWordsPerPhrase = 1;
         public int MinimumWordsPerPhrase
         {
-            get { return this.minimumWordsPerPhrase; }
+            get => this.minimumWordsPerPhrase;
             set
             {
                 if (value > this.MaximumWordsPerPhrase) value = this.MaximumWordsPerPhrase;
                 if (value > 30 || value <= 0) value = 1;
-                this.SetField(ref this.minimumWordsPerPhrase, value);
+                SetProperty(ref this.minimumWordsPerPhrase, value);
             }
         }
 
         private int maximumWordsPerPhrase = 1;
         public int MaximumWordsPerPhrase
         {
-            get { return this.maximumWordsPerPhrase; }
+            get => this.maximumWordsPerPhrase;
             set
             {
                 if (value < this.MinimumWordsPerPhrase) value = this.MinimumWordsPerPhrase;
                 if (value > 30 || value <= 0) value = 1;
-                this.SetField(ref this.maximumWordsPerPhrase, value);
+                SetProperty(ref this.maximumWordsPerPhrase, value);
             }
         }
 
         private PhraseSeparator phraseSeparator = PhraseSeparator.All;
         public PhraseSeparator PhraseSeparator
         {
-            get { return this.phraseSeparator; }
+            get => this.phraseSeparator;
             set
             {
                 if (value == PhraseSeparator.None)
                 {
                     value = PhraseSeparator.NewLine | PhraseSeparator.Colon | PhraseSeparator.Comma | PhraseSeparator.FullStop | PhraseSeparator.GreekSemicolon | PhraseSeparator.Semicolon | PhraseSeparator.Space | PhraseSeparator.Tab;
                 }
-                this.SetField(ref this.phraseSeparator, value);
+                SetProperty(ref this.phraseSeparator, value);
             }
         }
 
-        private Operation currentOperation = new Operation();
-        public Operation CurrentOperation
+        private OperationViewModel currentOperation = new OperationViewModel(new Operation());
+        public OperationViewModel CurrentOperation
         {
-            get { return this.currentOperation; }
-            set 
-            { 
-                this.SetField(ref this.currentOperation, value);
+            get => this.currentOperation;
+            set
+            {
+                SetProperty(ref this.currentOperation, value);
             }
         }
     }

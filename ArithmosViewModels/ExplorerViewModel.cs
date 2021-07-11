@@ -223,15 +223,15 @@ namespace ArithmosViewModels
         private Alphabet alphabet = Alphabet.None;
         public Alphabet Alphabet
         {
-            get { return this.alphabet; }
-            set { this.SetField(ref this.alphabet, value); }
+            get => this.alphabet;
+            set => SetProperty(ref this.alphabet, value);
         }
 
         private ObservableCollection<OperationViewModel> operations = new ObservableCollection<OperationViewModel>();
         public ObservableCollection<OperationViewModel> Operations
         {
-            get { return this.operations; }
-            set { this.SetField(ref this.operations, value); }
+            get => this.operations;
+            set => SetProperty(ref this.operations, value);
         }
     }
 }

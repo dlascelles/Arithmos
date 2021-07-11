@@ -10,27 +10,13 @@ namespace ArithmosModels
     /// <summary>
     /// An Operation is used to group multiple Phrases together. It allows to retrieve all of the associated phrases, to remember where they came from or to delete them all at once.
     /// </summary>
-    public class Operation : ModelBase
+    public class Operation
     {
-        private int id;
-        public int Id
-        {
-            get { return this.id; }
-            set { this.SetField(ref this.id, value); }
-        }
+        public int Id { get; set; }
 
-        private string description;
-        public string Description
-        {
-            get { return this.description; }
-            set { this.SetField(ref this.description, value); }
-        }
+        public string Description { get; set; }
 
-        private DateTime entryDate = DateTime.Now;
-        public DateTime EntryDate
-        {
-            get { return this.entryDate; }
-            set { this.SetField(ref this.entryDate, value); }
-        }
+        public DateTime EntryDate { get; set; }
+
     }
 }

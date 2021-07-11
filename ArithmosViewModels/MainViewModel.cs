@@ -3,17 +3,17 @@
 * This code is licensed under The MIT License. See LICENSE file in the project root for full license information.
 * License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 */
-using ArithmosModels;
 using ArithmosViewModels.Services;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 
 namespace ArithmosViewModels
 {
-    public class MainViewModel : ModelBase
+    public class MainViewModel
     {
         public MainViewModel()
         {
-            this.ChildViews = new ObservableCollection<ModelBase>
+            this.ChildViews = new ObservableCollection<ObservableObject>
             {
                 new CalculatorViewModel(new PhraseDataService(), new SettingsService()),
                 new ScannerViewModel(new PhraseDataService(), new SettingsService()),
@@ -22,6 +22,6 @@ namespace ArithmosViewModels
             };
         }
 
-        public ObservableCollection<ModelBase> ChildViews { get; }
+        public ObservableCollection<ObservableObject> ChildViews { get; }
     }
 }
