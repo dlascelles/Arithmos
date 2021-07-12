@@ -101,7 +101,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                             <ColumnDefinition Width="120"/>
                             <ColumnDefinition Width="160"/>
                             <ColumnDefinition Width="120"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="200*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20"/>
@@ -114,11 +114,11 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="4*"/>
-                                    <ColumnDefinition Width="3*"/>
-                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="50*"/>
+                                    <ColumnDefinition Width="25*"/>
+                                    <ColumnDefinition Width="25*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding NumericValue, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#}}" MaxLines="1" MaxLength="6">
+                                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding NumericValue, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#}}" MaxLines="1" MaxLength="9">
                                     <TextBox.InputBindings>
                                         <KeyBinding Command="{Binding AddNumericValueCommand}" Key="Return" />
                                     </TextBox.InputBindings>
@@ -285,11 +285,11 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0" Margin="0" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"/>
                             <ColumnDefinition Width="130"/>
                             <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="130"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="200*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20"/>
@@ -302,11 +302,11 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="4*"/>
-                                    <ColumnDefinition Width="3*"/>
-                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="50*"/>
+                                    <ColumnDefinition Width="25*"/>
+                                    <ColumnDefinition Width="25*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding NumericValue, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#}}" MaxLines="1" MaxLength="6">
+                                <TextBox Grid.Column="0" Grid.Row="0" Text="{Binding NumericValue, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:#}}" MaxLines="1" MaxLength="9">
                                     <TextBox.InputBindings>
                                         <KeyBinding Command="{Binding AddNumericValueCommand}" Key="Return" />
                                     </TextBox.InputBindings>
