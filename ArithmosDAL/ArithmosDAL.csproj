@@ -7,9 +7,9 @@
 	<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 	<Authors>Daniel Lascelles</Authors>
 	<Copyright>Copyright (c) 2018 - 2021 Daniel Lascelles. Licensed under the MIT License.</Copyright>	
-	<AssemblyVersion>2.0.1.0</AssemblyVersion>
-	<FileVersion>2.0.1.0</FileVersion>
-	<Version>2.0.1</Version>
+	<AssemblyVersion>2.0.2.0</AssemblyVersion>
+	<FileVersion>2.0.2.0</FileVersion>
+	<Version>2.0.2</Version>
   </PropertyGroup> 
   <ItemGroup>
     <ProjectReference Include="..\ArithmosModels\ArithmosModels.csproj">

@@ -14,7 +14,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
         xmlns:model="clr-namespace:ArithmosModels;assembly=ArithmosModels"
         xmlns:viewModels="clr-namespace:ArithmosViewModels;assembly=ArithmosViewModels"
         mc:Ignorable="d"
-        Title="Arithmos 2.0.1 - Gematria Calculator and Scanner" Height="478" Width="951.583" WindowStartupLocation="CenterScreen">
+        Title="Arithmos 2.0.2 - Gematria Calculator and Scanner" Height="478" Width="951.583" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <viewModels:MainViewModel/>
     </Window.DataContext>
@@ -512,9 +512,9 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                     </Grid.RowDefinitions>
                     <Image Grid.Row="0" Stretch="Uniform" MinHeight="50" MinWidth="50" VerticalAlignment="Stretch" Source="/alpha.ico"/>
                     <TextBlock Grid.Row="1" TextAlignment="Center" FontSize="20" FontWeight="Bold">Arithmos - Gematria Calculator and Scanner</TextBlock>
-                    <TextBlock Grid.Row="2" TextAlignment="Center" FontSize="16" FontWeight="Bold">Version 2.0.1</TextBlock>
+                    <TextBlock Grid.Row="2" TextAlignment="Center" FontSize="16" FontWeight="Bold">Version 2.0.2</TextBlock>
                     <TextBlock Grid.Row="3" TextAlignment="Center" FontSize="14" >Copyright (c) 2018 - 2021 Daniel Lascelles. Licensed under the MIT License.</TextBlock>
-                    <RichTextBox Grid.Row="4" Height="500" Width="850" AcceptsReturn="False" BorderThickness="0,0,0,0" IsHitTestVisible="False" Margin="0,10,0,10">
+                    <RichTextBox Grid.Row="4" Height="500" Width="850" AcceptsReturn="False" BorderThickness="0,0,0,0" IsHitTestVisible="False" Margin="0,10,0,10" IsReadOnly="True" IsTabStop="False" IsUndoEnabled="False">
                         <FlowDocument >
                             <Paragraph>
                                 <Bold>MIT License</Bold>
