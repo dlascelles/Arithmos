@@ -25,12 +25,12 @@ namespace ArithmosViewModels
 
         public ExplorerViewModel(IPhraseDataService phraseDataService, ISettingsService settingsService) : base(phraseDataService, settingsService)
         {
-            LoadSelectedOperationsCommand = new RelayCommand(async () => await LoadSelectedOperationsAsync(), CanLoadSelectedOperations);
+            LoadSelectedOperationsCommand = new AsyncRelayCommand(LoadSelectedOperationsAsync, CanLoadSelectedOperations);
             DeleteSelectedOperationsCommand = new RelayCommand(DeleteSelectedOperations, CanDeleteSelectedOperations);
             DeleteMarkedItemsCommand = new RelayCommand(DeleteMarkedItems, CanDeleteMarkedItems);
-            SearchPhrasesCommand = new RelayCommand(async () => await SearchPhrasesAsync(), CanSearchPhrases);
-            LoadAllOperationsCommand = new RelayCommand(async () => await LoadAllOperationsAsync(), CanLoadAllOperations);
-            LoadAllOrphansCommand = new RelayCommand(async () => await LoadAllOrphansAsync(), CanLoadAllOrphans);
+            SearchPhrasesCommand = new AsyncRelayCommand(SearchPhrasesAsync, CanSearchPhrases);
+            LoadAllOperationsCommand = new AsyncRelayCommand(LoadAllOperationsAsync, CanLoadAllOperations);
+            LoadAllOrphansCommand = new AsyncRelayCommand(LoadAllOrphansAsync, CanLoadAllOrphans);
             Phrases.CollectionChanged += Phrases_CollectionChanged;
             this.phraseDataService = phraseDataService;
             SettingsService = settingsService;
@@ -45,7 +45,7 @@ namespace ArithmosViewModels
             DeleteMarkedItemsCommand.NotifyCanExecuteChanged();
         }
 
-        public RelayCommand LoadAllOperationsCommand { get; private set; }
+        public AsyncRelayCommand LoadAllOperationsCommand { get; private set; }
         public async Task LoadAllOperationsAsync()
         {
             IsBusy = true;
@@ -62,7 +62,7 @@ namespace ArithmosViewModels
             return true;
         }
 
-        public RelayCommand LoadSelectedOperationsCommand { get; private set; }
+        public AsyncRelayCommand LoadSelectedOperationsCommand { get; private set; }
         public async Task LoadSelectedOperationsAsync()
         {
             IsBusy = true;
@@ -83,7 +83,7 @@ namespace ArithmosViewModels
             return true;
         }
 
-        public RelayCommand LoadAllOrphansCommand { get; private set; }
+        public AsyncRelayCommand LoadAllOrphansCommand { get; private set; }
         public async Task LoadAllOrphansAsync()
         {
             IsBusy = true;
@@ -126,6 +126,7 @@ namespace ArithmosViewModels
                 finally
                 {
                     IsBusy = false;
+                    DeleteMarkedItemsCommand.NotifyCanExecuteChanged();
                 }
             }
         }
@@ -138,7 +139,7 @@ namespace ArithmosViewModels
         public async void DeleteMarkedItems()
         {
             ConfirmationMessage cm = new();
-            cm.Message = "Are you sure you want to delete the selected phrases?";
+            cm.Message = "Are you sure you want to delete the marked phrases?";
             await WeakReferenceMessenger.Default.Send(cm);
             if (await cm.Response == true)
             {
@@ -160,6 +161,7 @@ namespace ArithmosViewModels
                 finally
                 {
                     IsBusy = false;
+                    DeleteMarkedItemsCommand.NotifyCanExecuteChanged();
                 }
             }
         }
@@ -168,7 +170,7 @@ namespace ArithmosViewModels
             return Phrases != null && Phrases.Count > 0;
         }
 
-        public RelayCommand SearchPhrasesCommand { get; private set; }
+        public AsyncRelayCommand SearchPhrasesCommand { get; private set; }
         public async Task SearchPhrasesAsync()
         {
             IsBusy = true;

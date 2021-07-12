@@ -24,9 +24,9 @@ namespace ArithmosViewModels
 
         public ScannerViewModel(IPhraseDataService phraseDataService, ISettingsService settingsService) : base(phraseDataService, settingsService)
         {
-            ScanFileCommand = new RelayCommand(async () => await ScanFileAsync(), CanScanFile);
-            ScanTextCommand = new RelayCommand(async () => await ScanTextAsync(), CanScanText);
-            SaveMarkedItemsCommand = new RelayCommand(async () => await SaveMarkedItems(), CanSaveMarkedItems);
+            ScanFileCommand = new AsyncRelayCommand(ScanFileAsync, CanScanFile);
+            ScanTextCommand = new AsyncRelayCommand(ScanTextAsync, CanScanText);
+            SaveMarkedItemsCommand = new AsyncRelayCommand(SaveMarkedItems, CanSaveMarkedItems);
             GetFilePathCommand = new RelayCommand(GetFilePath, CanGetFilePath);
             this.phraseDataService = phraseDataService;
             SettingsService = settingsService;
@@ -55,7 +55,7 @@ namespace ArithmosViewModels
             GetFilePathCommand.NotifyCanExecuteChanged();
         }
 
-        public RelayCommand SaveMarkedItemsCommand { get; private set; }
+        public AsyncRelayCommand SaveMarkedItemsCommand { get; private set; }
         public async Task SaveMarkedItems()
         {
             try
@@ -88,7 +88,7 @@ namespace ArithmosViewModels
             return CurrentOperation != null && !String.IsNullOrEmpty(CurrentOperation.Description) && CurrentOperation.Description.Length > 0;
         }
 
-        public RelayCommand ScanFileCommand { get; private set; }
+        public AsyncRelayCommand ScanFileCommand { get; private set; }
         public async Task ScanFileAsync()
         {
             try
@@ -133,7 +133,7 @@ namespace ArithmosViewModels
             return !String.IsNullOrEmpty(FilePath) && CalculationMethod != CalculationMethod.None && ((NumericValues != null && NumericValues.Count > 0) || (GetAllText && MinimumCharacters >= 0));
         }
 
-        public RelayCommand ScanTextCommand { get; private set; }
+        public AsyncRelayCommand ScanTextCommand { get; private set; }
         public async Task ScanTextAsync()
         {
             try
@@ -284,6 +284,8 @@ namespace ArithmosViewModels
             set
             {
                 SetProperty(ref currentOperation, value);
+                CurrentOperation.PropertyChanged += CurrentOperation_PropertyChanged;
+                GroupNotifyCanExecuteChanged();
             }
         }
     }
