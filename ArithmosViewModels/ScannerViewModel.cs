@@ -31,7 +31,7 @@ namespace ArithmosViewModels
             this.phraseDataService = phraseDataService;
             SettingsService = settingsService;
             NumericValues.CollectionChanged += NumericValues_CollectionChanged;
-            CurrentOperation.PropertyChanged += CurrentOperation_PropertyChanged;
+            CurrentOperation.PropertyChanged += CurrentOperation_PropertyChanged;            
         }
 
         private void CurrentOperation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

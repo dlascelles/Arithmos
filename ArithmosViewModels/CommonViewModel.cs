@@ -52,7 +52,6 @@ namespace ArithmosViewModels
             CopyMarkedItemsCommand.NotifyCanExecuteChanged();
             AddNumericValueCommand.NotifyCanExecuteChanged();
             RemoveNumericValueCommand.NotifyCanExecuteChanged();
-
         }
 
         private void Phrases_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -237,6 +236,7 @@ namespace ArithmosViewModels
                 SetProperty(ref isBusy, value);
                 CancelCommand.NotifyCanExecuteChanged();
                 GroupNotifyCanExecuteChanged();
+                WeakReferenceMessenger.Default.Send(new IsBusyChangedMessage(value));
             }
         }
 

@@ -32,12 +32,22 @@ namespace ArithmosViewModels
             LoadAllOperationsCommand = new AsyncRelayCommand(LoadAllOperationsAsync, CanLoadAllOperations);
             LoadAllOrphansCommand = new AsyncRelayCommand(LoadAllOrphansAsync, CanLoadAllOrphans);
             Phrases.CollectionChanged += Phrases_CollectionChanged;
+            NumericValues.CollectionChanged += NumericValues_CollectionChanged;
             this.phraseDataService = phraseDataService;
             SettingsService = settingsService;
             if (SettingsService.SelectEnglish) { Alphabet |= Alphabet.English; }
             if (SettingsService.SelectHebrew) { Alphabet |= Alphabet.Hebrew; }
             if (SettingsService.SelectGreek) { Alphabet |= Alphabet.Greek; }
             if (SettingsService.SelectMixed) { Alphabet |= Alphabet.Mixed; }
+            WeakReferenceMessenger.Default.Register<IsBusyChangedMessage>(this, (r, m) =>
+            {
+                DeleteMarkedItemsCommand.NotifyCanExecuteChanged();
+            });
+        }
+
+        private void NumericValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            SearchPhrasesCommand.NotifyCanExecuteChanged();
         }
 
         private void Phrases_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -126,7 +136,6 @@ namespace ArithmosViewModels
                 finally
                 {
                     IsBusy = false;
-                    DeleteMarkedItemsCommand.NotifyCanExecuteChanged();
                 }
             }
         }
@@ -161,7 +170,6 @@ namespace ArithmosViewModels
                 finally
                 {
                     IsBusy = false;
-                    DeleteMarkedItemsCommand.NotifyCanExecuteChanged();
                 }
             }
         }
