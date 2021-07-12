@@ -6,7 +6,7 @@ You can also scan books in the form of text files to look for specific values or
 
 It allows you to create your very own database of phrases with their gematria values.
 
-It supports *English*, *Greek* and *Hebrew* characters. 
+It supports *English*, *Greek* and *Hebrew* characters and can handle diacritics without issues.
 
 For the calculation it uses the following systems / methods: 
 * Standard Gematria 
@@ -28,13 +28,15 @@ You can learn more about Gematria here: [Gematria](https://en.wikipedia.org/wiki
 
 ![Explorer](https://user-images.githubusercontent.com/52032313/61368519-b5ca3700-a896-11e9-8010-919c5aaec84a.png)
 
-# Dependencies
-The application is built using the .NET Framework 4.8
+## Dependencies
+From version 2.0 the application is built using .Net 5. The releases after this version will be provided in a self-contained executable file. 
 
-# License
+You are not required to install anything. You can simply download and run the executable from your desktop.
+
+## License
 MIT License
 
-Copyright (c) 2018 Daniel Lascelles
+Copyright (c) 2018 - 2021 Daniel Lascelles
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
