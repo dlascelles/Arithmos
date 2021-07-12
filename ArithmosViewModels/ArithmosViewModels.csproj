@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<TargetFramework>net5.0-windows</TargetFramework>
@@ -6,6 +6,7 @@
 		<AssemblyName>ArithmosViewModels</AssemblyName>
 		<RootNamespace>ArithmosViewModels</RootNamespace>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Authors>Daniel Lascelles</Authors>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\ArithmosDAL\ArithmosDAL.csproj">

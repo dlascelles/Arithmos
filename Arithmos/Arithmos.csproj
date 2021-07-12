@@ -6,9 +6,7 @@
 		<AssemblyName>Arithmos</AssemblyName>
 		<RootNamespace>Arithmos</RootNamespace>
 		<ProductName>Arithmos</ProductName>
-		<PublisherName>Daniel Lascelles</PublisherName>
-		<ApplicationRevision>0</ApplicationRevision>
-		<ApplicationVersion>1.1.0.0</ApplicationVersion>
+		<PublisherName>Daniel Lascelles</PublisherName>		
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<PublishSingleFile>true</PublishSingleFile>
 		<SelfContained>true</SelfContained>
@@ -22,6 +20,7 @@
 	<PropertyGroup>
 		<ApplicationIcon>alpha.ico</ApplicationIcon>
 		<StartupObject>Arithmos.App</StartupObject>
+		<Authors>Daniel Lascelles</Authors>
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="arithmosdb.sqlite" />
