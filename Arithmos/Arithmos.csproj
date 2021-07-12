@@ -28,6 +28,7 @@
 		<Company />
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="alpha.ico" />
 	  <None Remove="arithmosdb.sqlite" />
 	</ItemGroup>
 	<ItemGroup>
@@ -55,6 +56,9 @@
 		<PackageReference Include="System.Data.SQLite.Core">
 			<Version>1.0.114.3</Version>
 		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <Resource Include="alpha.ico" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Properties\Settings.Designer.cs">
