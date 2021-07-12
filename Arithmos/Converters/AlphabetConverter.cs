@@ -19,14 +19,14 @@ namespace Arithmos.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Alphabet temp = (Alphabet)parameter;
-            this.alphabet = (Alphabet)value;
-            return ((temp & this.alphabet) != 0);
+            alphabet = (Alphabet)value;
+            return ((temp & alphabet) != 0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            this.alphabet ^= (Alphabet)parameter;
-            return this.alphabet;
+            alphabet ^= (Alphabet)parameter;
+            return alphabet;
         }
     }
 }

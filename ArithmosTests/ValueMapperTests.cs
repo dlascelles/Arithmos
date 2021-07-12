@@ -14,7 +14,7 @@ namespace ArithmosTests
         [TestMethod]
         public void EnglishLanguageTest()
         {
-            Phrase phrase = new Phrase("World Wide Web");
+            Phrase phrase = new("World Wide Web");
             Assert.IsTrue(phrase.NormalizedText == "WORLD WIDE WEB");
             Assert.IsTrue(phrase.Values[CalculationMethod.Sumerian] == 858);
             Assert.IsTrue(phrase.Values[CalculationMethod.Ordinal] == 143);
@@ -83,7 +83,7 @@ MONTOYA                                                                         
         [TestMethod]
         public void HebrewLanguageTest()
         {
-            Phrase phrase = new Phrase("גימטריה");
+            Phrase phrase = new("גימטריה");
             Assert.IsTrue(phrase.NormalizedText == "גימטריה");
             Assert.IsTrue(phrase.Values[CalculationMethod.Sumerian] == 0);
             Assert.IsTrue(phrase.Values[CalculationMethod.Ordinal] == 70);
@@ -159,7 +159,7 @@ MONTOYA                                                                         
         [TestMethod]
         public void GreekLanguageTest()
         {
-            Phrase phrase = new Phrase("ὑμῶν δίκαια καὶ ὑμῖν τε ῥᾴδια");
+            Phrase phrase = new("ὑμῶν δίκαια καὶ ὑμῖν τε ῥᾴδια");
             Assert.IsTrue(phrase.NormalizedText == "ΥΜΩΝ ΔΙΚΑΙΑ ΚΑΙ ΥΜΙΝ ΤΕ ΡΑΔΙΑ");
             Assert.IsTrue(phrase.Values[CalculationMethod.Sumerian] == 0);
             Assert.IsTrue(phrase.Values[CalculationMethod.Ordinal] == 254);
@@ -226,7 +226,7 @@ MONTOYA                                                                         
         [TestMethod]
         public void MixedLanguageTest()
         {
-            Phrase phrase = new Phrase(" ΕΝ ΠΑΝΤΙ ΑΒΑΡΗ ΕΜΑΥΤΟΝ ΥΜΙΝ   345345   THE QUICK BROWN FOX    345345345     תאריך לידה       $%$^$^^$^%$%    ");
+            Phrase phrase = new(" ΕΝ ΠΑΝΤΙ ΑΒΑΡΗ ΕΜΑΥΤΟΝ ΥΜΙΝ   345345   THE QUICK BROWN FOX    345345345     תאריך לידה       $%$^$^^$^%$%    ");
             Assert.IsTrue(phrase.NormalizedText == "ΕΝ ΠΑΝΤΙ ΑΒΑΡΗ ΕΜΑΥΤΟΝ ΥΜΙΝ THE QUICK BROWN FOX תאריך לידה");
             Assert.IsTrue(phrase.Values[CalculationMethod.Sumerian] == 1266);
             Assert.IsTrue(phrase.Values[CalculationMethod.Ordinal] == 582);

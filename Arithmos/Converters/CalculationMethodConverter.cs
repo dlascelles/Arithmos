@@ -19,14 +19,14 @@ namespace Arithmos.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             CalculationMethod temp = (CalculationMethod)parameter;
-            this.method = (CalculationMethod)value;
-            return ((temp & this.method) != 0);
+            method = (CalculationMethod)value;
+            return ((temp & method) != 0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            this.method ^= (CalculationMethod)parameter;
-            return this.method;
+            method ^= (CalculationMethod)parameter;
+            return method;
         }
     }
 }

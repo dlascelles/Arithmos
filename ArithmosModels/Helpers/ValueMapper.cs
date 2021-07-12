@@ -36,7 +36,7 @@ namespace ArithmosModels.Helpers
             return value;
         }
 
-        public static readonly Dictionary<Char, Dictionary<CalculationMethod, int>> CharacterValues = new Dictionary<char, Dictionary<CalculationMethod, int>>()
+        public static readonly Dictionary<Char, Dictionary<CalculationMethod, int>> CharacterValues = new()
         {
             #region All English Characters
                 {'A', new Dictionary<CalculationMethod, int>() {

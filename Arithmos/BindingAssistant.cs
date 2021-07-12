@@ -16,8 +16,8 @@ namespace Arithmos
 
         public object Content
         {
-            get { return (object)this.GetValue(ContentProperty); }
-            set { this.SetValue(ContentProperty, value); }
+            get { return (object)GetValue(ContentProperty); }
+            set { SetValue(ContentProperty, value); }
         }
 
         public static readonly DependencyProperty ContentProperty = DependencyProperty.Register("Content", typeof(object), typeof(BindingAssistant));

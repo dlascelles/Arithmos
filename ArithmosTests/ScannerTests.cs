@@ -22,7 +22,7 @@ namespace ArithmosTests
             string[] words = { "NEW", "YORK", "CITY", "IS", "THE", "BEST", "SUN", "MOON" };
             int[] values = { 276, 666, 888, 474, 510 };
 
-            HashSet<Phrase> matched = new HashSet<Phrase>(await Scanner.ScanAsync(words, PhraseSeparator.All, values, CalculationMethod.Sumerian, 1, 1, 5));
+            HashSet<Phrase> matched = new(await Scanner.ScanAsync(words, PhraseSeparator.All, values, CalculationMethod.Sumerian, 1, 1, 5));
 
             Assert.IsTrue(matched.Count == 5);
             Assert.IsTrue(matched.Contains(new Phrase("NEW YORK")));
@@ -55,7 +55,7 @@ namespace ArithmosTests
         [TestMethod]
         public async Task EnglishScanFileTestAsync()
         {
-            HashSet<Phrase> matched = new HashSet<Phrase>();
+            HashSet<Phrase> matched;
             string path = @$"{Environment.CurrentDirectory}\\Assets\\bible.txt";
             matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 123 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 15);
@@ -103,7 +103,7 @@ namespace ArithmosTests
             foreach (Phrase phrase in matched)
             {
                 Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 123);
-                int count = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Count();
+                int count = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Length;
                 Assert.IsTrue(count >= 1 && count <= 5);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.English);
             }
@@ -121,7 +121,7 @@ namespace ArithmosTests
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Count() == 6);
+                Assert.IsTrue(phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Length == 6);
             }
 
             path = @$"{Environment.CurrentDirectory}\\Assets\\moby-dick.txt";
@@ -283,7 +283,7 @@ West Virginia
 Wisconsin
 Wyoming";
             PhraseSeparator currentSeparator = PhraseSeparator.NewLine;
-            HashSet<Phrase> matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(allStates, currentSeparator, 1, 1, 3));
+            HashSet<Phrase> matched = new(await Scanner.ScanTextAsync(allStates, currentSeparator, 1, 1, 3));
             Assert.IsTrue(matched.Count == 50);
 
             matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(allStates, new int[] { 666 }, CalculationMethod.Sumerian, currentSeparator, 1, 1, 3));
@@ -332,7 +332,7 @@ Wyoming";
         [TestMethod]
         public async Task GreekScanFileTestAsync()
         {
-            HashSet<Phrase> matched = new HashSet<Phrase>();
+            HashSet<Phrase> matched;
             string path = @$"{Environment.CurrentDirectory}\\Assets\\apocalypse.txt";
             matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 3);
@@ -410,7 +410,7 @@ Wyoming";
         [TestMethod]
         public async Task HebrewScanFileTestAsync()
         {
-            HashSet<Phrase> matched = new HashSet<Phrase>();
+            HashSet<Phrase> matched;
             string path = @$"{Environment.CurrentDirectory}\\Assets\\hunger.txt";
             matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 8);

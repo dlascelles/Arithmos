@@ -27,13 +27,13 @@ namespace ArithmosModels.Helpers
         /// <returns>A list of phrases that match our criteria</returns>
         public static async Task<List<Phrase>> ScanFileAsync(string filePath, int[] values, CalculationMethod calculationMethod, PhraseSeparator phraseSeparator = PhraseSeparator.All, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1, CancellationToken cts = default)
         {
-            List<Phrase> phrasesFound = new List<Phrase>();
+            List<Phrase> phrasesFound = new();
 
             using (mmf = MemoryMappedFile.CreateFromFile(filePath))
             {
                 using (Stream mappedStream = mmf.CreateViewStream())
                 {
-                    using (StreamReader sr = new StreamReader(mappedStream, UTF8Encoding.UTF8))
+                    using (StreamReader sr = new(mappedStream, UTF8Encoding.UTF8))
                     {
                         string text = sr.ReadToEnd();
                         phrasesFound = await ScanTextAsync(text, values, calculationMethod, phraseSeparator, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase, cts);
@@ -53,13 +53,13 @@ namespace ArithmosModels.Helpers
         /// <returns>A list of phrases that match our criteria</returns>
         public static async Task<List<Phrase>> ScanFileAsync(string filePath, PhraseSeparator phraseSeparator = PhraseSeparator.All, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1, CancellationToken cts = default)
         {
-            List<Phrase> phrasesFound = new List<Phrase>();
+            List<Phrase> phrasesFound = new();
 
             using (mmf = MemoryMappedFile.CreateFromFile(filePath))
             {
                 using (Stream mappedStream = mmf.CreateViewStream())
                 {
-                    using (StreamReader sr = new StreamReader(mappedStream, UTF8Encoding.UTF8))
+                    using (StreamReader sr = new(mappedStream, UTF8Encoding.UTF8))
                     {
                         string text = sr.ReadToEnd();
                         phrasesFound = await ScanTextAsync(text, phraseSeparator, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase, cts);
@@ -81,13 +81,13 @@ namespace ArithmosModels.Helpers
         /// <returns>A list of phrases that match our criteria</returns>
         public static async Task<List<Phrase>> ScanTextAsync(string text, int[] values, CalculationMethod calculationMethod, PhraseSeparator phraseSeparator = PhraseSeparator.All, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1, CancellationToken cts = default)
         {
-            List<Phrase> phrasesFound = new List<Phrase>();
+            List<Phrase> phrasesFound = new();
 
             if (!string.IsNullOrEmpty(text))
             {
                 string[] words = text.Split(GetSeparators(phraseSeparator), StringSplitOptions.RemoveEmptyEntries);
 
-                if (words != null && words.Count() > 0)
+                if (words != null && words.Length > 0)
                 {
                     phrasesFound = await ScanAsync(words, phraseSeparator, values, calculationMethod, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase, cts);
                 }
@@ -105,13 +105,13 @@ namespace ArithmosModels.Helpers
         /// <returns>A list of phrases that match our criteria</returns>
         public static async Task<List<Phrase>> ScanTextAsync(string text, PhraseSeparator phraseSeparator = PhraseSeparator.All, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1, CancellationToken cts = default)
         {
-            List<Phrase> phrasesFound = new List<Phrase>();
+            List<Phrase> phrasesFound = new();
 
             if (!string.IsNullOrEmpty(text))
             {
                 string[] words = text.Split(GetSeparators(phraseSeparator), StringSplitOptions.RemoveEmptyEntries);
 
-                if (words != null && words.Count() > 0)
+                if (words != null && words.Length > 0)
                 {
                     phrasesFound = await ScanAsync(words, phraseSeparator, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase, cts);
                 }
@@ -131,14 +131,14 @@ namespace ArithmosModels.Helpers
         /// <returns>A list of phrases that match our criteria</returns>
         public static async Task<List<Phrase>> ScanAsync(string[] splittedPhrases, PhraseSeparator phraseSeparator, int[] values, CalculationMethod calculationMethod, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1, CancellationToken cts = default)
         {
-            HashSet<Phrase> matchedPhrases = new HashSet<Phrase>();
+            HashSet<Phrase> matchedPhrases = new();
 
-            if (splittedPhrases != null && values != null && splittedPhrases.Count() > 0 && values.Count() > 0)
+            if (splittedPhrases != null && values != null && splittedPhrases.Length > 0 && values.Length > 0)
             {
                 await Task.Run(() =>
                 {
                     int maxValue = values.Max();
-                    int totalSplitted = splittedPhrases.Count();
+                    int totalSplitted = splittedPhrases.Length;
                     if (phraseSeparator.HasFlag(PhraseSeparator.Space))
                     {
                         for (int i = 0; i < totalSplitted; i++)
@@ -157,13 +157,13 @@ namespace ArithmosModels.Helpers
                                 for (int p = i; p <= i + counter && p < totalSplitted; p++)
                                 {
                                     currentPhrase = string.Concat(currentPhrase, splittedPhrases[p], " ");
-                                    if (p == totalSplitted - 1 || currentPhrase.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Count() > maximumWordsPerPhrase)
+                                    if (p == totalSplitted - 1 || currentPhrase.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Length > maximumWordsPerPhrase)
                                     {
                                         isLimitReached = true;
                                     }
                                 }
-                                Phrase phrase = new Phrase(currentPhrase);
-                                int countPhraseWords = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Count();
+                                Phrase phrase = new(currentPhrase);
+                                int countPhraseWords = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Length;
                                 if (phrase.NormalizedText.Length >= minCharsPerPhrase && countPhraseWords >= minimumWordsPerPhrase && countPhraseWords <= maximumWordsPerPhrase)
                                 {
                                     if (phrase.ContainsAnyValue(values, calculationMethod, out int containedValue))
@@ -189,7 +189,7 @@ namespace ArithmosModels.Helpers
                         if (phraseSeparator != PhraseSeparator.AllExceptSpace)
                         {
                             string[] separators = GetMissingSeparators(phraseSeparator);
-                            for (int i = 0; i < splittedPhrases.Count(); i++)
+                            for (int i = 0; i < splittedPhrases.Length; i++)
                             {
                                 foreach (string s in separators)
                                 {
@@ -205,8 +205,8 @@ namespace ArithmosModels.Helpers
                                 matchedPhrases.Clear();
                                 break;
                             }
-                            Phrase phrase = new Phrase(splittedPhrases[i]);
-                            int countWords = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Count();
+                            Phrase phrase = new(splittedPhrases[i]);
+                            int countWords = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Length;
                             if (phrase.NormalizedText.Length >= minCharsPerPhrase && countWords >= minimumWordsPerPhrase && countWords <= maximumWordsPerPhrase)
                             {
                                 if (phrase.ContainsAnyValue(values, calculationMethod, out int containedValue))
@@ -231,13 +231,13 @@ namespace ArithmosModels.Helpers
         /// <returns>A list of phrases that match our criteria</returns>
         public static async Task<List<Phrase>> ScanAsync(string[] splittedPhrases, PhraseSeparator phraseSeparator, int minCharsPerPhrase = 3, int minimumWordsPerPhrase = 1, int maximumWordsPerPhrase = 1, CancellationToken cts = default)
         {
-            HashSet<Phrase> matchedPhrases = new HashSet<Phrase>();
+            HashSet<Phrase> matchedPhrases = new();
 
-            if (splittedPhrases != null && splittedPhrases.Count() > 0)
+            if (splittedPhrases != null && splittedPhrases.Length > 0)
             {
                 await Task.Run(() =>
                 {
-                    int totalSplitted = splittedPhrases.Count();
+                    int totalSplitted = splittedPhrases.Length;
                     if (phraseSeparator.HasFlag(PhraseSeparator.Space))
                     {
                         for (int i = 0; i < totalSplitted; i++)
@@ -255,14 +255,14 @@ namespace ArithmosModels.Helpers
                                 for (int p = i; p <= i + counter && p < totalSplitted; p++)
                                 {
                                     currentPhrase = string.Concat(currentPhrase, splittedPhrases[p], " ");
-                                    if (p == totalSplitted - 1 || currentPhrase.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Count() > maximumWordsPerPhrase)
+                                    if (p == totalSplitted - 1 || currentPhrase.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Length > maximumWordsPerPhrase)
                                     {
                                         isLimitReached = true;
                                     }
                                 }
                                 counter++;
-                                Phrase phrase = new Phrase(currentPhrase);
-                                int countPhraseWords = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Count();
+                                Phrase phrase = new(currentPhrase);
+                                int countPhraseWords = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Length;
                                 if (phrase.NormalizedText.Length >= minCharsPerPhrase && countPhraseWords >= minimumWordsPerPhrase && countPhraseWords <= maximumWordsPerPhrase)
                                 {
                                     matchedPhrases.Add(phrase);
@@ -275,7 +275,7 @@ namespace ArithmosModels.Helpers
                         if (phraseSeparator != PhraseSeparator.AllExceptSpace)
                         {
                             string[] separators = GetMissingSeparators(phraseSeparator);
-                            for (int i = 0; i < splittedPhrases.Count(); i++)
+                            for (int i = 0; i < splittedPhrases.Length; i++)
                             {
                                 foreach (string s in separators)
                                 {
@@ -291,8 +291,8 @@ namespace ArithmosModels.Helpers
                                 matchedPhrases.Clear();
                                 break;
                             }
-                            Phrase phrase = new Phrase(splittedPhrases[i]);
-                            int countWords = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Count();
+                            Phrase phrase = new(splittedPhrases[i]);
+                            int countWords = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Length;
                             if (phrase.NormalizedText.Length >= minCharsPerPhrase && countWords >= minimumWordsPerPhrase && countWords <= maximumWordsPerPhrase)
                             {
                                 matchedPhrases.Add(phrase);
@@ -311,7 +311,7 @@ namespace ArithmosModels.Helpers
             {
                 return allSeparators;
             }
-            List<string> separators = new List<string>();
+            List<string> separators = new();
             if (phraseSeparator.HasFlag(PhraseSeparator.Space)) separators.Add(" ");
             if (phraseSeparator.HasFlag(PhraseSeparator.Comma)) separators.Add(",");
             if (phraseSeparator.HasFlag(PhraseSeparator.Semicolon)) separators.Add(";");
@@ -329,7 +329,7 @@ namespace ArithmosModels.Helpers
             {
                 return allSeparators;
             }
-            List<string> separators = new List<string>();
+            List<string> separators = new();
             if (!phraseSeparator.HasFlag(PhraseSeparator.Space)) separators.Add(" ");
             if (!phraseSeparator.HasFlag(PhraseSeparator.Comma)) separators.Add(",");
             if (!phraseSeparator.HasFlag(PhraseSeparator.Semicolon)) separators.Add(";");

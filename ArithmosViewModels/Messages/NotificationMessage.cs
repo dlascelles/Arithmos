@@ -11,7 +11,7 @@ namespace ArithmosViewModels.Messages
     {
         public NotificationMessage(string message)
         {
-            this.Message = message;
+            Message = message;
         }
         public string Message { get; set; }
     }

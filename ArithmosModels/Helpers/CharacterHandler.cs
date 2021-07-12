@@ -15,7 +15,7 @@ namespace ArithmosModels.Helpers
     /// </summary>
     public static class CharacterHandler
     {
-        public static readonly Dictionary<Char, Alphabet> Characters = new Dictionary<char, Alphabet>()
+        public static readonly Dictionary<char, Alphabet> Characters = new()
         {
             {'A', Alphabet.English}, {'B', Alphabet.English}, {'C', Alphabet.English}, {'D', Alphabet.English},
             {'E', Alphabet.English}, {'F', Alphabet.English}, {'G', Alphabet.English}, {'H', Alphabet.English},
@@ -40,7 +40,7 @@ namespace ArithmosModels.Helpers
             {'ן', Alphabet.Hebrew}, {'ף', Alphabet.Hebrew}, {'ץ', Alphabet.Hebrew}
         };
 
-        private static readonly StringBuilder sb = new StringBuilder();
+        private static readonly StringBuilder sb = new();
 
         /// <summary>
         /// Detects the alphabet of a character
@@ -63,10 +63,13 @@ namespace ArithmosModels.Helpers
 
             Alphabet alphabet = Alphabet.None;
 
-            foreach (Char c in text)
+            foreach (char c in text)
             {
                 alphabet |= GetAlphabet(c);
-                if ((alphabet & (alphabet - 1)) != 0) return Alphabet.Mixed;
+                if ((alphabet & (alphabet - 1)) != 0)
+                {
+                    return Alphabet.Mixed;
+                }
             }
 
             return alphabet;
@@ -79,28 +82,24 @@ namespace ArithmosModels.Helpers
         /// <returns>The normalized string</returns>
         public static string NormalizeText(string text)
         {
-            if (String.IsNullOrWhiteSpace(text)) return "";
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return "";
+            }
 
             sb.Clear();
             string normalizedString = text.Normalize(NormalizationForm.FormD);
             bool isPreviousSpace = false;
             foreach (char c in normalizedString)
             {
-                if ((c == ' ' && !isPreviousSpace) || CharacterHandler.Characters.ContainsKey(Char.ToUpper(c)))
+                if ((c == ' ' && !isPreviousSpace) || Characters.ContainsKey(char.ToUpper(c)))
                 {
-                    var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                    UnicodeCategory unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
                     if (unicodeCategory != UnicodeCategory.NonSpacingMark)
                     {
-                        sb.Append(Char.ToUpper(c));
+                        sb.Append(char.ToUpper(c));
                     }
-                    if (c == ' ')
-                    {
-                        isPreviousSpace = true;
-                    }
-                    else
-                    {
-                        isPreviousSpace = false;
-                    }
+                    isPreviousSpace = c == ' ';
                 }
             }
 

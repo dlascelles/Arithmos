@@ -16,7 +16,7 @@ namespace Arithmos
     {
         public MainWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             WeakReferenceMessenger.Default.Register<MainWindow, NotificationMessage>(this, static (r, m) => r.IncomingNotification(m));
             WeakReferenceMessenger.Default.Register<MainWindow, ErrorMessage>(this, static (r, m) => r.IncomingErrorMessage(m));
             WeakReferenceMessenger.Default.Register<MainWindow, ConfirmationMessage>(this, static (r, m) => r.IncomingConfirmation(m));
@@ -25,7 +25,7 @@ namespace Arithmos
 
         private void IncomingFileRequest(FileDialogMessage msg)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
+            OpenFileDialog ofd = new();
             ofd.Title = msg.Message;
             ofd.ShowDialog();
             msg.Reply(ofd.FileName);

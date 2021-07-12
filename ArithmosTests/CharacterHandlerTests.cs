@@ -27,7 +27,7 @@ namespace ArithmosTests
            
             string path = @$"{Environment.CurrentDirectory}\\Assets\\moby-dick.txt";
             string alltext = "";
-            using (StreamReader sr = new StreamReader(path))
+            using (StreamReader sr = new(path))
             {
                 alltext = sr.ReadToEnd();
             }
@@ -35,7 +35,7 @@ namespace ArithmosTests
 
             path = @$"{Environment.CurrentDirectory}\\Assets\\prometheus.txt";
             alltext = "";
-            using (StreamReader sr = new StreamReader(path))
+            using (StreamReader sr = new(path))
             {
                 alltext = sr.ReadToEnd();
             }
@@ -43,7 +43,7 @@ namespace ArithmosTests
 
             path = @$"{Environment.CurrentDirectory}\\Assets\\hunger.txt";
             alltext = "";
-            using (StreamReader sr = new StreamReader(path))
+            using (StreamReader sr = new(path))
             {
                 alltext = sr.ReadToEnd();
             }

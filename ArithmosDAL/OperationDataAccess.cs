@@ -26,7 +26,7 @@ namespace ArithmosDAL
 
             if (operation != null)
             {
-                using (SQLiteCommand cmd = new SQLiteCommand($"INSERT INTO Operation (Description, EntryDate) VALUES (@Description, @EntryDate)", con))
+                using (SQLiteCommand cmd = new($"INSERT INTO Operation (Description, EntryDate) VALUES (@Description, @EntryDate)", con))
                 {
                     cmd.Parameters.AddWithValue("@Description", operation.Description);
                     cmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
@@ -43,17 +43,17 @@ namespace ArithmosDAL
         /// <returns>A List of operations</returns>
         public async Task<List<Operation>> RetrtieveAllAsync()
         {
-            List<Operation> operations = new List<Operation>();
-            using (SQLiteConnection con = new SQLiteConnection(Database.ConnectionString))
+            List<Operation> operations = new();
+            using (SQLiteConnection con = new(Database.ConnectionString))
             {
-                using (SQLiteCommand cmd = new SQLiteCommand("SELECT Id, Description, EntryDate FROM Operation", con))
+                using (SQLiteCommand cmd = new("SELECT Id, Description, EntryDate FROM Operation", con))
                 {
                     await con.OpenAsync();
                     using (var dare = await cmd.ExecuteReaderAsync())
                     {
                         while (await dare.ReadAsync())
                         {
-                            Operation operation = new Operation()
+                            Operation operation = new()
                             {
                                 Id = Convert.ToInt32(dare["Id"]),
                                 Description = dare["Description"].ToString(),
@@ -77,12 +77,12 @@ namespace ArithmosDAL
 
             if (operations != null && operations.Count > 0)
             {
-                using (SQLiteConnection con = new SQLiteConnection(Database.ConnectionString))
+                using (SQLiteConnection con = new(Database.ConnectionString))
                 {
                     string query = $"DELETE FROM Operation WHERE Id IN ({SQLOperationsString(operations)})";
 
                     await con.OpenAsync();
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, con))
+                    using (SQLiteCommand cmd = new(query, con))
                     {
                         result = await cmd.ExecuteNonQueryAsync();
                     }
@@ -99,14 +99,14 @@ namespace ArithmosDAL
         /// <returns>A correctly formatted SQL IN statement</returns>
         internal static string SQLOperationsString(List<Operation> operations)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             if (operations != null && operations.Count > 0)
             {
                 foreach (Operation operation in operations)
                 {
                     sb.Append(operation.Id);
-                    sb.Append(",");
+                    sb.Append(',');
                 }
                 sb.Remove(sb.Length - 1, 1);
             }

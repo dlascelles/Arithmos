@@ -25,15 +25,15 @@ namespace ArithmosModels
         public Phrase(string originalText, int operationId = 0, long phraseId = 0)
         {
             if (originalText == null) throw new ArgumentNullException("Original Text cannot be null");
-            this.Id = phraseId;
-            this.OperationId = operationId;
-            this.NormalizedText = CharacterHandler.NormalizeText(originalText.Trim());
-            this.Alphabet = CharacterHandler.GetAlphabet(this.NormalizedText);
-            this.Values = new Dictionary<CalculationMethod, int>() {
-                { CalculationMethod.Gematria, ValueMapper.GetValue(this.NormalizedText, CalculationMethod.Gematria) }, { CalculationMethod.Ordinal, ValueMapper.GetValue(this.NormalizedText, CalculationMethod.Ordinal) },
-                { CalculationMethod.Reduced, ValueMapper.GetValue(this.NormalizedText, CalculationMethod.Reduced) }, { CalculationMethod.Primes, ValueMapper.GetValue(this.NormalizedText, CalculationMethod.Primes) },
-                { CalculationMethod.Squared, ValueMapper.GetValue(this.NormalizedText, CalculationMethod.Squared) }, { CalculationMethod.Sumerian, ValueMapper.GetValue(this.NormalizedText, CalculationMethod.Sumerian) },
-                { CalculationMethod.MisparGadol, ValueMapper.GetValue(this.NormalizedText, CalculationMethod.MisparGadol) }, { CalculationMethod.MisparShemi, ValueMapper.GetValue(this.NormalizedText, CalculationMethod.MisparShemi) }
+            Id = phraseId;
+            OperationId = operationId;
+            NormalizedText = CharacterHandler.NormalizeText(originalText.Trim());
+            Alphabet = CharacterHandler.GetAlphabet(NormalizedText);
+            Values = new Dictionary<CalculationMethod, int>() {
+                { CalculationMethod.Gematria, ValueMapper.GetValue(NormalizedText, CalculationMethod.Gematria) }, { CalculationMethod.Ordinal, ValueMapper.GetValue(NormalizedText, CalculationMethod.Ordinal) },
+                { CalculationMethod.Reduced, ValueMapper.GetValue(NormalizedText, CalculationMethod.Reduced) }, { CalculationMethod.Primes, ValueMapper.GetValue(NormalizedText, CalculationMethod.Primes) },
+                { CalculationMethod.Squared, ValueMapper.GetValue(NormalizedText, CalculationMethod.Squared) }, { CalculationMethod.Sumerian, ValueMapper.GetValue(NormalizedText, CalculationMethod.Sumerian) },
+                { CalculationMethod.MisparGadol, ValueMapper.GetValue(NormalizedText, CalculationMethod.MisparGadol) }, { CalculationMethod.MisparShemi, ValueMapper.GetValue(NormalizedText, CalculationMethod.MisparShemi) }
             };
         }
 
@@ -48,11 +48,11 @@ namespace ArithmosModels
         {
             value = -1;
 
-            foreach (CalculationMethod c in this.Values.Keys)
+            foreach (CalculationMethod c in Values.Keys)
             {
-                if (calculationMethod.HasFlag(c) && values.Contains(this.Values[c]))
+                if (calculationMethod.HasFlag(c) && values.Contains(Values[c]))
                 {
-                    value = this.Values[c];
+                    value = Values[c];
                     return true;
                 }
             }
@@ -62,18 +62,18 @@ namespace ArithmosModels
 
         public override string ToString()
         {
-            return this.NormalizedText;
+            return NormalizedText;
         }
 
         public bool Equals(Phrase phrase)
         {
-            return this.NormalizedText == phrase.NormalizedText;
+            return NormalizedText == phrase.NormalizedText;
         }
 
         public override bool Equals(object obj)
         {
             if (obj is Phrase == false) return false;
-            return this.NormalizedText == ((Phrase)obj).NormalizedText;
+            return NormalizedText == ((Phrase)obj).NormalizedText;
         }
 
         public override int GetHashCode()
@@ -81,9 +81,9 @@ namespace ArithmosModels
             unchecked
             {
                 int hash = 17;
-                hash = this.NormalizedText != null ? hash * 23 + this.NormalizedText.GetHashCode() : 0;
-                hash = hash * 23 + this.Id.GetHashCode();
-                hash = hash * 23 + this.OperationId.GetHashCode();
+                hash = NormalizedText != null ? hash * 23 + NormalizedText.GetHashCode() : 0;
+                hash = hash * 23 + Id.GetHashCode();
+                hash = hash * 23 + OperationId.GetHashCode();
                 return hash;
             }
         }

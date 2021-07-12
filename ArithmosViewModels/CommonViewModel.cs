@@ -22,67 +22,67 @@ namespace ArithmosViewModels
     {
         public CommonViewModel()
         {
-            this.ClearAllItemsCommand = new RelayCommand(this.ClearAllItems, this.CanClearAllItems);
-            this.AddNumericValueCommand = new RelayCommand(this.AddNumericValue, this.CanAddNumericValue);
-            this.RemoveNumericValueCommand = new RelayCommand<int>(this.RemoveNumericValue, this.CanRemoveNumericValue);
-            this.ClearNumericValuesCommand = new RelayCommand(this.ClearNumericValues, this.CanClearNumericValues);
-            this.UnmarkSelectedItemsCommand = new RelayCommand(this.UnmarkSelectedItems, this.CanUnmarkSelectedItems);
-            this.MarkSelectedItemsCommand = new RelayCommand(this.MarkSelectedItems, this.CanMarkSelectedItems);
-            this.UnmarkAllItemsCommand = new RelayCommand(this.UnmarkAllItems, this.CanUnmarkAllItems);
-            this.MarkAllItemsCommand = new RelayCommand(this.MarkAllItems, this.CanMarkAllItems);
-            this.CopyMarkedItemsCommand = new RelayCommand(this.CopyMarkedItems, this.CanCopyMarkedItems);
-            this.CancelCommand = new RelayCommand(this.CancelOperation, this.CanCancelOperation);
-            this.Phrases.CollectionChanged += Phrases_CollectionChanged;
-            this.NumericValues.CollectionChanged += NumericValues_CollectionChanged;
+            ClearAllItemsCommand = new RelayCommand(ClearAllItems, CanClearAllItems);
+            AddNumericValueCommand = new RelayCommand(AddNumericValue, CanAddNumericValue);
+            RemoveNumericValueCommand = new RelayCommand<int>(RemoveNumericValue, CanRemoveNumericValue);
+            ClearNumericValuesCommand = new RelayCommand(ClearNumericValues, CanClearNumericValues);
+            UnmarkSelectedItemsCommand = new RelayCommand(UnmarkSelectedItems, CanUnmarkSelectedItems);
+            MarkSelectedItemsCommand = new RelayCommand(MarkSelectedItems, CanMarkSelectedItems);
+            UnmarkAllItemsCommand = new RelayCommand(UnmarkAllItems, CanUnmarkAllItems);
+            MarkAllItemsCommand = new RelayCommand(MarkAllItems, CanMarkAllItems);
+            CopyMarkedItemsCommand = new RelayCommand(CopyMarkedItems, CanCopyMarkedItems);
+            CancelCommand = new RelayCommand(CancelOperation, CanCancelOperation);
+            Phrases.CollectionChanged += Phrases_CollectionChanged;
+            NumericValues.CollectionChanged += NumericValues_CollectionChanged;
         }
 
         private void NumericValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            this.GroupNotifyCanExecuteChanged();
+            GroupNotifyCanExecuteChanged();
         }
 
         private void GroupNotifyCanExecuteChanged()
         {
-            this.ClearNumericValuesCommand.NotifyCanExecuteChanged();
-            this.ClearAllItemsCommand.NotifyCanExecuteChanged();
-            this.UnmarkSelectedItemsCommand.NotifyCanExecuteChanged();
-            this.MarkSelectedItemsCommand.NotifyCanExecuteChanged();
-            this.UnmarkAllItemsCommand.NotifyCanExecuteChanged();
-            this.MarkAllItemsCommand.NotifyCanExecuteChanged();
-            this.CopyMarkedItemsCommand.NotifyCanExecuteChanged();
-            this.AddNumericValueCommand.NotifyCanExecuteChanged();
-            this.RemoveNumericValueCommand.NotifyCanExecuteChanged();
+            ClearNumericValuesCommand.NotifyCanExecuteChanged();
+            ClearAllItemsCommand.NotifyCanExecuteChanged();
+            UnmarkSelectedItemsCommand.NotifyCanExecuteChanged();
+            MarkSelectedItemsCommand.NotifyCanExecuteChanged();
+            UnmarkAllItemsCommand.NotifyCanExecuteChanged();
+            MarkAllItemsCommand.NotifyCanExecuteChanged();
+            CopyMarkedItemsCommand.NotifyCanExecuteChanged();
+            AddNumericValueCommand.NotifyCanExecuteChanged();
+            RemoveNumericValueCommand.NotifyCanExecuteChanged();
         }
 
         private void Phrases_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            this.GroupNotifyCanExecuteChanged();
+            GroupNotifyCanExecuteChanged();
         }
 
         public CommonViewModel(IPhraseDataService phraseDataService, ISettingsService settingsService) : this()
         {
             this.phraseDataService = phraseDataService;
-            this.SettingsService = settingsService;
-            if (this.SettingsService.SelectGematria && this.SettingsService.ShowGematria) { this.CalculationMethod |= CalculationMethod.Gematria; }
-            if (this.SettingsService.SelectOrdinal && this.SettingsService.ShowOrdinal) { this.CalculationMethod |= CalculationMethod.Ordinal; }
-            if (this.SettingsService.SelectReduced && this.SettingsService.ShowReduced) { this.CalculationMethod |= CalculationMethod.Reduced; }
-            if (this.SettingsService.SelectSumerian && this.SettingsService.ShowSumerian) { this.CalculationMethod |= CalculationMethod.Sumerian; }
-            if (this.SettingsService.SelectPrimes && this.SettingsService.ShowPrimes) { this.CalculationMethod |= CalculationMethod.Primes; }
-            if (this.SettingsService.SelectSquared && this.SettingsService.ShowSquared) { this.CalculationMethod |= CalculationMethod.Squared; }
-            if (this.SettingsService.SelectMisparGadol && this.SettingsService.ShowMisparGadol) { this.CalculationMethod |= CalculationMethod.MisparGadol; }
-            if (this.SettingsService.SelectMisparShemi && this.SettingsService.ShowMisparShemi) { this.CalculationMethod |= CalculationMethod.MisparShemi; }
+            SettingsService = settingsService;
+            if (SettingsService.SelectGematria && SettingsService.ShowGematria) { CalculationMethod |= CalculationMethod.Gematria; }
+            if (SettingsService.SelectOrdinal && SettingsService.ShowOrdinal) { CalculationMethod |= CalculationMethod.Ordinal; }
+            if (SettingsService.SelectReduced && SettingsService.ShowReduced) { CalculationMethod |= CalculationMethod.Reduced; }
+            if (SettingsService.SelectSumerian && SettingsService.ShowSumerian) { CalculationMethod |= CalculationMethod.Sumerian; }
+            if (SettingsService.SelectPrimes && SettingsService.ShowPrimes) { CalculationMethod |= CalculationMethod.Primes; }
+            if (SettingsService.SelectSquared && SettingsService.ShowSquared) { CalculationMethod |= CalculationMethod.Squared; }
+            if (SettingsService.SelectMisparGadol && SettingsService.ShowMisparGadol) { CalculationMethod |= CalculationMethod.MisparGadol; }
+            if (SettingsService.SelectMisparShemi && SettingsService.ShowMisparShemi) { CalculationMethod |= CalculationMethod.MisparShemi; }
             WeakReferenceMessenger.Default.Register<CommonViewModel, SettingsUpdatedMessage>(this, static (r, m) => r.MessagesUpdated(m));
         }
 
         private void MessagesUpdated(SettingsUpdatedMessage obj)
         {
-            this.SettingsService = new SettingsService();
+            SettingsService = new SettingsService();
         }
 
         public List<Phrase> GetSelectedPhrases()
         {
-            List<Phrase> phrases = new List<Phrase>();
-            foreach (PhraseViewModel phraseView in this.Phrases.Where(p => p.IsSelected))
+            List<Phrase> phrases = new();
+            foreach (PhraseViewModel phraseView in Phrases.Where(p => p.IsSelected))
             {
                 phrases.Add(phraseView.Phrase);
             }
@@ -91,8 +91,8 @@ namespace ArithmosViewModels
 
         public List<Phrase> GetMarkedPhrases()
         {
-            List<Phrase> phrases = new List<Phrase>();
-            foreach (PhraseViewModel phraseView in this.Phrases.Where(p => p.IsMarked))
+            List<Phrase> phrases = new();
+            foreach (PhraseViewModel phraseView in Phrases.Where(p => p.IsMarked))
             {
                 phrases.Add(phraseView.Phrase);
             }
@@ -102,19 +102,19 @@ namespace ArithmosViewModels
         public RelayCommand ClearAllItemsCommand { get; private set; }
         public void ClearAllItems()
         {
-            this.Phrases.Clear();
+            Phrases.Clear();
         }
         public bool CanClearAllItems()
         {
-            return this.Phrases != null && this.Phrases.Count() > 0;
+            return Phrases != null && Phrases.Count > 0;
         }
 
         public RelayCommand<int> RemoveNumericValueCommand { get; private set; }
         public void RemoveNumericValue(int value)
         {
-            if (this.NumericValues != null && this.NumericValues.Contains(value))
+            if (NumericValues != null && NumericValues.Contains(value))
             {
-                this.NumericValues.Remove(value);
+                NumericValues.Remove(value);
             }
         }
         public bool CanRemoveNumericValue(int value)
@@ -125,85 +125,85 @@ namespace ArithmosViewModels
         public RelayCommand AddNumericValueCommand { get; private set; }
         public void AddNumericValue()
         {
-            if (this.NumericValue > 0 && !this.NumericValues.Contains(this.NumericValue))
+            if (NumericValue > 0 && !NumericValues.Contains(NumericValue))
             {
-                this.NumericValues.Add(this.NumericValue);
-                this.NumericValue = 0;
+                NumericValues.Add(NumericValue);
+                NumericValue = 0;
             }
         }
         public bool CanAddNumericValue()
         {
-            return this.NumericValue > 0;
+            return NumericValue > 0;
         }
 
         public RelayCommand ClearNumericValuesCommand { get; private set; }
         public void ClearNumericValues()
         {
-            this.NumericValues.Clear();
+            NumericValues.Clear();
         }
         public bool CanClearNumericValues()
         {
-            return this.NumericValues.Count() > 0;
+            return NumericValues.Count > 0;
         }
 
         public RelayCommand UnmarkSelectedItemsCommand { get; private set; }
         public void UnmarkSelectedItems()
         {
-            foreach (PhraseViewModel phrase in this.Phrases.Where(p => p.IsSelected))
+            foreach (PhraseViewModel phrase in Phrases.Where(p => p.IsSelected))
             {
                 phrase.IsMarked = false;
             }
         }
         public bool CanUnmarkSelectedItems()
         {
-            return this.Phrases != null && this.Phrases.Count() > 0;
+            return Phrases != null && Phrases.Count > 0;
         }
 
         public RelayCommand MarkSelectedItemsCommand { get; private set; }
         public void MarkSelectedItems()
         {
-            foreach (PhraseViewModel phrase in this.Phrases.Where(p => p.IsSelected))
+            foreach (PhraseViewModel phrase in Phrases.Where(p => p.IsSelected))
             {
                 phrase.IsMarked = true;
             }
         }
         public bool CanMarkSelectedItems()
         {
-            return this.Phrases != null && this.Phrases.Count() > 0;
+            return Phrases != null && Phrases.Count > 0;
         }
 
         public RelayCommand UnmarkAllItemsCommand { get; private set; }
         public void UnmarkAllItems()
         {
-            foreach (PhraseViewModel phrase in this.phrases)
+            foreach (PhraseViewModel phrase in phrases)
             {
                 phrase.IsMarked = false;
             }
         }
         public bool CanUnmarkAllItems()
         {
-            return this.Phrases != null && this.Phrases.Count() > 0;
+            return Phrases != null && Phrases.Count > 0;
         }
 
         public RelayCommand MarkAllItemsCommand { get; private set; }
         public void MarkAllItems()
         {
-            foreach (PhraseViewModel phrase in this.phrases)
+            foreach (PhraseViewModel phrase in phrases)
             {
                 phrase.IsMarked = true;
             }
         }
         public bool CanMarkAllItems()
         {
-            return this.Phrases != null && this.Phrases.Count() > 0;
+            return Phrases != null && Phrases.Count > 0;
         }
 
         public RelayCommand CopyMarkedItemsCommand { get; private set; }
         public void CopyMarkedItems()
         {
             Clipboard.Clear();
-            StringBuilder sb = new StringBuilder();
-            foreach (PhraseViewModel phrase in this.Phrases.Where(p => p.IsMarked))
+            StringBuilder sb = new();
+            foreach (PhraseViewModel phrase in Phrases.Where(p => p.IsMarked))
             {
                 sb.AppendLine(phrase.Phrase.NormalizedText);
             }
@@ -211,34 +211,34 @@ namespace ArithmosViewModels
         }
         public bool CanCopyMarkedItems()
         {
-            return this.Phrases != null && this.Phrases.Count > 0;
+            return Phrases != null && Phrases.Count > 0;
         }
 
         public RelayCommand CancelCommand { get; private set; }
         public void CancelOperation()
         {
-            if (this.cts != null)
+            if (cts != null)
             {
-                this.cts.Cancel();
+                cts.Cancel();
             }
         }
         public bool CanCancelOperation()
         {
-            return this.IsBusy;
+            return IsBusy;
         }
 
         private bool isBusy = false;
         public bool IsBusy
         {
-            get => this.isBusy;
-            set => SetProperty(ref this.isBusy, value);
+            get => isBusy;
+            set => SetProperty(ref isBusy, value);
         }
 
         private CalculationMethod calculationMethod = CalculationMethod.None;
         public CalculationMethod CalculationMethod
         {
-            get => this.calculationMethod;
-            set => SetProperty(ref this.calculationMethod, value);
+            get => calculationMethod;
+            set => SetProperty(ref calculationMethod, value);
         }
 
         protected IPhraseDataService phraseDataService = new PhraseDataService();
@@ -248,33 +248,33 @@ namespace ArithmosViewModels
         private int numericValue;
         public int NumericValue
         {
-            get => this.numericValue;
+            get => numericValue;
             set
             {
-                SetProperty(ref this.numericValue, value);
-                this.GroupNotifyCanExecuteChanged();
+                SetProperty(ref numericValue, value);
+                GroupNotifyCanExecuteChanged();
             }
         }
 
         private ISettingsService settingsService;
         public ISettingsService SettingsService
         {
-            get => this.settingsService;
-            set => SetProperty(ref this.settingsService, value);
+            get => settingsService;
+            set => SetProperty(ref settingsService, value);
         }
 
-        private ObservableCollection<int> numericValues = new ObservableCollection<int> { };
+        private ObservableCollection<int> numericValues = new() { };
         public ObservableCollection<int> NumericValues
         {
-            get => this.numericValues;
-            set => SetProperty(ref this.numericValues, value);
+            get => numericValues;
+            set => SetProperty(ref numericValues, value);
         }
 
-        private ObservableCollection<PhraseViewModel> phrases = new ObservableCollection<PhraseViewModel>();
+        private ObservableCollection<PhraseViewModel> phrases = new();
         public ObservableCollection<PhraseViewModel> Phrases
         {
-            get => this.phrases;
-            set => SetProperty(ref this.phrases, value);
+            get => phrases;
+            set => SetProperty(ref phrases, value);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace ArithmosViewModels
     {
         public MainViewModel()
         {
-            this.ChildViews = new ObservableCollection<ObservableObject>
+            ChildViews = new ObservableCollection<ObservableObject>
             {
                 new CalculatorViewModel(new PhraseDataService(), new SettingsService()),
                 new ScannerViewModel(new PhraseDataService(), new SettingsService()),

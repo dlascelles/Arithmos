@@ -23,13 +23,13 @@ namespace ArithmosDAL
         {
             int result = 0;
 
-            if (this.IsValidPhrase(phrase))
+            if (IsValidPhrase(phrase))
             {
-                using (SQLiteConnection con = new SQLiteConnection(Database.ConnectionString))
+                using (SQLiteConnection con = new(Database.ConnectionString))
                 {
                     string query = $"INSERT OR IGNORE INTO Phrase (Text, GematriaValue, OrdinalValue, ReducedValue, SumerianValue, PrimesValue, SquaredValue, MisparGadolValue, MisparShemiValue,  Alphabet, OperationId) VALUES (@Text, @GematriaValue, @OrdinalValue, @ReducedValue, @SumerianValue, @PrimesValue, @SquaredValue, @MisparGadolValue, @MisparShemiValue,  @Alphabet, @OperationId)";
 
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, con))
+                    using (SQLiteCommand cmd = new(query, con))
                     {
                         cmd.Parameters.AddWithValue("@Text", phrase.NormalizedText);
                         cmd.Parameters.AddWithValue("@GematriaValue", phrase.Values[CalculationMethod.Gematria]);
@@ -59,13 +59,13 @@ namespace ArithmosDAL
         {
             int result = 0;
 
-            using (SQLiteConnection con = new SQLiteConnection(Database.ConnectionString))
+            using (SQLiteConnection con = new(Database.ConnectionString))
             {
-                await con.OpenAsync();
+                await con.OpenAsync(cts);
                 using (SQLiteTransaction trans = con.BeginTransaction())
                 {
                     string query = $"INSERT OR IGNORE INTO Phrase (Text, GematriaValue, OrdinalValue, ReducedValue, SumerianValue, PrimesValue, SquaredValue, MisparGadolValue, MisparShemiValue,  Alphabet, OperationId) VALUES (@Text, @GematriaValue, @OrdinalValue, @ReducedValue, @SumerianValue, @PrimesValue, @SquaredValue, @MisparGadolValue, @MisparShemiValue,  @Alphabet, @OperationId)";
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, con))
+                    using (SQLiteCommand cmd = new(query, con))
                     {
                         foreach (Phrase phrase in phrases)
                         {
@@ -75,7 +75,7 @@ namespace ArithmosDAL
                                 return -1;
                             }
 
-                            if (this.IsValidPhrase(phrase))
+                            if (IsValidPhrase(phrase))
                             {
                                 cmd.Parameters.Clear();
                                 cmd.Parameters.AddWithValue("@Text", phrase.NormalizedText);
@@ -89,7 +89,7 @@ namespace ArithmosDAL
                                 cmd.Parameters.AddWithValue("@MisparShemiValue", phrase.Values[CalculationMethod.MisparShemi]);
                                 cmd.Parameters.AddWithValue("@Alphabet", (int)phrase.Alphabet);
                                 cmd.Parameters.AddWithValue("@OperationId", phrase.OperationId == 0 ? (object)DBNull.Value : phrase.OperationId);
-                                result += await cmd.ExecuteNonQueryAsync();
+                                result += await cmd.ExecuteNonQueryAsync(cts);
                             }
                         }
                     }
@@ -109,18 +109,18 @@ namespace ArithmosDAL
         {
             int result = 0;
 
-            using (SQLiteConnection con = new SQLiteConnection(Database.ConnectionString))
+            using (SQLiteConnection con = new(Database.ConnectionString))
             {
-                await con.OpenAsync();
+                await con.OpenAsync(cts);
                 using (SQLiteTransaction trans = con.BeginTransaction())
                 {
-                    using (SQLiteCommand cmd = new SQLiteCommand(con))
+                    using (SQLiteCommand cmd = new(con))
                     {
                         if (await new OperationDataAccess().CreateAsync(operation, con) > 0)
                         {
                             cmd.Parameters.Clear();
                             cmd.CommandText = "SELECT last_insert_rowid()";
-                            int latestId = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+                            int latestId = Convert.ToInt32(await cmd.ExecuteScalarAsync(cts));
                             if (latestId > 0)
                             {
                                 cmd.Parameters.Clear();
@@ -131,7 +131,7 @@ namespace ArithmosDAL
                                         con.Cancel();
                                         return -1;
                                     }
-                                    if (this.IsValidPhrase(phrase))
+                                    if (IsValidPhrase(phrase))
                                     {
                                         cmd.CommandText = $"INSERT OR IGNORE INTO Phrase (Text, GematriaValue, OrdinalValue, ReducedValue, SumerianValue, PrimesValue, SquaredValue, MisparGadolValue, MisparShemiValue,  Alphabet, OperationId) VALUES (@Text, @GematriaValue, @OrdinalValue, @ReducedValue, @SumerianValue, @PrimesValue, @SquaredValue, @MisparGadolValue, @MisparShemiValue,  @Alphabet, @OperationId)";
                                         cmd.Parameters.AddWithValue("@Text", phrase.NormalizedText);
@@ -145,7 +145,7 @@ namespace ArithmosDAL
                                         cmd.Parameters.AddWithValue("@MisparShemiValue", phrase.Values[CalculationMethod.MisparShemi]);
                                         cmd.Parameters.AddWithValue("@Alphabet", (int)phrase.Alphabet);
                                         cmd.Parameters.AddWithValue("@OperationId", latestId);
-                                        result += await cmd.ExecuteNonQueryAsync();
+                                        result += await cmd.ExecuteNonQueryAsync(cts);
                                     }
                                 }
                             }
@@ -167,21 +167,21 @@ namespace ArithmosDAL
         /// <returns>A list of phrases</returns>
         public async Task<List<Phrase>> RetrieveAsync(List<int> values, CalculationMethod calculationMethod, Alphabet alphabet)
         {
-            List<Phrase> phrases = new List<Phrase>();
+            List<Phrase> phrases = new();
 
             if (values != null && values.Count > 0 && calculationMethod != CalculationMethod.None && alphabet != Alphabet.None)
             {
-                string query = $"SELECT Id, Text, OperationId FROM Phrase WHERE ({this.SQLValuesString(values, calculationMethod, alphabet)}) ";
-                using (SQLiteConnection con = new SQLiteConnection(Database.ConnectionString))
+                string query = $"SELECT Id, Text, OperationId FROM Phrase WHERE ({SQLValuesString(values, calculationMethod, alphabet)}) ";
+                using (SQLiteConnection con = new(Database.ConnectionString))
                 {
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, con))
+                    using (SQLiteCommand cmd = new(query, con))
                     {
                         await con.OpenAsync();
                         using (var dare = await cmd.ExecuteReaderAsync())
                         {
                             while (await dare.ReadAsync())
                             {
-                                Phrase phrase = new Phrase(dare["Text"].ToString(), dare["OperationId"] == DBNull.Value ? 0 : Convert.ToInt32(dare["OperationId"]), Convert.ToInt32(dare["Id"]));
+                                Phrase phrase = new(dare["Text"].ToString(), dare["OperationId"] == DBNull.Value ? 0 : Convert.ToInt32(dare["OperationId"]), Convert.ToInt32(dare["Id"]));
                                 phrases.Add(phrase);
                             }
                         }
@@ -199,22 +199,22 @@ namespace ArithmosDAL
         /// <returns>A list of phrases</returns>
         public async Task<List<Phrase>> RetrieveAsync(List<Operation> operations)
         {
-            List<Phrase> phrases = new List<Phrase>();
+            List<Phrase> phrases = new();
 
             if (operations != null && operations.Count > 0)
             {
                 string query = $"SELECT Id, Text, OperationId FROM Phrase WHERE OperationId IN ({OperationDataAccess.SQLOperationsString(operations)})";
 
-                using (SQLiteConnection con = new SQLiteConnection(Database.ConnectionString))
+                using (SQLiteConnection con = new(Database.ConnectionString))
                 {
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, con))
+                    using (SQLiteCommand cmd = new(query, con))
                     {
                         await con.OpenAsync();
                         using (var dare = await cmd.ExecuteReaderAsync())
                         {
                             while (await dare.ReadAsync())
                             {
-                                Phrase phrase = new Phrase(dare["Text"].ToString(), Convert.ToInt32(dare["OperationId"]), Convert.ToInt32(dare["Id"]));
+                                Phrase phrase = new(dare["Text"].ToString(), Convert.ToInt32(dare["OperationId"]), Convert.ToInt32(dare["Id"]));
                                 phrases.Add(phrase);
                             }
                         }
@@ -232,20 +232,20 @@ namespace ArithmosDAL
         /// <returns>A list of phrases</returns>
         public async Task<List<Phrase>> RetrieveOrphansAsync()
         {
-            List<Phrase> phrases = new List<Phrase>();
+            List<Phrase> phrases = new();
 
             string query = $"SELECT Id, Text FROM Phrase WHERE OperationId IS NULL";
 
-            using (SQLiteConnection con = new SQLiteConnection(Database.ConnectionString))
+            using (SQLiteConnection con = new(Database.ConnectionString))
             {
-                using (SQLiteCommand cmd = new SQLiteCommand(query, con))
+                using (SQLiteCommand cmd = new(query, con))
                 {
                     await con.OpenAsync();
                     using (var dare = await cmd.ExecuteReaderAsync())
                     {
                         while (await dare.ReadAsync())
                         {
-                            Phrase phrase = new Phrase(dare["Text"].ToString(), 0, Convert.ToInt32(dare["Id"]));
+                            Phrase phrase = new(dare["Text"].ToString(), 0, Convert.ToInt32(dare["Id"]));
                             phrases.Add(phrase);
                         }
                     }
@@ -265,11 +265,11 @@ namespace ArithmosDAL
 
             if (phrases != null && phrases.Count > 0)
             {
-                using (SQLiteConnection con = new SQLiteConnection(Database.ConnectionString))
+                using (SQLiteConnection con = new(Database.ConnectionString))
                 {
-                    string query = $"DELETE FROM Phrase WHERE Id IN ({this.SQLPhrasesString(phrases)})";
+                    string query = $"DELETE FROM Phrase WHERE Id IN ({SQLPhrasesString(phrases)})";
                     await con.OpenAsync();
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, con))
+                    using (SQLiteCommand cmd = new(query, con))
                     {
                         result += await cmd.ExecuteNonQueryAsync();
                     }
@@ -281,14 +281,14 @@ namespace ArithmosDAL
 
         private string SQLPhrasesString(List<Phrase> phrases)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             if (phrases != null && phrases.Count > 0)
             {
                 foreach (Phrase phrase in phrases)
                 {
                     sb.Append(phrase.Id);
-                    sb.Append(",");
+                    sb.Append(',');
                 }
                 sb.Remove(sb.Length - 1, 1);
             }
@@ -298,7 +298,7 @@ namespace ArithmosDAL
 
         private string SQLValuesString(List<int> values, CalculationMethod calculationMethod, Alphabet alphabet)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             if (values != null && values.Count > 0)
             {
@@ -308,8 +308,8 @@ namespace ArithmosDAL
                     {
                         if (calculationMethod.HasFlag(cm))
                         {
-                            sb.Append($"{cm.ToString()}Value IN (");
-                            sb.Append(this.SQLValuesINString(values));
+                            sb.Append($"{cm}Value IN (");
+                            sb.Append(SQLValuesINString(values));
                             sb.Append(" OR ");
                         }
                     }
@@ -329,7 +329,7 @@ namespace ArithmosDAL
                     }
                 }
                 sb.Remove(sb.Length - 1, 1);
-                sb.Append(")");
+                sb.Append(')');
             }
 
             return sb.ToString();
@@ -337,7 +337,7 @@ namespace ArithmosDAL
 
         private string SQLValuesINString(List<int> values)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             if (values != null && values.Count > 0)
             {
@@ -346,7 +346,7 @@ namespace ArithmosDAL
                     sb.Append($"{value},");
                 }
                 sb.Remove(sb.Length - 1, 1);
-                sb.Append(")");
+                sb.Append(')');
             }
 
             return sb.ToString();

@@ -24,35 +24,35 @@ namespace ArithmosViewModels
 
         public ScannerViewModel(IPhraseDataService phraseDataService, ISettingsService settingsService) : base(phraseDataService, settingsService)
         {
-            this.ScanFileCommand = new RelayCommand(async () => await this.ScanFileAsync(), this.CanScanFile);
-            this.ScanTextCommand = new RelayCommand(async () => await this.ScanTextAsync(), this.CanScanText);
-            this.SaveMarkedItemsCommand = new RelayCommand(async () => await this.SaveMarkedItems(), this.CanSaveMarkedItems);
-            this.GetFilePathCommand = new RelayCommand(this.GetFilePath, this.CanGetFilePath);
+            ScanFileCommand = new RelayCommand(async () => await ScanFileAsync(), CanScanFile);
+            ScanTextCommand = new RelayCommand(async () => await ScanTextAsync(), CanScanText);
+            SaveMarkedItemsCommand = new RelayCommand(async () => await SaveMarkedItems(), CanSaveMarkedItems);
+            GetFilePathCommand = new RelayCommand(GetFilePath, CanGetFilePath);
             this.phraseDataService = phraseDataService;
-            this.SettingsService = settingsService;
-            this.NumericValues.CollectionChanged += NumericValues_CollectionChanged;
-            this.CurrentOperation.PropertyChanged += CurrentOperation_PropertyChanged;
+            SettingsService = settingsService;
+            NumericValues.CollectionChanged += NumericValues_CollectionChanged;
+            CurrentOperation.PropertyChanged += CurrentOperation_PropertyChanged;
         }
 
         private void CurrentOperation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Description")
             {
-                this.GroupNotifyCanExecuteChanged();
+                GroupNotifyCanExecuteChanged();
             }
         }
 
         private void NumericValues_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            this.GroupNotifyCanExecuteChanged();
+            GroupNotifyCanExecuteChanged();
         }
 
         private void GroupNotifyCanExecuteChanged()
         {
-            this.ScanFileCommand.NotifyCanExecuteChanged();
-            this.ScanTextCommand.NotifyCanExecuteChanged();
-            this.SaveMarkedItemsCommand.NotifyCanExecuteChanged();
-            this.GetFilePathCommand.NotifyCanExecuteChanged();
+            ScanFileCommand.NotifyCanExecuteChanged();
+            ScanTextCommand.NotifyCanExecuteChanged();
+            SaveMarkedItemsCommand.NotifyCanExecuteChanged();
+            GetFilePathCommand.NotifyCanExecuteChanged();
         }
 
         public RelayCommand SaveMarkedItemsCommand { get; private set; }
@@ -60,32 +60,32 @@ namespace ArithmosViewModels
         {
             try
             {
-                this.IsBusy = true;
+                IsBusy = true;
                 string message = "";
-                using (this.cts = new CancellationTokenSource())
+                using (cts = new CancellationTokenSource())
                 {
-                    int savedItems = await this.phraseDataService.CreateAsync(this.GetMarkedPhrases(), this.CurrentOperation.Operation, this.cts.Token);
-                    message = this.cts.IsCancellationRequested ? $"Operation interrupted by user." : $"{savedItems} phrases have been successfully saved.";
+                    int savedItems = await phraseDataService.CreateAsync(GetMarkedPhrases(), CurrentOperation.Operation, cts.Token);
+                    message = cts.IsCancellationRequested ? $"Operation interrupted by user." : $"{savedItems} phrases have been successfully saved.";
                 }
-                this.CurrentOperation = new OperationViewModel(new Operation());
-                this.IsBusy = false;
-                NotificationMessage savedMessage = new NotificationMessage(message);
+                CurrentOperation = new OperationViewModel(new Operation());
+                IsBusy = false;
+                NotificationMessage savedMessage = new(message);
                 WeakReferenceMessenger.Default.Send(savedMessage);
             }
             catch (Exception ex)
             {
-                ErrorMessage errorMessage = new ErrorMessage();
+                ErrorMessage errorMessage = new();
                 errorMessage.Message = ex.Message;
                 WeakReferenceMessenger.Default.Send(errorMessage);
             }
             finally
             {
-                this.IsBusy = false;
+                IsBusy = false;
             }
         }
         public bool CanSaveMarkedItems()
         {
-            return this.CurrentOperation != null && !String.IsNullOrEmpty(this.CurrentOperation.Description) && this.CurrentOperation.Description.Length > 0;
+            return CurrentOperation != null && !String.IsNullOrEmpty(CurrentOperation.Description) && CurrentOperation.Description.Length > 0;
         }
 
         public RelayCommand ScanFileCommand { get; private set; }
@@ -93,44 +93,44 @@ namespace ArithmosViewModels
         {
             try
             {
-                this.IsBusy = true;
-                this.Phrases.Clear();
-                List<Phrase> phrases = new List<Phrase>();
+                IsBusy = true;
+                Phrases.Clear();
+                List<Phrase> phrases = new();
                 string message = "";
-                using (this.cts = new CancellationTokenSource())
+                using (cts = new CancellationTokenSource())
                 {
-                    if (!this.GetAllText)
+                    if (!GetAllText)
                     {
-                        phrases = await Scanner.ScanFileAsync(this.FilePath, this.NumericValues.ToArray(), this.CalculationMethod, this.PhraseSeparator, this.MinimumCharacters, this.MinimumWordsPerPhrase, this.MaximumWordsPerPhrase, this.cts.Token);
+                        phrases = await Scanner.ScanFileAsync(FilePath, NumericValues.ToArray(), CalculationMethod, PhraseSeparator, MinimumCharacters, MinimumWordsPerPhrase, MaximumWordsPerPhrase, cts.Token);
                     }
                     else
                     {
-                        phrases = await Scanner.ScanFileAsync(this.FilePath, this.PhraseSeparator, this.MinimumCharacters, this.MinimumWordsPerPhrase, this.MaximumWordsPerPhrase, this.cts.Token);
+                        phrases = await Scanner.ScanFileAsync(FilePath, PhraseSeparator, MinimumCharacters, MinimumWordsPerPhrase, MaximumWordsPerPhrase, cts.Token);
                     }
-                    message = this.cts.IsCancellationRequested ? $"Operation interrupted by user." : $"The file was successfully scanned. {phrases.Count} unique phrases were extracted.";
+                    message = cts.IsCancellationRequested ? $"Operation interrupted by user." : $"The file was successfully scanned. {phrases.Count} unique phrases were extracted.";
                 }
                 foreach (Phrase phrase in phrases)
                 {
-                    this.Phrases.Add(new PhraseViewModel(phrase));
+                    Phrases.Add(new PhraseViewModel(phrase));
                 }
-                this.IsBusy = false;
-                NotificationMessage scannedMessage = new NotificationMessage(message);
+                IsBusy = false;
+                NotificationMessage scannedMessage = new(message);
                 WeakReferenceMessenger.Default.Send(scannedMessage);
             }
             catch (Exception ex)
             {
-                ErrorMessage errorMessage = new ErrorMessage();
+                ErrorMessage errorMessage = new();
                 errorMessage.Message = ex.Message;
                 WeakReferenceMessenger.Default.Send(errorMessage);
             }
             finally
             {
-                this.IsBusy = false;
+                IsBusy = false;
             }
         }
         public bool CanScanFile()
         {
-            return !String.IsNullOrEmpty(this.FilePath) && this.CalculationMethod != CalculationMethod.None && ((this.NumericValues != null && this.NumericValues.Count() > 0) || (this.GetAllText && this.MinimumCharacters >= 0));
+            return !String.IsNullOrEmpty(FilePath) && CalculationMethod != CalculationMethod.None && ((NumericValues != null && NumericValues.Count > 0) || (GetAllText && MinimumCharacters >= 0));
         }
 
         public RelayCommand ScanTextCommand { get; private set; }
@@ -138,56 +138,56 @@ namespace ArithmosViewModels
         {
             try
             {
-                this.IsBusy = true;
-                this.Phrases.Clear();
-                List<Phrase> phrases = new List<Phrase>();
+                IsBusy = true;
+                Phrases.Clear();
+                List<Phrase> phrases = new();
                 string message = "";
-                using (this.cts = new CancellationTokenSource())
+                using (cts = new CancellationTokenSource())
                 {
-                    if (!this.GetAllText)
+                    if (!GetAllText)
                     {
-                        phrases = await Scanner.ScanTextAsync(this.ImportedText, this.NumericValues.ToArray(), this.CalculationMethod, this.PhraseSeparator, this.MinimumCharacters, this.MinimumWordsPerPhrase, this.MaximumWordsPerPhrase, this.cts.Token);
+                        phrases = await Scanner.ScanTextAsync(ImportedText, NumericValues.ToArray(), CalculationMethod, PhraseSeparator, MinimumCharacters, MinimumWordsPerPhrase, MaximumWordsPerPhrase, cts.Token);
                     }
                     else
                     {
-                        phrases = await Scanner.ScanTextAsync(this.ImportedText, this.PhraseSeparator, this.MinimumCharacters, this.MinimumWordsPerPhrase, this.MaximumWordsPerPhrase, this.cts.Token);
+                        phrases = await Scanner.ScanTextAsync(ImportedText, PhraseSeparator, MinimumCharacters, MinimumWordsPerPhrase, MaximumWordsPerPhrase, cts.Token);
                     }
-                    message = this.cts.IsCancellationRequested ? $"Operation interrupted by user." : $"The text was successfully scanned. {phrases.Count} unique phrases were extracted.";
+                    message = cts.IsCancellationRequested ? $"Operation interrupted by user." : $"The text was successfully scanned. {phrases.Count} unique phrases were extracted.";
                 }
                 foreach (Phrase phrase in phrases)
                 {
-                    this.Phrases.Add(new PhraseViewModel(phrase));
+                    Phrases.Add(new PhraseViewModel(phrase));
                 }
-                this.IsBusy = false;
-                NotificationMessage scannedMessage = new NotificationMessage(message);
+                IsBusy = false;
+                NotificationMessage scannedMessage = new(message);
                 WeakReferenceMessenger.Default.Send(scannedMessage);
             }
             catch (Exception ex)
             {
-                ErrorMessage errorMessage = new ErrorMessage();
+                ErrorMessage errorMessage = new();
                 errorMessage.Message = ex.Message;
                 WeakReferenceMessenger.Default.Send(errorMessage);
             }
             finally
             {
-                this.IsBusy = false;
+                IsBusy = false;
             }
         }
         public bool CanScanText()
         {
-            return !String.IsNullOrEmpty(this.ImportedText) && this.CalculationMethod != CalculationMethod.None && ((this.NumericValues != null && this.NumericValues.Count() > 0) || (this.GetAllText && this.MinimumCharacters >= 0));
+            return !String.IsNullOrEmpty(ImportedText) && CalculationMethod != CalculationMethod.None && ((NumericValues != null && NumericValues.Count > 0) || (GetAllText && MinimumCharacters >= 0));
         }
 
         public RelayCommand GetFilePathCommand { get; private set; }
         public async void GetFilePath()
         {
-            FileDialogMessage fdm = new FileDialogMessage();
+            FileDialogMessage fdm = new();
             fdm.Message = "Select a file to scan";
             await WeakReferenceMessenger.Default.Send(fdm);
             string file = await fdm.Response;
             if (File.Exists(file))
             {
-                this.FilePath = file;
+                FilePath = file;
             }
         }
         public bool CanGetFilePath()
@@ -198,92 +198,92 @@ namespace ArithmosViewModels
         private string filePath = "";
         public string FilePath
         {
-            get => this.filePath;
+            get => filePath;
             set
             {
-                SetProperty(ref this.filePath, value);
-                this.GroupNotifyCanExecuteChanged();
+                SetProperty(ref filePath, value);
+                GroupNotifyCanExecuteChanged();
             }
         }
 
         private string importedText = "";
         public string ImportedText
         {
-            get => this.importedText;
+            get => importedText;
             set
             {
-                SetProperty(ref this.importedText, value);
-                this.GroupNotifyCanExecuteChanged();
+                SetProperty(ref importedText, value);
+                GroupNotifyCanExecuteChanged();
             }
         }
 
         private bool getAllText = false;
         public bool GetAllText
         {
-            get => this.getAllText;
+            get => getAllText;
             set
             {
-                SetProperty(ref this.getAllText, value);
-                this.GroupNotifyCanExecuteChanged();
+                SetProperty(ref getAllText, value);
+                GroupNotifyCanExecuteChanged();
             }
         }
 
         private int minimumCharacters = 3;
         public int MinimumCharacters
         {
-            get => this.minimumCharacters;
+            get => minimumCharacters;
             set
             {
                 if (value < 0) value = 3;
-                SetProperty(ref this.minimumCharacters, value);
+                SetProperty(ref minimumCharacters, value);
             }
         }
 
         private int minimumWordsPerPhrase = 1;
         public int MinimumWordsPerPhrase
         {
-            get => this.minimumWordsPerPhrase;
+            get => minimumWordsPerPhrase;
             set
             {
-                if (value > this.MaximumWordsPerPhrase) value = this.MaximumWordsPerPhrase;
+                if (value > MaximumWordsPerPhrase) value = MaximumWordsPerPhrase;
                 if (value > 30 || value <= 0) value = 1;
-                SetProperty(ref this.minimumWordsPerPhrase, value);
+                SetProperty(ref minimumWordsPerPhrase, value);
             }
         }
 
         private int maximumWordsPerPhrase = 1;
         public int MaximumWordsPerPhrase
         {
-            get => this.maximumWordsPerPhrase;
+            get => maximumWordsPerPhrase;
             set
             {
-                if (value < this.MinimumWordsPerPhrase) value = this.MinimumWordsPerPhrase;
+                if (value < MinimumWordsPerPhrase) value = MinimumWordsPerPhrase;
                 if (value > 30 || value <= 0) value = 1;
-                SetProperty(ref this.maximumWordsPerPhrase, value);
+                SetProperty(ref maximumWordsPerPhrase, value);
             }
         }
 
         private PhraseSeparator phraseSeparator = PhraseSeparator.All;
         public PhraseSeparator PhraseSeparator
         {
-            get => this.phraseSeparator;
+            get => phraseSeparator;
             set
             {
                 if (value == PhraseSeparator.None)
                 {
                     value = PhraseSeparator.NewLine | PhraseSeparator.Colon | PhraseSeparator.Comma | PhraseSeparator.FullStop | PhraseSeparator.GreekSemicolon | PhraseSeparator.Semicolon | PhraseSeparator.Space | PhraseSeparator.Tab;
                 }
-                SetProperty(ref this.phraseSeparator, value);
+                SetProperty(ref phraseSeparator, value);
             }
         }
 
-        private OperationViewModel currentOperation = new OperationViewModel(new Operation());
+        private OperationViewModel currentOperation = new(new Operation());
         public OperationViewModel CurrentOperation
         {
-            get => this.currentOperation;
+            get => currentOperation;
             set
             {
-                SetProperty(ref this.currentOperation, value);
+                SetProperty(ref currentOperation, value);
             }
         }
     }

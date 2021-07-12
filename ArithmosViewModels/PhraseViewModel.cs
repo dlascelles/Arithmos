@@ -14,32 +14,32 @@ namespace ArithmosViewModels
 
         public PhraseViewModel(Phrase phrase)
         {
-            this.Phrase = phrase;
+            Phrase = phrase;
         }
 
         private bool isSelected = false;
         public bool IsSelected
         {
-            get => this.isSelected;
-            set => SetProperty(ref this.isSelected, value);
+            get => isSelected;
+            set => SetProperty(ref isSelected, value);
         }
 
         private bool isMarked = false;
         public bool IsMarked
         {
-            get => this.isMarked;
-            set => SetProperty(ref this.isMarked, value);
+            get => isMarked;
+            set => SetProperty(ref isMarked, value);
         }
 
         private string phraseText = "";
         public string PhraseText
         {
-            get => this.phraseText;
+            get => phraseText;
             set
             {
-                if (SetProperty(ref this.phraseText, value))
+                if (SetProperty(ref phraseText, value))
                 {
-                    this.Phrase = new Phrase(this.phraseText);
+                    Phrase = new Phrase(phraseText);
                 }
             }
         }
@@ -47,75 +47,75 @@ namespace ArithmosViewModels
         private Phrase phrase;
         public Phrase Phrase
         {
-            get { return this.phrase; }
+            get { return phrase; }
             set
             {
-                SetProperty(ref this.phrase, value);
-                this.Gematria = this.Phrase.Values[CalculationMethod.Gematria];
-                this.Ordinal = this.Phrase.Values[CalculationMethod.Ordinal];
-                this.Reduced = this.Phrase.Values[CalculationMethod.Reduced];
-                this.Sumerian = this.Phrase.Values[CalculationMethod.Sumerian];
-                this.Primes = this.Phrase.Values[CalculationMethod.Primes];
-                this.Squared = this.Phrase.Values[CalculationMethod.Squared];
-                this.MisparGadol = this.Phrase.Values[CalculationMethod.MisparGadol];
-                this.MisparShemi = this.Phrase.Values[CalculationMethod.MisparShemi];
+                SetProperty(ref phrase, value);
+                Gematria = Phrase.Values[CalculationMethod.Gematria];
+                Ordinal = Phrase.Values[CalculationMethod.Ordinal];
+                Reduced = Phrase.Values[CalculationMethod.Reduced];
+                Sumerian = Phrase.Values[CalculationMethod.Sumerian];
+                Primes = Phrase.Values[CalculationMethod.Primes];
+                Squared = Phrase.Values[CalculationMethod.Squared];
+                MisparGadol = Phrase.Values[CalculationMethod.MisparGadol];
+                MisparShemi = Phrase.Values[CalculationMethod.MisparShemi];
             }
         }
 
         private int gematria = 0;
         public int Gematria
         {
-            get => this.gematria;
-            set => SetProperty(ref this.gematria, value);
+            get => gematria;
+            set => SetProperty(ref gematria, value);
         }
 
         private int ordinal = 0;
         public int Ordinal
         {
-            get => this.ordinal;
-            set => SetProperty(ref this.ordinal, value);
+            get => ordinal;
+            set => SetProperty(ref ordinal, value);
         }
 
         private int reduced = 0;
         public int Reduced
         {
-            get => this.reduced;
-            set => SetProperty(ref this.reduced, value);
+            get => reduced;
+            set => SetProperty(ref reduced, value);
         }
 
         private int sumerian = 0;
         public int Sumerian
         {
-            get => this.sumerian;
-            set => SetProperty(ref this.sumerian, value);
+            get => sumerian;
+            set => SetProperty(ref sumerian, value);
         }
 
         private int primes = 0;
         public int Primes
         {
-            get => this.primes;
-            set => SetProperty(ref this.primes, value);
+            get => primes;
+            set => SetProperty(ref primes, value);
         }
 
         private int squared = 0;
         public int Squared
         {
-            get => this.squared;
-            set => SetProperty(ref this.squared, value);
+            get => squared;
+            set => SetProperty(ref squared, value);
         }
 
         private int misparGadol = 0;
         public int MisparGadol
         {
-            get => this.misparGadol;
-            set => SetProperty(ref this.misparGadol, value);
+            get => misparGadol;
+            set => SetProperty(ref misparGadol, value);
         }
 
         private int misparShemi = 0;
         public int MisparShemi
         {
-            get => this.misparShemi;
-            set => SetProperty(ref this.misparShemi, value);
+            get => misparShemi;
+            set => SetProperty(ref misparShemi, value);
         }
     }
 }

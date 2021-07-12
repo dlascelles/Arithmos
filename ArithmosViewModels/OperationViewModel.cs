@@ -39,13 +39,13 @@ namespace ArithmosViewModels
         private bool isSelected = false;
         public bool IsSelected
         {
-            get => this.isSelected;
-            set => SetProperty(ref this.isSelected, value);
+            get => isSelected;
+            set => SetProperty(ref isSelected, value);
         }
 
         public Operation Operation
         {
-            get => this.operation;
+            get => operation;
         }
     }
 }

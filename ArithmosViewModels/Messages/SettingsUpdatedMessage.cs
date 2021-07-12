@@ -11,7 +11,7 @@ namespace ArithmosViewModels.Messages
     {
         public SettingsUpdatedMessage(string message)
         {
-            this.Message = message;
+            Message = message;
         }
         public string Message { get; set; }
     }

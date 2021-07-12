@@ -18,15 +18,15 @@ namespace ArithmosViewModels
         public CalculatorViewModel() : this(new PhraseDataService(), new SettingsService()) { }
         public CalculatorViewModel(IPhraseDataService phraseDataService, ISettingsService settingsService) : base(phraseDataService, settingsService)
         {
-            this.SaveMarkedItemsCommand = new RelayCommand(async () => await this.SaveMarkedItemsAsync(), this.CanSaveMarkedItems);
+            SaveMarkedItemsCommand = new RelayCommand(async () => await SaveMarkedItemsAsync(), CanSaveMarkedItems);
             this.phraseDataService = phraseDataService;
-            this.SettingsService = settingsService;
-            this.Phrases.CollectionChanged += Phrases_CollectionChanged;
+            SettingsService = settingsService;
+            Phrases.CollectionChanged += Phrases_CollectionChanged;
         }
 
         private void Phrases_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            this.SaveMarkedItemsCommand.NotifyCanExecuteChanged();
+            SaveMarkedItemsCommand.NotifyCanExecuteChanged();
         }
 
         public RelayCommand SaveMarkedItemsCommand { get; private set; }
@@ -34,26 +34,26 @@ namespace ArithmosViewModels
         {
             try
             {
-                this.IsBusy = true;
-                int savedItems = await this.phraseDataService.CreateAsync(this.GetMarkedPhrases(), default);
-                this.IsBusy = false;
-                NotificationMessage savedMessage = new NotificationMessage($"{savedItems} phrases have been successfully saved.");
+                IsBusy = true;
+                int savedItems = await phraseDataService.CreateAsync(GetMarkedPhrases(), default);
+                IsBusy = false;
+                NotificationMessage savedMessage = new($"{savedItems} phrases have been successfully saved.");
                 WeakReferenceMessenger.Default.Send(savedMessage);
             }
             catch (Exception ex)
             {
-                ErrorMessage errorMessage = new ErrorMessage();
+                ErrorMessage errorMessage = new();
                 errorMessage.Message = ex.Message;
                 WeakReferenceMessenger.Default.Send(errorMessage);
             }
             finally
             {
-                this.IsBusy = false;
+                IsBusy = false;
             }
         }
         public bool CanSaveMarkedItems()
         {
-            return this.Phrases != null && this.Phrases.Count() > 0;
+            return Phrases != null && Phrases.Count > 0;
         }
     }
 }

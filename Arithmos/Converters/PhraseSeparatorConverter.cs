@@ -19,14 +19,14 @@ namespace Arithmos.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             PhraseSeparator temp = (PhraseSeparator)parameter;
-            this.separator = (PhraseSeparator)value;
-            return ((temp & this.separator) != 0);
+            separator = (PhraseSeparator)value;
+            return ((temp & separator) != 0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            this.separator ^= (PhraseSeparator)parameter;
-            return this.separator;
+            separator ^= (PhraseSeparator)parameter;
+            return separator;
         }
     }
 }

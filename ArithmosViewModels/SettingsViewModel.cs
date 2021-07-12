@@ -12,20 +12,20 @@ namespace ArithmosViewModels
     {
         public SettingsViewModel(ISettingsService settingsService)
         {
-            this.SettingsService = settingsService;
-            ((ObservableObject)this.SettingsService).PropertyChanged += this.SettingsViewModel_PropertyChanged;
+            SettingsService = settingsService;
+            ((ObservableObject)SettingsService).PropertyChanged += SettingsViewModel_PropertyChanged;
         }
 
         private void SettingsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            this.SettingsService.Save();
+            SettingsService.Save();
         }
 
         private ISettingsService settingsService = new SettingsService();
         public ISettingsService SettingsService
         {
-            get => this.settingsService;
-            set => SetProperty(ref this.settingsService, value);
+            get => settingsService;
+            set => SetProperty(ref settingsService, value);
         }
     }
 }
