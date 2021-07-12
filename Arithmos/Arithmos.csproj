@@ -24,6 +24,8 @@
 		<AssemblyVersion>2.0.1.0</AssemblyVersion>
 		<FileVersion>2.0.1.0</FileVersion>
 		<Version>2.0.1</Version>
+		<Copyright>Copyright (c) 2018 - 2021 Daniel Lascelles. Licensed under the MIT License.</Copyright>
+		<Company />
 	</PropertyGroup>
 	<ItemGroup>
 	  <None Remove="arithmosdb.sqlite" />
