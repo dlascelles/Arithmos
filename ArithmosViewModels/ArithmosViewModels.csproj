@@ -5,8 +5,10 @@
 		<UseWPF>true</UseWPF>
 		<AssemblyName>ArithmosViewModels</AssemblyName>
 		<RootNamespace>ArithmosViewModels</RootNamespace>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<Authors>Daniel Lascelles</Authors>
+		<Copyright>Copyright (c) 2018 - 2021 Daniel Lascelles. Licensed under the MIT License.</Copyright>
+		<Version>2.0.1</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\ArithmosDAL\ArithmosDAL.csproj">
@@ -28,13 +30,13 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="CommonServiceLocator">
-			<Version>2.0.6</Version>
-		</PackageReference>
 		<PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.0.2" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
 		<PackageReference Include="System.Data.SQLite.Core">
 			<Version>1.0.114.3</Version>
 		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\" />
 	</ItemGroup>
 </Project>

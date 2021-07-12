@@ -4,12 +4,14 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<AssemblyName>ArithmosTests</AssemblyName>
 		<RootNamespace>ArithmosTests</RootNamespace>
-		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<IsTestProject>true</IsTestProject>
 		<ApplicationIcon />
 		<StartupObject />
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 		<Authors>Daniel Lascelles</Authors>
+		<Version>2.0.1</Version>
+		<Copyright>Copyright (c) 2018 - 2021 Daniel Lascelles. Licensed under the MIT License.</Copyright>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\ArithmosModels\ArithmosModels.csproj">
@@ -52,5 +54,8 @@
 		<PackageReference Include="System.Data.SQLite.Core">
 			<Version>1.0.114.3</Version>
 		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\" />
 	</ItemGroup>
 </Project>
