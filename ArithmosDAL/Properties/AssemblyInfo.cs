@@ -1,10 +1,9 @@
 ﻿/*
-* Copyright (c) 2018 Daniel Lascelles, https://github.com/dlascelles
+* Copyright (c) 2018 - 2021 Daniel Lascelles, https://github.com/dlascelles
 * This code is licensed under The MIT License. See LICENSE file in the project root for full license information.
 * License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 */
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -15,7 +14,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ArithmosDAL")]
-[assembly: AssemblyCopyright("Copyright (c) 2018 Daniel Lascelles. Licensed under the MIT License.")]
+[assembly: AssemblyCopyright("Copyright (c) 2018 - 2021 Daniel Lascelles. Licensed under the MIT License.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

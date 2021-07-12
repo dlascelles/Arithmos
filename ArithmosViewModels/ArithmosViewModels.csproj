@@ -22,7 +22,7 @@
 	<ItemGroup>
 		<None Include="app.config" />
 		<None Include="ArithmosSettings.settings">
-			<Generator>PublicSettingsSingleFileGenerator</Generator>
+			<Generator>SettingsSingleFileGenerator</Generator>
 			<LastGenOutput>ArithmosSettings.Designer.cs</LastGenOutput>
 		</None>
 	</ItemGroup>
