@@ -48,77 +48,77 @@ namespace ArithmosViewModels
         public string PhraseText
         {
             get => phraseText;
-            set => SetProperty(ref phraseText, value);
+            private set => SetProperty(ref phraseText, value);
         }
 
         private Alphabet alphabet;
         public Alphabet Alphabet
         {
             get => alphabet;
-            set => SetProperty(ref alphabet, value);
+            private set => SetProperty(ref alphabet, value);
         }
 
         private int gematria;
         public int Gematria
         {
             get => gematria;
-            set => SetProperty(ref gematria, value);
+            private set => SetProperty(ref gematria, value);
         }
 
         private int ordinal;
         public int Ordinal
         {
             get => ordinal;
-            set => SetProperty(ref ordinal, value);
+            private set => SetProperty(ref ordinal, value);
         }
 
         private int reduced;
         public int Reduced
         {
             get => reduced;
-            set => SetProperty(ref reduced, value);
+            private set => SetProperty(ref reduced, value);
         }
 
         private int sumerian;
         public int Sumerian
         {
             get => sumerian;
-            set => SetProperty(ref sumerian, value);
+            private set => SetProperty(ref sumerian, value);
         }
 
         private int primes;
         public int Primes
         {
             get => primes;
-            set => SetProperty(ref primes, value);
+            private set => SetProperty(ref primes, value);
         }
 
         private int squared;
         public int Squared
         {
             get => squared;
-            set => SetProperty(ref squared, value);
+            private set => SetProperty(ref squared, value);
         }
 
         private int misparGadol;
         public int MisparGadol
         {
             get => misparGadol;
-            set => SetProperty(ref misparGadol, value);
+            private set => SetProperty(ref misparGadol, value);
         }
 
         private int misparShemi;
         public int MisparShemi
         {
             get => misparShemi;
-            set => SetProperty(ref misparShemi, value);
+            private set => SetProperty(ref misparShemi, value);
         }
 
         private int operationId;
         public int OperationId
         {
             get => operationId;
-            set => SetProperty(ref operationId, value);
+            private set => SetProperty(ref operationId, value);
         }
 
         private Phrase phrase;
