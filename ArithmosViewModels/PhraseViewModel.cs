@@ -17,105 +17,129 @@ namespace ArithmosViewModels
             Phrase = phrase;
         }
 
-        private bool isSelected = false;
+        private bool isSelected;
         public bool IsSelected
         {
             get => isSelected;
             set => SetProperty(ref isSelected, value);
         }
 
-        private bool isMarked = false;
+        private bool isMarked;
         public bool IsMarked
         {
             get => isMarked;
             set => SetProperty(ref isMarked, value);
         }
 
-        private string phraseText = "";
-        public string PhraseText
+        private string phraseUserText = "";
+        public string PhraseUserText
         {
-            get => phraseText;
+            get => phraseUserText;
             set
             {
-                if (SetProperty(ref phraseText, value))
+                if (SetProperty(ref phraseUserText, value))
                 {
-                    Phrase = new Phrase(phraseText);
+                    Phrase = new Phrase(phraseUserText);
                 }
             }
         }
 
-        private Phrase phrase;
-        public Phrase Phrase
+        private string phraseText = "";
+        public string PhraseText
         {
-            get { return phrase; }
-            set
-            {
-                SetProperty(ref phrase, value);
-                Gematria = Phrase.Values[CalculationMethod.Gematria];
-                Ordinal = Phrase.Values[CalculationMethod.Ordinal];
-                Reduced = Phrase.Values[CalculationMethod.Reduced];
-                Sumerian = Phrase.Values[CalculationMethod.Sumerian];
-                Primes = Phrase.Values[CalculationMethod.Primes];
-                Squared = Phrase.Values[CalculationMethod.Squared];
-                MisparGadol = Phrase.Values[CalculationMethod.MisparGadol];
-                MisparShemi = Phrase.Values[CalculationMethod.MisparShemi];
-            }
+            get => phraseText;
+            set => SetProperty(ref phraseText, value);
         }
 
-        private int gematria = 0;
+        private Alphabet alphabet;
+        public Alphabet Alphabet
+        {
+            get => alphabet;
+            set => SetProperty(ref alphabet, value);
+        }
+
+        private int gematria;
         public int Gematria
         {
             get => gematria;
             set => SetProperty(ref gematria, value);
         }
 
-        private int ordinal = 0;
+        private int ordinal;
         public int Ordinal
         {
             get => ordinal;
             set => SetProperty(ref ordinal, value);
         }
 
-        private int reduced = 0;
+        private int reduced;
         public int Reduced
         {
             get => reduced;
             set => SetProperty(ref reduced, value);
         }
 
-        private int sumerian = 0;
+        private int sumerian;
         public int Sumerian
         {
             get => sumerian;
             set => SetProperty(ref sumerian, value);
         }
 
-        private int primes = 0;
+        private int primes;
         public int Primes
         {
             get => primes;
             set => SetProperty(ref primes, value);
         }
 
-        private int squared = 0;
+        private int squared;
         public int Squared
         {
             get => squared;
             set => SetProperty(ref squared, value);
         }
 
-        private int misparGadol = 0;
+        private int misparGadol;
         public int MisparGadol
         {
             get => misparGadol;
             set => SetProperty(ref misparGadol, value);
         }
 
-        private int misparShemi = 0;
+        private int misparShemi;
         public int MisparShemi
         {
             get => misparShemi;
             set => SetProperty(ref misparShemi, value);
+        }
+
+        private int operationId;
+        public int OperationId
+        {
+            get => operationId;
+            set => SetProperty(ref operationId, value);
+        }
+
+        private Phrase phrase;
+        public Phrase Phrase
+        {
+            get => phrase;
+            private set
+            {
+                SetProperty(ref phrase, value);
+                PhraseText = phrase.NormalizedText;
+                Alphabet = phrase.Alphabet;
+                Gematria = Phrase.Gematria;
+                Ordinal = Phrase.Ordinal;
+                Reduced = Phrase.Reduced;
+                Sumerian = Phrase.Sumerian;
+                Primes = Phrase.Primes;
+                Squared = Phrase.Squared;
+                MisparGadol = Phrase.MisparGadol;
+                MisparShemi = Phrase.MisparShemi;
+                OperationId = Phrase.OperationId;
+            }
         }
     }
 }

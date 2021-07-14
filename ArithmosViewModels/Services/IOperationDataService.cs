@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ArithmosViewModels.Services
 {
     public interface IOperationDataService
-    {       
+    {
         Task<List<Operation>> RetrieveAllAsync();
         Task<int> DeleteAsync(List<Operation> operations);
     }

@@ -31,7 +31,7 @@ namespace ArithmosViewModels
             this.phraseDataService = phraseDataService;
             SettingsService = settingsService;
             NumericValues.CollectionChanged += NumericValues_CollectionChanged;
-            CurrentOperation.PropertyChanged += CurrentOperation_PropertyChanged;            
+            CurrentOperation.PropertyChanged += CurrentOperation_PropertyChanged;
         }
 
         private void CurrentOperation_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -101,7 +101,7 @@ namespace ArithmosViewModels
                 {
                     if (!GetAllText)
                     {
-                        phrases = await Scanner.ScanFileAsync(FilePath, NumericValues.ToArray(), CalculationMethod, PhraseSeparator, MinimumCharacters, MinimumWordsPerPhrase, MaximumWordsPerPhrase, cts.Token);
+                        phrases = await Scanner.ScanFileAsync(FilePath, NumericValues.ToHashSet<int>(), CalculationMethod, PhraseSeparator, MinimumCharacters, MinimumWordsPerPhrase, MaximumWordsPerPhrase, cts.Token);
                     }
                     else
                     {
@@ -146,7 +146,7 @@ namespace ArithmosViewModels
                 {
                     if (!GetAllText)
                     {
-                        phrases = await Scanner.ScanTextAsync(ImportedText, NumericValues.ToArray(), CalculationMethod, PhraseSeparator, MinimumCharacters, MinimumWordsPerPhrase, MaximumWordsPerPhrase, cts.Token);
+                        phrases = await Scanner.ScanTextAsync(ImportedText, NumericValues.ToHashSet<int>(), CalculationMethod, PhraseSeparator, MinimumCharacters, MinimumWordsPerPhrase, MaximumWordsPerPhrase, cts.Token);
                     }
                     else
                     {

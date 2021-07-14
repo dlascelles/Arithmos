@@ -5,8 +5,6 @@
 */
 using ArithmosModels.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace ArithmosModels
 {
@@ -20,44 +18,22 @@ namespace ArithmosModels
         /// </summary>
         /// <param name="originalText">The original text from which we will derive a new phrase</param>
         /// <param name="operationId">The id of the operation associated with this phrase</param>
-        /// <param name="phraseId">The id of the phrase</param>
         /// <exception cref="Argument">Thrown when the originalText parameter is null</exception>
-        public Phrase(string originalText, int operationId = 0, long phraseId = 0)
+        public Phrase(string originalText, int operationId = 0)
         {
-            if (originalText == null) throw new ArgumentNullException("Original Text cannot be null");
-            Id = phraseId;
+            if (originalText == null) { throw new ArgumentNullException(nameof(originalText), "Original Text cannot be null"); }
+
             OperationId = operationId;
             NormalizedText = CharacterHandler.NormalizeText(originalText.Trim());
             Alphabet = CharacterHandler.GetAlphabet(NormalizedText);
-            Values = new Dictionary<CalculationMethod, int>() {
-                { CalculationMethod.Gematria, ValueMapper.GetValue(NormalizedText, CalculationMethod.Gematria) }, { CalculationMethod.Ordinal, ValueMapper.GetValue(NormalizedText, CalculationMethod.Ordinal) },
-                { CalculationMethod.Reduced, ValueMapper.GetValue(NormalizedText, CalculationMethod.Reduced) }, { CalculationMethod.Primes, ValueMapper.GetValue(NormalizedText, CalculationMethod.Primes) },
-                { CalculationMethod.Squared, ValueMapper.GetValue(NormalizedText, CalculationMethod.Squared) }, { CalculationMethod.Sumerian, ValueMapper.GetValue(NormalizedText, CalculationMethod.Sumerian) },
-                { CalculationMethod.MisparGadol, ValueMapper.GetValue(NormalizedText, CalculationMethod.MisparGadol) }, { CalculationMethod.MisparShemi, ValueMapper.GetValue(NormalizedText, CalculationMethod.MisparShemi) }
-            };
-        }
-
-        /// <summary>
-        /// Checks whether the phrase contains any of the given values
-        /// </summary>
-        /// <param name="values">The values to check</param>
-        /// <param name="calculationMethod">The CalculationMethod to use</param>
-        /// <param name="value">The found value</param>
-        /// <returns>Boolean</returns>
-        public bool ContainsAnyValue(int[] values, CalculationMethod calculationMethod, out int value)
-        {
-            value = -1;
-
-            foreach (CalculationMethod c in Values.Keys)
-            {
-                if (calculationMethod.HasFlag(c) && values.Contains(Values[c]))
-                {
-                    value = Values[c];
-                    return true;
-                }
-            }
-
-            return false;
+            Gematria = ValueMapper.GetValue(NormalizedText, CalculationMethod.Gematria);
+            Ordinal = ValueMapper.GetValue(NormalizedText, CalculationMethod.Ordinal);
+            Reduced = ValueMapper.GetValue(NormalizedText, CalculationMethod.Reduced);
+            Sumerian = ValueMapper.GetValue(NormalizedText, CalculationMethod.Sumerian);
+            Primes = ValueMapper.GetValue(NormalizedText, CalculationMethod.Primes);
+            Squared = ValueMapper.GetValue(NormalizedText, CalculationMethod.Squared);
+            MisparGadol = ValueMapper.GetValue(NormalizedText, CalculationMethod.MisparGadol);
+            MisparShemi = ValueMapper.GetValue(NormalizedText, CalculationMethod.MisparShemi);
         }
 
         public override string ToString()
@@ -65,9 +41,9 @@ namespace ArithmosModels
             return NormalizedText;
         }
 
-        public bool Equals(Phrase phrase)
+        public bool Equals(Phrase other)
         {
-            return NormalizedText == phrase.NormalizedText;
+            return NormalizedText == other.NormalizedText;
         }
 
         public override bool Equals(object obj)
@@ -76,26 +52,41 @@ namespace ArithmosModels
             return NormalizedText == ((Phrase)obj).NormalizedText;
         }
 
-        public override int GetHashCode()
+        public static bool operator ==(Phrase left, Phrase right)
         {
-            unchecked
-            {
-                int hash = 17;
-                hash = NormalizedText != null ? hash * 23 + NormalizedText.GetHashCode() : 0;
-                hash = hash * 23 + Id.GetHashCode();
-                hash = hash * 23 + OperationId.GetHashCode();
-                return hash;
-            }
+            return left.Equals(right);
         }
 
-        public Alphabet Alphabet { get; }
+        public static bool operator !=(Phrase left, Phrase right)
+        {
+            return !(left == right);
+        }
 
-        public string NormalizedText { get; }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(NormalizedText);
+        }
 
-        public long Id { get; }
+        public readonly Alphabet Alphabet;
 
-        public int OperationId { get; }
+        public readonly string NormalizedText;
 
-        public Dictionary<CalculationMethod, int> Values { get; }
+        public readonly int OperationId;
+
+        public readonly int Gematria;
+
+        public readonly int Ordinal;
+
+        public readonly int Reduced;
+
+        public readonly int Primes;
+
+        public readonly int Squared;
+
+        public readonly int Sumerian;
+
+        public readonly int MisparGadol;
+
+        public readonly int MisparShemi;
     }
 }

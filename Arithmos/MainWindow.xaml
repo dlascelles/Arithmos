@@ -56,7 +56,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Text" Binding="{Binding PhraseText, UpdateSourceTrigger=PropertyChanged}" Width="35*" IsReadOnly="False" DisplayIndex="1"/>
+                            <DataGridTextColumn Header="Text" Binding="{Binding PhraseUserText, UpdateSourceTrigger=PropertyChanged}" Width="35*" IsReadOnly="False" DisplayIndex="1"/>
                             <DataGridTextColumn Header="Gematria" Binding="{Binding Gematria}" Visibility="{Binding Content.SettingsService.ShowGematria, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="2"/>
                             <DataGridTextColumn Header="Ordinal" Binding="{Binding Ordinal}" Visibility="{Binding Content.SettingsService.ShowOrdinal, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="3"/>
                             <DataGridTextColumn Header="Reduced" Binding="{Binding Reduced}" Visibility="{Binding Content.SettingsService.ShowReduced, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="4"/>
@@ -65,7 +65,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                             <DataGridTextColumn Header="Squared" Binding="{Binding Squared}" Visibility="{Binding Content.SettingsService.ShowSquared, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="7"/>
                             <DataGridTextColumn Header="Mispar Gadol" Binding="{Binding MisparGadol}" Visibility="{Binding Content.SettingsService.ShowMisparGadol, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="85" IsReadOnly="True" DisplayIndex="8"/>
                             <DataGridTextColumn Header="Mispar Shemi" Binding="{Binding MisparShemi}" Visibility="{Binding Content.SettingsService.ShowMisparShemi, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="85" IsReadOnly="True" DisplayIndex="9"/>
-                            <DataGridTextColumn Header="Alphabet" Binding="{Binding Phrase.Alphabet}" Visibility="{Binding Content.SettingsService.ShowAlphabet, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="10"/>
+                            <DataGridTextColumn Header="Alphabet" Binding="{Binding Alphabet}" Visibility="{Binding Content.SettingsService.ShowAlphabet, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="10"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid Grid.Column="0" Grid.Row="2">
@@ -221,7 +221,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Text" Binding="{Binding Phrase.NormalizedText}" Width="35*" IsReadOnly="True" DisplayIndex="1"/>
+                            <DataGridTextColumn Header="Text" Binding="{Binding PhraseText}" Width="35*" IsReadOnly="True" DisplayIndex="1"/>
                             <DataGridTextColumn Header="Gematria" Binding="{Binding Gematria}" Visibility="{Binding Content.SettingsService.ShowGematria, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="2"/>
                             <DataGridTextColumn Header="Ordinal" Binding="{Binding Ordinal}" Visibility="{Binding Content.SettingsService.ShowOrdinal, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="3"/>
                             <DataGridTextColumn Header="Reduced" Binding="{Binding Reduced}" Visibility="{Binding Content.SettingsService.ShowReduced, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="4"/>
@@ -230,7 +230,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                             <DataGridTextColumn Header="Squared" Binding="{Binding Squared}" Visibility="{Binding Content.SettingsService.ShowSquared, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="7"/>
                             <DataGridTextColumn Header="Mispar Gadol" Binding="{Binding MisparGadol}" Visibility="{Binding Content.SettingsService.ShowMisparGadol, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="85" IsReadOnly="True" DisplayIndex="8"/>
                             <DataGridTextColumn Header="Mispar Shemi" Binding="{Binding MisparShemi}" Visibility="{Binding Content.SettingsService.ShowMisparShemi, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="85" IsReadOnly="True" DisplayIndex="9"/>
-                            <DataGridTextColumn Header="Alphabet" Binding="{Binding Phrase.Alphabet}" Visibility="{Binding Content.SettingsService.ShowAlphabet, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="10"/>
+                            <DataGridTextColumn Header="Alphabet" Binding="{Binding Alphabet}" Visibility="{Binding Content.SettingsService.ShowAlphabet, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="10"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid Grid.Column="0" Grid.Row="2" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
@@ -398,7 +398,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Text" Binding="{Binding Phrase.NormalizedText}" Width="35*" IsReadOnly="True" DisplayIndex="1"/>
+                            <DataGridTextColumn Header="Text" Binding="{Binding PhraseText}" Width="35*" IsReadOnly="True" DisplayIndex="1"/>
                             <DataGridTextColumn Header="Gematria" Binding="{Binding Gematria}" Visibility="{Binding Content.SettingsService.ShowGematria, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="2"/>
                             <DataGridTextColumn Header="Ordinal" Binding="{Binding Ordinal}" Visibility="{Binding Content.SettingsService.ShowOrdinal, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="3"/>
                             <DataGridTextColumn Header="Reduced" Binding="{Binding Reduced}" Visibility="{Binding Content.SettingsService.ShowReduced, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="4"/>
@@ -407,8 +407,8 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                             <DataGridTextColumn Header="Squared" Binding="{Binding Squared}" Visibility="{Binding Content.SettingsService.ShowSquared, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="7"/>
                             <DataGridTextColumn Header="Mispar Gadol" Binding="{Binding MisparGadol}" Visibility="{Binding Content.SettingsService.ShowMisparGadol, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="85" IsReadOnly="True" DisplayIndex="8"/>
                             <DataGridTextColumn Header="Mispar Shemi" Binding="{Binding MisparShemi}" Visibility="{Binding Content.SettingsService.ShowMisparShemi, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="85" IsReadOnly="True" DisplayIndex="9"/>
-                            <DataGridTextColumn Header="Alphabet" Binding="{Binding Phrase.Alphabet}" Visibility="{Binding Content.SettingsService.ShowAlphabet, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="10"/>
-                            <DataGridTextColumn Header="Op. Id" Binding="{Binding Phrase.OperationId}" Width="45" IsReadOnly="True" DisplayIndex="11"/>
+                            <DataGridTextColumn Header="Alphabet" Binding="{Binding Alphabet}" Visibility="{Binding Content.SettingsService.ShowAlphabet, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="10"/>
+                            <DataGridTextColumn Header="Op. Id" Binding="{Binding OperationId}" Width="45" IsReadOnly="True" DisplayIndex="11"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Grid Grid.Column="0" Grid.Row="2" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
@@ -427,7 +427,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                         <Button Grid.Column="3" Command="{Binding MarkSelectedItemsCommand}"  Margin="0" IsEnabled="{Binding SelectedItems.Count, ElementName=savedPhrasesGrid, Mode=OneWay}">Mark Selected</Button>
                         <Button Grid.Column="4" Command="{Binding UnmarkAllItemsCommand}"  Margin="0">Unmark All</Button>
                         <Button Grid.Column="5" Command="{Binding MarkAllItemsCommand}"  Margin="0">Mark All</Button>
-                        <Button Grid.Column="6" Command="{Binding DeleteMarkedItemsCommand}" Foreground="REd">Delete Marked</Button>
+                        <Button Grid.Column="6" Command="{Binding DeleteMarkedItemsCommand}" Foreground="Red">Delete Marked</Button>
                     </Grid>
                     <ProgressBar  IsIndeterminate="True" Height="24" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
                 </Grid>

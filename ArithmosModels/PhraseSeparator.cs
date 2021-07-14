@@ -22,7 +22,7 @@ namespace ArithmosModels
         Colon = 32,
         FullStop = 64,
         Space = 128,
-        AllExceptSpace = PhraseSeparator.NewLine | PhraseSeparator.Colon | PhraseSeparator.Comma | PhraseSeparator.FullStop | PhraseSeparator.GreekSemicolon | PhraseSeparator.Semicolon | PhraseSeparator.Tab,
-        All = PhraseSeparator.NewLine | PhraseSeparator.Colon | PhraseSeparator.Comma | PhraseSeparator.FullStop | PhraseSeparator.GreekSemicolon | PhraseSeparator.Semicolon | PhraseSeparator.Space | PhraseSeparator.Tab
+        AllExceptSpace = NewLine | Colon | Comma | FullStop | GreekSemicolon | Semicolon | Tab,
+        All = NewLine | Colon | Comma | FullStop | GreekSemicolon | Semicolon | Space | Tab
     }
 }

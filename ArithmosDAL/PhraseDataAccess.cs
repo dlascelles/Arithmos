@@ -32,14 +32,14 @@ namespace ArithmosDAL
                     using (SQLiteCommand cmd = new(query, con))
                     {
                         cmd.Parameters.AddWithValue("@Text", phrase.NormalizedText);
-                        cmd.Parameters.AddWithValue("@GematriaValue", phrase.Values[CalculationMethod.Gematria]);
-                        cmd.Parameters.AddWithValue("@OrdinalValue", phrase.Values[CalculationMethod.Ordinal]);
-                        cmd.Parameters.AddWithValue("@ReducedValue", phrase.Values[CalculationMethod.Reduced]);
-                        cmd.Parameters.AddWithValue("@SumerianValue", phrase.Values[CalculationMethod.Sumerian]);
-                        cmd.Parameters.AddWithValue("@PrimesValue", phrase.Values[CalculationMethod.Primes]);
-                        cmd.Parameters.AddWithValue("@SquaredValue", phrase.Values[CalculationMethod.Squared]);
-                        cmd.Parameters.AddWithValue("@MisparGadolValue", phrase.Values[CalculationMethod.MisparGadol]);
-                        cmd.Parameters.AddWithValue("@MisparShemiValue", phrase.Values[CalculationMethod.MisparShemi]);
+                        cmd.Parameters.AddWithValue("@GematriaValue", phrase.Gematria);
+                        cmd.Parameters.AddWithValue("@OrdinalValue", phrase.Ordinal);
+                        cmd.Parameters.AddWithValue("@ReducedValue", phrase.Reduced);
+                        cmd.Parameters.AddWithValue("@SumerianValue", phrase.Sumerian);
+                        cmd.Parameters.AddWithValue("@PrimesValue", phrase.Primes);
+                        cmd.Parameters.AddWithValue("@SquaredValue", phrase.Squared);
+                        cmd.Parameters.AddWithValue("@MisparGadolValue", phrase.MisparGadol);
+                        cmd.Parameters.AddWithValue("@MisparShemiValue", phrase.MisparShemi);
                         cmd.Parameters.AddWithValue("@Alphabet", (int)phrase.Alphabet);
                         cmd.Parameters.AddWithValue("@OperationId", phrase.OperationId == 0 ? (object)DBNull.Value : phrase.OperationId);
                         await con.OpenAsync();
@@ -79,14 +79,14 @@ namespace ArithmosDAL
                             {
                                 cmd.Parameters.Clear();
                                 cmd.Parameters.AddWithValue("@Text", phrase.NormalizedText);
-                                cmd.Parameters.AddWithValue("@GematriaValue", phrase.Values[CalculationMethod.Gematria]);
-                                cmd.Parameters.AddWithValue("@OrdinalValue", phrase.Values[CalculationMethod.Ordinal]);
-                                cmd.Parameters.AddWithValue("@ReducedValue", phrase.Values[CalculationMethod.Reduced]);
-                                cmd.Parameters.AddWithValue("@SumerianValue", phrase.Values[CalculationMethod.Sumerian]);
-                                cmd.Parameters.AddWithValue("@PrimesValue", phrase.Values[CalculationMethod.Primes]);
-                                cmd.Parameters.AddWithValue("@SquaredValue", phrase.Values[CalculationMethod.Squared]);
-                                cmd.Parameters.AddWithValue("@MisparGadolValue", phrase.Values[CalculationMethod.MisparGadol]);
-                                cmd.Parameters.AddWithValue("@MisparShemiValue", phrase.Values[CalculationMethod.MisparShemi]);
+                                cmd.Parameters.AddWithValue("@GematriaValue", phrase.Gematria);
+                                cmd.Parameters.AddWithValue("@OrdinalValue", phrase.Ordinal);
+                                cmd.Parameters.AddWithValue("@ReducedValue", phrase.Reduced);
+                                cmd.Parameters.AddWithValue("@SumerianValue", phrase.Sumerian);
+                                cmd.Parameters.AddWithValue("@PrimesValue", phrase.Primes);
+                                cmd.Parameters.AddWithValue("@SquaredValue", phrase.Squared);
+                                cmd.Parameters.AddWithValue("@MisparGadolValue", phrase.MisparGadol);
+                                cmd.Parameters.AddWithValue("@MisparShemiValue", phrase.MisparShemi);
                                 cmd.Parameters.AddWithValue("@Alphabet", (int)phrase.Alphabet);
                                 cmd.Parameters.AddWithValue("@OperationId", phrase.OperationId == 0 ? (object)DBNull.Value : phrase.OperationId);
                                 result += await cmd.ExecuteNonQueryAsync(cts);
@@ -135,14 +135,14 @@ namespace ArithmosDAL
                                     {
                                         cmd.CommandText = $"INSERT OR IGNORE INTO Phrase (Text, GematriaValue, OrdinalValue, ReducedValue, SumerianValue, PrimesValue, SquaredValue, MisparGadolValue, MisparShemiValue,  Alphabet, OperationId) VALUES (@Text, @GematriaValue, @OrdinalValue, @ReducedValue, @SumerianValue, @PrimesValue, @SquaredValue, @MisparGadolValue, @MisparShemiValue,  @Alphabet, @OperationId)";
                                         cmd.Parameters.AddWithValue("@Text", phrase.NormalizedText);
-                                        cmd.Parameters.AddWithValue("@GematriaValue", phrase.Values[CalculationMethod.Gematria]);
-                                        cmd.Parameters.AddWithValue("@OrdinalValue", phrase.Values[CalculationMethod.Ordinal]);
-                                        cmd.Parameters.AddWithValue("@ReducedValue", phrase.Values[CalculationMethod.Reduced]);
-                                        cmd.Parameters.AddWithValue("@SumerianValue", phrase.Values[CalculationMethod.Sumerian]);
-                                        cmd.Parameters.AddWithValue("@PrimesValue", phrase.Values[CalculationMethod.Primes]);
-                                        cmd.Parameters.AddWithValue("@SquaredValue", phrase.Values[CalculationMethod.Squared]);
-                                        cmd.Parameters.AddWithValue("@MisparGadolValue", phrase.Values[CalculationMethod.MisparGadol]);
-                                        cmd.Parameters.AddWithValue("@MisparShemiValue", phrase.Values[CalculationMethod.MisparShemi]);
+                                        cmd.Parameters.AddWithValue("@GematriaValue", phrase.Gematria);
+                                        cmd.Parameters.AddWithValue("@OrdinalValue", phrase.Ordinal);
+                                        cmd.Parameters.AddWithValue("@ReducedValue", phrase.Reduced);
+                                        cmd.Parameters.AddWithValue("@SumerianValue", phrase.Sumerian);
+                                        cmd.Parameters.AddWithValue("@PrimesValue", phrase.Primes);
+                                        cmd.Parameters.AddWithValue("@SquaredValue", phrase.Squared);
+                                        cmd.Parameters.AddWithValue("@MisparGadolValue", phrase.MisparGadol);
+                                        cmd.Parameters.AddWithValue("@MisparShemiValue", phrase.MisparShemi);
                                         cmd.Parameters.AddWithValue("@Alphabet", (int)phrase.Alphabet);
                                         cmd.Parameters.AddWithValue("@OperationId", latestId);
                                         result += await cmd.ExecuteNonQueryAsync(cts);
@@ -171,7 +171,7 @@ namespace ArithmosDAL
 
             if (values != null && values.Count > 0 && calculationMethod != CalculationMethod.None && alphabet != Alphabet.None)
             {
-                string query = $"SELECT Id, Text, OperationId FROM Phrase WHERE ({SQLValuesString(values, calculationMethod, alphabet)}) ";
+                string query = $"SELECT Text, OperationId FROM Phrase WHERE ({SQLValuesString(values, calculationMethod, alphabet)}) ";
                 using (SQLiteConnection con = new(Database.ConnectionString))
                 {
                     using (SQLiteCommand cmd = new(query, con))
@@ -181,7 +181,7 @@ namespace ArithmosDAL
                         {
                             while (await dare.ReadAsync())
                             {
-                                Phrase phrase = new(dare["Text"].ToString(), dare["OperationId"] == DBNull.Value ? 0 : Convert.ToInt32(dare["OperationId"]), Convert.ToInt32(dare["Id"]));
+                                Phrase phrase = new(dare["Text"].ToString(), dare["OperationId"] == DBNull.Value ? 0 : Convert.ToInt32(dare["OperationId"]));
                                 phrases.Add(phrase);
                             }
                         }
@@ -214,7 +214,7 @@ namespace ArithmosDAL
                         {
                             while (await dare.ReadAsync())
                             {
-                                Phrase phrase = new(dare["Text"].ToString(), Convert.ToInt32(dare["OperationId"]), Convert.ToInt32(dare["Id"]));
+                                Phrase phrase = new(dare["Text"].ToString(), Convert.ToInt32(dare["OperationId"]));
                                 phrases.Add(phrase);
                             }
                         }
@@ -245,7 +245,7 @@ namespace ArithmosDAL
                     {
                         while (await dare.ReadAsync())
                         {
-                            Phrase phrase = new(dare["Text"].ToString(), 0, Convert.ToInt32(dare["Id"]));
+                            Phrase phrase = new(dare["Text"].ToString(), 0);
                             phrases.Add(phrase);
                         }
                     }
@@ -287,7 +287,6 @@ namespace ArithmosDAL
             {
                 foreach (Phrase phrase in phrases)
                 {
-                    sb.Append(phrase.Id);
                     sb.Append(',');
                 }
                 sb.Remove(sb.Length - 1, 1);
@@ -354,7 +353,7 @@ namespace ArithmosDAL
 
         private bool IsValidPhrase(Phrase phrase)
         {
-            if (!string.IsNullOrEmpty(phrase.NormalizedText) && phrase.Values[CalculationMethod.Gematria] > 0)
+            if (!string.IsNullOrEmpty(phrase.NormalizedText) && phrase.Gematria > 0)
             {
                 return true;
             }

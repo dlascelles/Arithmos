@@ -39,7 +39,9 @@ namespace ArithmosModels.Helpers
         public static readonly Dictionary<Char, Dictionary<CalculationMethod, int>> CharacterValues = new()
         {
             #region All English Characters
-                {'A', new Dictionary<CalculationMethod, int>() {
+            {
+                'A',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 1 },
                     { CalculationMethod.Ordinal, 1 },
                     { CalculationMethod.Reduced, 1 },
@@ -48,8 +50,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 1 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'B', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'B',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 2 },
                     { CalculationMethod.Ordinal, 2 },
                     { CalculationMethod.Reduced, 2 },
@@ -58,8 +63,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 4 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'C', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'C',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 3 },
                     { CalculationMethod.Ordinal, 3 },
                     { CalculationMethod.Reduced, 3 },
@@ -68,8 +76,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 9 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'D', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'D',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 4 },
                     { CalculationMethod.Ordinal, 4 },
                     { CalculationMethod.Reduced, 4 },
@@ -78,8 +89,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 16 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'E', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'E',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 5 },
                     { CalculationMethod.Ordinal, 5 },
                     { CalculationMethod.Reduced, 5 },
@@ -88,8 +102,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 25 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'F', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'F',
+                new Dictionary<CalculationMethod, int>() {
                      { CalculationMethod.Gematria, 6 },
                     { CalculationMethod.Ordinal, 6 },
                     { CalculationMethod.Reduced, 6 },
@@ -98,8 +115,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 36 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'G', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'G',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 7 },
                     { CalculationMethod.Ordinal, 7 },
                     { CalculationMethod.Reduced, 7 },
@@ -108,8 +128,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 49 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'H', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'H',
+                new Dictionary<CalculationMethod, int>() {
                    { CalculationMethod.Gematria, 8 },
                     { CalculationMethod.Ordinal, 8 },
                     { CalculationMethod.Reduced, 8 },
@@ -118,8 +141,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 64 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'I', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'I',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 9 },
                     { CalculationMethod.Ordinal, 9 },
                     { CalculationMethod.Reduced, 9 },
@@ -128,8 +154,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 81 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'J', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'J',
+                new Dictionary<CalculationMethod, int>() {
                    { CalculationMethod.Gematria, 10 },
                     { CalculationMethod.Ordinal, 10 },
                     { CalculationMethod.Reduced, 1 },
@@ -138,8 +167,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 100 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'K', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'K',
+                new Dictionary<CalculationMethod, int>() {
                      { CalculationMethod.Gematria, 20 },
                     { CalculationMethod.Ordinal, 11 },
                     { CalculationMethod.Reduced, 2 },
@@ -148,8 +180,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 400 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'L', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'L',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 30 },
                     { CalculationMethod.Ordinal, 12 },
                     { CalculationMethod.Reduced, 3 },
@@ -158,8 +193,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 900 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'M', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'M',
+                new Dictionary<CalculationMethod, int>() {
                    { CalculationMethod.Gematria, 40 },
                     { CalculationMethod.Ordinal, 13 },
                     { CalculationMethod.Reduced, 4 },
@@ -168,8 +206,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 1600 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'N', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'N',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 50 },
                     { CalculationMethod.Ordinal, 14 },
                     { CalculationMethod.Reduced, 5 },
@@ -178,8 +219,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 2500 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'O', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'O',
+                new Dictionary<CalculationMethod, int>() {
                    { CalculationMethod.Gematria, 60 },
                     { CalculationMethod.Ordinal, 15 },
                     { CalculationMethod.Reduced, 6 },
@@ -188,8 +232,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 3600 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'P', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'P',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 70 },
                     { CalculationMethod.Ordinal, 16 },
                     { CalculationMethod.Reduced, 7 },
@@ -198,8 +245,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 4900 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Q', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Q',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 80 },
                     { CalculationMethod.Ordinal, 17 },
                     { CalculationMethod.Reduced, 8 },
@@ -208,8 +258,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 6400 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'R', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'R',
+                new Dictionary<CalculationMethod, int>() {
                    { CalculationMethod.Gematria, 90 },
                     { CalculationMethod.Ordinal, 18 },
                     { CalculationMethod.Reduced, 9 },
@@ -218,8 +271,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 8100 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'S', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'S',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 100 },
                     { CalculationMethod.Ordinal, 19 },
                     { CalculationMethod.Reduced, 1 },
@@ -228,8 +284,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 10000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'T', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'T',
+                new Dictionary<CalculationMethod, int>() {
                   { CalculationMethod.Gematria, 200 },
                     { CalculationMethod.Ordinal, 20 },
                     { CalculationMethod.Reduced, 2 },
@@ -238,8 +297,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 40000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'U', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'U',
+                new Dictionary<CalculationMethod, int>() {
                    { CalculationMethod.Gematria, 300 },
                     { CalculationMethod.Ordinal, 21 },
                     { CalculationMethod.Reduced, 3 },
@@ -248,8 +310,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 90000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'V', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'V',
+                new Dictionary<CalculationMethod, int>() {
                      { CalculationMethod.Gematria, 400 },
                     { CalculationMethod.Ordinal, 22 },
                     { CalculationMethod.Reduced, 4 },
@@ -258,8 +323,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 160000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'W', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'W',
+                new Dictionary<CalculationMethod, int>() {
                    { CalculationMethod.Gematria, 500 },
                     { CalculationMethod.Ordinal, 23 },
                     { CalculationMethod.Reduced, 5 },
@@ -268,8 +336,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 250000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'X', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'X',
+                new Dictionary<CalculationMethod, int>() {
                    { CalculationMethod.Gematria, 600 },
                     { CalculationMethod.Ordinal, 24 },
                     { CalculationMethod.Reduced, 6 },
@@ -278,8 +349,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 360000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Y', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Y',
+                new Dictionary<CalculationMethod, int>() {
                    { CalculationMethod.Gematria, 700 },
                     { CalculationMethod.Ordinal, 25 },
                     { CalculationMethod.Reduced, 7 },
@@ -288,8 +362,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 490000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Z', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Z',
+                new Dictionary<CalculationMethod, int>() {
                       { CalculationMethod.Gematria, 800 },
                     { CalculationMethod.Ordinal, 26 },
                     { CalculationMethod.Reduced, 8 },
@@ -298,11 +375,14 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 640000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-    #endregion
+                }
+            },
+            #endregion
 
             #region All Greek Characters
-                {'Α', new Dictionary<CalculationMethod, int>() {
+            {
+                'Α',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 1 },
                     { CalculationMethod.Ordinal, 1 },
                     { CalculationMethod.Reduced, 1 },
@@ -311,8 +391,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 1 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                    } },
-                {'Β', new Dictionary<CalculationMethod, int>() {
+                    }
+            },
+            {
+                'Β',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 2 },
                     { CalculationMethod.Ordinal, 2 },
                     { CalculationMethod.Reduced, 2 },
@@ -321,8 +404,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 4 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Γ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Γ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 3 },
                     { CalculationMethod.Ordinal, 3 },
                     { CalculationMethod.Reduced, 3 },
@@ -331,8 +417,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 9 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Δ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Δ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 4 },
                     { CalculationMethod.Ordinal, 4 },
                     { CalculationMethod.Reduced, 4 },
@@ -341,8 +430,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 16 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Ε', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Ε',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 5 },
                     { CalculationMethod.Ordinal, 5 },
                     { CalculationMethod.Reduced, 5 },
@@ -351,8 +443,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 25 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Ϛ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Ϛ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 6 },
                     { CalculationMethod.Ordinal, 6 },
                     { CalculationMethod.Reduced, 6 },
@@ -361,8 +456,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 36 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Ζ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Ζ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 7 },
                     { CalculationMethod.Ordinal, 7 },
                     { CalculationMethod.Reduced, 7 },
@@ -371,8 +469,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 49 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Η', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Η',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 8 },
                     { CalculationMethod.Ordinal, 8 },
                     { CalculationMethod.Reduced, 8 },
@@ -381,8 +482,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 64 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Θ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Θ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 9 },
                     { CalculationMethod.Ordinal, 9 },
                     { CalculationMethod.Reduced, 9 },
@@ -391,8 +495,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 81 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Ι', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Ι',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 10 },
                     { CalculationMethod.Ordinal, 10 },
                     { CalculationMethod.Reduced, 1 },
@@ -401,8 +508,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 100 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Κ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Κ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 20 },
                     { CalculationMethod.Ordinal, 11 },
                     { CalculationMethod.Reduced, 2 },
@@ -411,8 +521,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 400 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Λ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Λ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 30 },
                     { CalculationMethod.Ordinal, 12 },
                     { CalculationMethod.Reduced, 3 },
@@ -421,8 +534,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 900 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Μ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Μ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 40 },
                     { CalculationMethod.Ordinal, 13 },
                     { CalculationMethod.Reduced, 4 },
@@ -431,8 +547,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 1600 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Ν', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Ν',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 50 },
                     { CalculationMethod.Ordinal, 14 },
                     { CalculationMethod.Reduced, 5 },
@@ -441,8 +560,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 2500 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Ξ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Ξ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 60 },
                     { CalculationMethod.Ordinal, 15 },
                     { CalculationMethod.Reduced, 6 },
@@ -451,8 +573,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 3600 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Ο', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Ο',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 70 },
                     { CalculationMethod.Ordinal, 16 },
                     { CalculationMethod.Reduced, 7 },
@@ -461,8 +586,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 4900 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Π', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Π',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 80 },
                     { CalculationMethod.Ordinal, 17 },
                     { CalculationMethod.Reduced, 8 },
@@ -471,8 +599,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 6400 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Ϙ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Ϙ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 90 },
                     { CalculationMethod.Ordinal, 18 },
                     { CalculationMethod.Reduced, 9 },
@@ -481,8 +612,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 8100 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Ρ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Ρ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 100 },
                     { CalculationMethod.Ordinal, 19 },
                     { CalculationMethod.Reduced, 1 },
@@ -491,8 +625,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 10000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Σ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Σ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 200 },
                     { CalculationMethod.Ordinal, 20 },
                     { CalculationMethod.Reduced, 2 },
@@ -501,8 +638,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 40000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Τ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Τ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 300 },
                     { CalculationMethod.Ordinal, 21 },
                     { CalculationMethod.Reduced, 3 },
@@ -511,8 +651,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 90000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Υ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Υ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 400 },
                     { CalculationMethod.Ordinal, 22 },
                     { CalculationMethod.Reduced, 4 },
@@ -521,8 +664,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 160000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Φ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Φ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 500 },
                     { CalculationMethod.Ordinal, 23 },
                     { CalculationMethod.Reduced, 5 },
@@ -531,8 +677,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 250000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Χ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Χ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 600 },
                     { CalculationMethod.Ordinal, 24 },
                     { CalculationMethod.Reduced, 6 },
@@ -541,8 +690,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 360000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Ψ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Ψ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 700 },
                     { CalculationMethod.Ordinal, 25 },
                     { CalculationMethod.Reduced, 7 },
@@ -551,8 +703,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 490000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Ω', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Ω',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 800 },
                     { CalculationMethod.Ordinal, 26 },
                     { CalculationMethod.Reduced, 8 },
@@ -561,8 +716,11 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 640000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-                {'Ϡ', new Dictionary<CalculationMethod, int>() {
+                }
+            },
+            {
+                'Ϡ',
+                new Dictionary<CalculationMethod, int>() {
                     { CalculationMethod.Gematria, 900 },
                     { CalculationMethod.Ordinal, 27 },
                     { CalculationMethod.Reduced, 9 },
@@ -571,11 +729,14 @@ namespace ArithmosModels.Helpers
                     { CalculationMethod.Squared, 810000 },
                     { CalculationMethod.MisparGadol, 0 },
                     { CalculationMethod.MisparShemi, 0 },
-                } },
-    #endregion
-         
+                }
+            },
+            #endregion
+
             #region All Hebrew Characters
-            {'א', new Dictionary<CalculationMethod, int>() {
+            {
+                'א',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 1 },
                 { CalculationMethod.Ordinal, 1 },
                 { CalculationMethod.Reduced, 1 },
@@ -585,8 +746,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.MisparGadol, 1 },
                 { CalculationMethod.MisparShemi, 111 },
 
-            } },
-            {'ב', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ב',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 2 },
                 { CalculationMethod.Ordinal, 2 },
                 { CalculationMethod.Reduced, 2 },
@@ -595,8 +759,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 4 },
                 { CalculationMethod.MisparGadol, 2 },
                 { CalculationMethod.MisparShemi, 412 },
-            } },
-            {'ג', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ג',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 3 },
                 { CalculationMethod.Ordinal, 3 },
                 { CalculationMethod.Reduced, 3 },
@@ -605,8 +772,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 9 },
                 { CalculationMethod.MisparGadol, 3 },
                 { CalculationMethod.MisparShemi, 83 },
-            } },
-            {'ד', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ד',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 4 },
                 { CalculationMethod.Ordinal, 4 },
                 { CalculationMethod.Reduced, 4 },
@@ -615,8 +785,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 16 },
                 { CalculationMethod.MisparGadol, 4 },
                 { CalculationMethod.MisparShemi, 434 },
-            } },
-            {'ה', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ה',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 5 },
                 { CalculationMethod.Ordinal, 5 },
                 { CalculationMethod.Reduced, 5 },
@@ -625,8 +798,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 25 },
                 { CalculationMethod.MisparGadol, 5 },
                 { CalculationMethod.MisparShemi, 6 },
-            } },
-            {'ו', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ו',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 6 },
                 { CalculationMethod.Ordinal, 6 },
                 { CalculationMethod.Reduced, 6 },
@@ -635,8 +811,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 36 },
                 { CalculationMethod.MisparGadol, 6 },
                 { CalculationMethod.MisparShemi, 12 },
-            } },
-            {'ז', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ז',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 7 },
                 { CalculationMethod.Ordinal, 7 },
                 { CalculationMethod.Reduced, 7 },
@@ -645,8 +824,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 49 },
                 { CalculationMethod.MisparGadol, 7 },
                 { CalculationMethod.MisparShemi, 67 },
-            } },
-            {'ח', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ח',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 8 },
                 { CalculationMethod.Ordinal, 8 },
                 { CalculationMethod.Reduced, 8 },
@@ -655,8 +837,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 64 },
                 { CalculationMethod.MisparGadol, 8 },
                 { CalculationMethod.MisparShemi, 418 },
-            } },
-            {'ט', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ט',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 9 },
                 { CalculationMethod.Ordinal, 9 },
                 { CalculationMethod.Reduced, 9 },
@@ -665,8 +850,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 81 },
                 { CalculationMethod.MisparGadol, 9 },
                 { CalculationMethod.MisparShemi, 419 },
-            } },
-            {'י', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'י',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 10 },
                 { CalculationMethod.Ordinal, 10 },
                 { CalculationMethod.Reduced, 1 },
@@ -675,8 +863,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 100 },
                 { CalculationMethod.MisparGadol, 10 },
                 { CalculationMethod.MisparShemi, 20 },
-            } },
-            {'כ', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'כ',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 20 },
                 { CalculationMethod.Ordinal, 11 },
                 { CalculationMethod.Reduced, 2 },
@@ -685,8 +876,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 400 },
                 { CalculationMethod.MisparGadol, 20 },
                 { CalculationMethod.MisparShemi, 100 },
-            } },
-            {'ל', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ל',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 30 },
                 { CalculationMethod.Ordinal, 12 },
                 { CalculationMethod.Reduced, 3 },
@@ -695,8 +889,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 900 },
                 { CalculationMethod.MisparGadol, 30 },
                 { CalculationMethod.MisparShemi, 74 },
-            } },
-            {'מ', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'מ',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 40 },
                 { CalculationMethod.Ordinal, 13 },
                 { CalculationMethod.Reduced, 4 },
@@ -705,8 +902,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 1600 },
                 { CalculationMethod.MisparGadol, 40 },
                 { CalculationMethod.MisparShemi, 80 },
-            } },
-            {'נ', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'נ',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 50 },
                 { CalculationMethod.Ordinal, 14 },
                 { CalculationMethod.Reduced, 5 },
@@ -715,8 +915,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 2500 },
                 { CalculationMethod.MisparGadol, 50 },
                 { CalculationMethod.MisparShemi, 106 },
-            } },
-            {'ס', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ס',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 60 },
                 { CalculationMethod.Ordinal, 15 },
                 { CalculationMethod.Reduced, 6 },
@@ -725,8 +928,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 3600 },
                 { CalculationMethod.MisparGadol, 60 },
                 { CalculationMethod.MisparShemi, 120 },
-            } },
-            {'ע', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ע',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 70 },
                 { CalculationMethod.Ordinal, 16 },
                 { CalculationMethod.Reduced, 7 },
@@ -735,8 +941,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 4900 },
                 { CalculationMethod.MisparGadol, 70 },
                 { CalculationMethod.MisparShemi, 130 },
-            } },
-            {'פ', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'פ',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 80 },
                 { CalculationMethod.Ordinal, 17 },
                 { CalculationMethod.Reduced, 8 },
@@ -745,8 +954,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 6400 },
                 { CalculationMethod.MisparGadol, 80 },
                 { CalculationMethod.MisparShemi, 81 },
-            } },
-            {'צ', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'צ',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 90 },
                 { CalculationMethod.Ordinal, 18 },
                 { CalculationMethod.Reduced, 9 },
@@ -755,8 +967,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 8100 },
                 { CalculationMethod.MisparGadol, 90 },
                 { CalculationMethod.MisparShemi, 104 },
-            } },
-            {'ק', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ק',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 100 },
                 { CalculationMethod.Ordinal, 19 },
                 { CalculationMethod.Reduced, 1 },
@@ -765,8 +980,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 10000 },
                 { CalculationMethod.MisparGadol, 100 },
                 { CalculationMethod.MisparShemi, 186 },
-            } },
-            {'ר', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ר',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 200 },
                 { CalculationMethod.Ordinal, 20 },
                 { CalculationMethod.Reduced, 2 },
@@ -775,8 +993,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 40000 },
                 { CalculationMethod.MisparGadol, 200 },
                 { CalculationMethod.MisparShemi, 510 },
-            } },
-            {'ש', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ש',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 300 },
                 { CalculationMethod.Ordinal, 21 },
                 { CalculationMethod.Reduced, 3 },
@@ -785,8 +1006,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 90000 },
                 { CalculationMethod.MisparGadol, 300 },
                 { CalculationMethod.MisparShemi, 350 },
-            } },
-            {'ת', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ת',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 400 },
                 { CalculationMethod.Ordinal, 22 },
                 { CalculationMethod.Reduced, 4 },
@@ -795,8 +1019,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 160000 },
                 { CalculationMethod.MisparGadol, 400 },
                 { CalculationMethod.MisparShemi, 406 },
-            } },
-            {'ך', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ך',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 20 },
                 { CalculationMethod.Ordinal, 23 },
                 { CalculationMethod.Reduced, 2 },
@@ -805,8 +1032,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 400 },
                 { CalculationMethod.MisparGadol, 500 },
                 { CalculationMethod.MisparShemi, 100 },
-            } },
-            {'ם', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ם',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 40 },
                 { CalculationMethod.Ordinal, 24 },
                 { CalculationMethod.Reduced, 4 },
@@ -815,8 +1045,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 1600 },
                 { CalculationMethod.MisparGadol, 600 },
                 { CalculationMethod.MisparShemi, 80 },
-            } },
-            {'ן', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ן',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 50 },
                 { CalculationMethod.Ordinal, 25 },
                 { CalculationMethod.Reduced, 5 },
@@ -825,8 +1058,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 2500 },
                 { CalculationMethod.MisparGadol, 700 },
                 { CalculationMethod.MisparShemi, 106 },
-            } },
-            {'ף', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ף',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 80 },
                 { CalculationMethod.Ordinal, 26 },
                 { CalculationMethod.Reduced, 8 },
@@ -835,8 +1071,11 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 6400 },
                 { CalculationMethod.MisparGadol, 800 },
                 { CalculationMethod.MisparShemi, 81 },
-            } },
-            {'ץ', new Dictionary<CalculationMethod, int>() {
+            }
+            },
+            {
+                'ץ',
+                new Dictionary<CalculationMethod, int>() {
                 { CalculationMethod.Gematria, 90 },
                 { CalculationMethod.Ordinal, 27 },
                 { CalculationMethod.Reduced, 9 },
@@ -845,8 +1084,9 @@ namespace ArithmosModels.Helpers
                 { CalculationMethod.Squared, 8100 },
                 { CalculationMethod.MisparGadol, 900 },
                 { CalculationMethod.MisparShemi, 104 },
-            } },
-#endregion
+            }
+            },
+            #endregion
         };
     }
 }

@@ -183,11 +183,14 @@ namespace ArithmosViewModels
         {
             IsBusy = true;
             Phrases.Clear();
-            foreach (Phrase phrase in await phraseDataService.RetrieveAsync(NumericValues.ToList(), CalculationMethod, Alphabet))
+            List<Phrase> retrieved = await phraseDataService.RetrieveAsync(NumericValues.ToList(), CalculationMethod, Alphabet);
+            foreach (Phrase phrase in retrieved)
             {
                 Phrases.Add(new PhraseViewModel(phrase));
             }
             IsBusy = false;
+            NotificationMessage retrievedMessage = new($"{retrieved.Count} phrases have been retrieved.");
+            WeakReferenceMessenger.Default.Send(retrievedMessage);
         }
         public bool CanSearchPhrases()
         {

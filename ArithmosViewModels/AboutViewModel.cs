@@ -12,8 +12,8 @@ namespace ArithmosViewModels
         public AboutViewModel()
         {
             NavigateToProjectUrlCommand = new RelayCommand(NavigateToProjectUrl, CanNavigateToProjectUrl);
-
         }
+
         public RelayCommand NavigateToProjectUrlCommand { get; private set; }
         public void NavigateToProjectUrl()
         {

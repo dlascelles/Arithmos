@@ -8,7 +8,7 @@ using ArithmosModels.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace ArithmosTests
@@ -20,7 +20,7 @@ namespace ArithmosTests
         public async Task ScanTestAsync()
         {
             string[] words = { "NEW", "YORK", "CITY", "IS", "THE", "BEST", "SUN", "MOON" };
-            int[] values = { 276, 666, 888, 474, 510 };
+            HashSet<int> values = new() { 276, 666, 888, 474, 510 };
 
             HashSet<Phrase> matched = new(await Scanner.ScanAsync(words, PhraseSeparator.All, values, CalculationMethod.Sumerian, 1, 1, 5));
 
@@ -33,23 +33,22 @@ namespace ArithmosTests
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Sumerian] == 276 ||
-                    phrase.Values[CalculationMethod.Sumerian] == 666 ||
-                    phrase.Values[CalculationMethod.Sumerian] == 888 ||
-                    phrase.Values[CalculationMethod.Sumerian] == 474 ||
-                    phrase.Values[CalculationMethod.Sumerian] == 510);
+                Assert.IsTrue(phrase.Sumerian == 276 ||
+                    phrase.Sumerian == 666 ||
+                    phrase.Sumerian == 888 ||
+                    phrase.Sumerian == 474 ||
+                    phrase.Sumerian == 510);
             }
 
             words = new string[] { "FISH", "LAUGH", "LIKENED", "COZY", "MOADIAH", "AGONE", "JERIAH", "MOON" };
 
-            values = new int[] { 123 };
+            values = new HashSet<int> { 123 };
             matched = new HashSet<Phrase>(await Scanner.ScanAsync(words, PhraseSeparator.All, values, CalculationMethod.Gematria, 1, 1, 1));
             Assert.IsTrue(matched.Count == 5);
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 123);
+                Assert.IsTrue(phrase.Gematria == 123);
             }
-
         }
 
         [TestMethod]
@@ -57,7 +56,11 @@ namespace ArithmosTests
         {
             HashSet<Phrase> matched;
             string path = @$"{Environment.CurrentDirectory}\\Assets\\bible.txt";
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 123 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
+            Stopwatch sw1 = new();
+            sw1.Start();
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 123 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
+            sw1.Stop();
+            Debug.WriteLine($"COUNTER1 = {sw1.ElapsedMilliseconds} ms");
             Assert.IsTrue(matched.Count == 15);
             Assert.IsTrue(matched.Contains(new Phrase("FISH")));
             Assert.IsTrue(matched.Contains(new Phrase("HEIFER")));
@@ -76,14 +79,21 @@ namespace ArithmosTests
             Assert.IsTrue(matched.Contains(new Phrase("DEACON")));
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 123);
+                Assert.IsTrue(phrase.Gematria == 123);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.English);
             }
-
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 123 }, CalculationMethod.Sumerian, PhraseSeparator.All, 1, 1, 1));
+            Stopwatch sw2 = new();
+            sw2.Start();
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 123 }, CalculationMethod.Sumerian, PhraseSeparator.All, 1, 1, 1));
+            sw2.Stop();
+            Debug.WriteLine($"COUNTER2 = {sw2.ElapsedMilliseconds} ms");
             Assert.IsTrue(matched.Count == 0);
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 123 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 5));
+            Stopwatch sw3 = new();
+            sw3.Start();
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 123 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 5));
+            sw3.Stop();
+            Debug.WriteLine($"COUNTER3 = {sw3.ElapsedMilliseconds} ms");
             Assert.IsTrue(matched.Count == 118);
             Assert.IsTrue(matched.Contains(new Phrase("HE LODGED")));
             Assert.IsTrue(matched.Contains(new Phrase("JACOB HELD")));
@@ -102,16 +112,21 @@ namespace ArithmosTests
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 123);
+                Assert.IsTrue(phrase.Gematria == 123);
                 int count = phrase.NormalizedText.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries).Length;
                 Assert.IsTrue(count >= 1 && count <= 5);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.English);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 123 }, CalculationMethod.Sumerian, PhraseSeparator.All, 1, 1, 5));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 123 }, CalculationMethod.Sumerian, PhraseSeparator.All, 1, 1, 5));
             Assert.IsTrue(matched.Count == 0);
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 324, 206, 241, 263, 255 }, CalculationMethod.Ordinal, PhraseSeparator.All, 1, 6, 6));
+            Stopwatch sw4 = new();
+            sw4.Start();
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 324, 206, 241, 263, 255 }, CalculationMethod.Ordinal, PhraseSeparator.All, 1, 6, 6));
+            sw4.Stop();
+            Debug.WriteLine($"COUNTER4 = {sw4.ElapsedMilliseconds} ms");
+
             Assert.IsTrue(matched.Count == 16636);
             Assert.IsTrue(matched.Contains(new Phrase("INTO THE CONDEMNATION OF THE DEVIL")));
             Assert.IsTrue(matched.Contains(new Phrase("AND JACOB SWARE BY THE FEAR")));
@@ -125,7 +140,7 @@ namespace ArithmosTests
             }
 
             path = @$"{Environment.CurrentDirectory}\\Assets\\moby-dick.txt";
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 26);
             Assert.IsTrue(matched.Contains(new Phrase("EVIL")));
             Assert.IsTrue(matched.Contains(new Phrase("GOODHEARTED")));
@@ -135,11 +150,11 @@ namespace ArithmosTests
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 444);
+                Assert.IsTrue(phrase.Gematria == 444);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.English);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 5));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 5));
             Assert.IsTrue(matched.Count == 231);
             Assert.IsTrue(matched.Contains(new Phrase("ON ALL SIDES AND")));
             Assert.IsTrue(matched.Contains(new Phrase("TO BE AFRAID OF")));
@@ -149,12 +164,12 @@ namespace ArithmosTests
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 444);
+                Assert.IsTrue(phrase.Gematria == 444);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.English);
             }
 
             path = @$"{Environment.CurrentDirectory}\\Assets\\paradise-lost.txt";
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444, 555, 666, 777, 888 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 444, 555, 666, 777, 888 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 42);
             Assert.IsTrue(matched.Contains(new Phrase("WINGS")));
             Assert.IsTrue(matched.Contains(new Phrase("WAND")));
@@ -164,15 +179,15 @@ namespace ArithmosTests
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 444 ||
-                    phrase.Values[CalculationMethod.Gematria] == 555 ||
-                    phrase.Values[CalculationMethod.Gematria] == 666 ||
-                    phrase.Values[CalculationMethod.Gematria] == 777 ||
-                    phrase.Values[CalculationMethod.Gematria] == 888);
+                Assert.IsTrue(phrase.Gematria == 444 ||
+                    phrase.Gematria == 555 ||
+                    phrase.Gematria == 666 ||
+                    phrase.Gematria == 777 ||
+                    phrase.Gematria == 888);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.English);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444, 555, 666, 777, 888 }, CalculationMethod.Sumerian, PhraseSeparator.All, 1, 1, 1));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 444, 555, 666, 777, 888 }, CalculationMethod.Sumerian, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 209);
             Assert.IsTrue(matched.Contains(new Phrase("HEAVENS")));
             Assert.IsTrue(matched.Contains(new Phrase("ETHEREAL")));
@@ -182,15 +197,15 @@ namespace ArithmosTests
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Sumerian] == 444 ||
-                    phrase.Values[CalculationMethod.Sumerian] == 555 ||
-                    phrase.Values[CalculationMethod.Sumerian] == 666 ||
-                    phrase.Values[CalculationMethod.Sumerian] == 777 ||
-                    phrase.Values[CalculationMethod.Sumerian] == 888);
+                Assert.IsTrue(phrase.Sumerian == 444 ||
+                    phrase.Sumerian == 555 ||
+                    phrase.Sumerian == 666 ||
+                    phrase.Sumerian == 777 ||
+                    phrase.Sumerian == 888);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.English);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 40, 50, 60, 70, 111 }, CalculationMethod.Ordinal, PhraseSeparator.All, 1, 1, 1));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 40, 50, 60, 70, 111 }, CalculationMethod.Ordinal, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 427);
             Assert.IsTrue(matched.Contains(new Phrase("WHOSE")));
             Assert.IsTrue(matched.Contains(new Phrase("MIND")));
@@ -200,15 +215,15 @@ namespace ArithmosTests
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Ordinal] == 40 ||
-                    phrase.Values[CalculationMethod.Ordinal] == 50 ||
-                    phrase.Values[CalculationMethod.Ordinal] == 60 ||
-                    phrase.Values[CalculationMethod.Ordinal] == 70 ||
-                    phrase.Values[CalculationMethod.Ordinal] == 111);
+                Assert.IsTrue(phrase.Ordinal == 40 ||
+                    phrase.Ordinal == 50 ||
+                    phrase.Ordinal == 60 ||
+                    phrase.Ordinal == 70 ||
+                    phrase.Ordinal == 111);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.English);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 40, 50, 60, 70, 111 }, CalculationMethod.Ordinal, PhraseSeparator.All, 1, 1, 5));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 40, 50, 60, 70, 111 }, CalculationMethod.Ordinal, PhraseSeparator.All, 1, 1, 5));
             Assert.IsTrue(matched.Count == 2317);
             Assert.IsTrue(matched.Contains(new Phrase("OREB")));
             Assert.IsTrue(matched.Contains(new Phrase("ENRAGED MIGHT")));
@@ -218,11 +233,11 @@ namespace ArithmosTests
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Ordinal] == 40 ||
-                    phrase.Values[CalculationMethod.Ordinal] == 50 ||
-                    phrase.Values[CalculationMethod.Ordinal] == 60 ||
-                    phrase.Values[CalculationMethod.Ordinal] == 70 ||
-                    phrase.Values[CalculationMethod.Ordinal] == 111);
+                Assert.IsTrue(phrase.Ordinal == 40 ||
+                    phrase.Ordinal == 50 ||
+                    phrase.Ordinal == 60 ||
+                    phrase.Ordinal == 70 ||
+                    phrase.Ordinal == 111);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.English);
             }
 
@@ -286,7 +301,7 @@ Wyoming";
             HashSet<Phrase> matched = new(await Scanner.ScanTextAsync(allStates, currentSeparator, 1, 1, 3));
             Assert.IsTrue(matched.Count == 50);
 
-            matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(allStates, new int[] { 666 }, CalculationMethod.Sumerian, currentSeparator, 1, 1, 3));
+            matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(allStates, new HashSet<int> { 666 }, CalculationMethod.Sumerian, currentSeparator, 1, 1, 3));
             Assert.IsTrue(matched.Count == 2);
             Assert.IsTrue(matched.Contains(new Phrase("NEW MEXICO")));
             Assert.IsTrue(matched.Contains(new Phrase("NEW YORK")));
@@ -297,19 +312,19 @@ Wyoming";
             matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(allStates, currentSeparator, 1, 1, 3));
             Assert.IsTrue(matched.Count == 50);
 
-            matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(allStates, new int[] { 666 }, CalculationMethod.Sumerian, currentSeparator, 1, 1, 3));
+            matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(allStates, new HashSet<int> { 666 }, CalculationMethod.Sumerian, currentSeparator, 1, 1, 3));
             Assert.IsTrue(matched.Count == 2);
             Assert.IsTrue(matched.Contains(new Phrase("NEW MEXICO")));
             Assert.IsTrue(matched.Contains(new Phrase("NEW YORK")));
 
             string str = "THE DIE HAS BEEN CAST";
             currentSeparator = PhraseSeparator.Comma;
-            matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(str, new int[] { 888 }, CalculationMethod.Sumerian, currentSeparator, 1, 1, 5));
+            matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(str, new HashSet<int> { 888 }, CalculationMethod.Sumerian, currentSeparator, 1, 1, 5));
             Assert.IsTrue(matched.Count == 1);
             Assert.IsTrue(matched.Contains(new Phrase("THE DIE HAS BEEN CAST")));
 
             currentSeparator = PhraseSeparator.AllExceptSpace;
-            matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(str, new int[] { 888 }, CalculationMethod.Sumerian, currentSeparator, 1, 1, 5));
+            matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(str, new HashSet<int> { 888 }, CalculationMethod.Sumerian, currentSeparator, 1, 1, 5));
             Assert.IsTrue(matched.Count == 1);
             Assert.IsTrue(matched.Contains(new Phrase("THE DIE HAS BEEN CAST")));
 
@@ -324,7 +339,7 @@ Wyoming";
             Assert.IsTrue(matched.Contains(new Phrase("THE DIE HAS BEEN CAST")));
 
             currentSeparator = PhraseSeparator.All;
-            matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(str, new int[] { 888 }, CalculationMethod.Sumerian, currentSeparator, 1, 1, 5));
+            matched = new HashSet<Phrase>(await Scanner.ScanTextAsync(str, new HashSet<int> { 888 }, CalculationMethod.Sumerian, currentSeparator, 1, 1, 5));
             Assert.IsTrue(matched.Count == 1);
             Assert.IsTrue(matched.Contains(new Phrase("THE DIE HAS BEEN CAST")));
         }
@@ -334,7 +349,7 @@ Wyoming";
         {
             HashSet<Phrase> matched;
             string path = @$"{Environment.CurrentDirectory}\\Assets\\apocalypse.txt";
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 3);
             Assert.IsTrue(matched.Contains(new Phrase("ΒΑΣΑΝΙΖΟΜΕΝΗ")));
             Assert.IsTrue(matched.Contains(new Phrase("ΠΟΛΕΜΗΣΑΙ")));
@@ -342,21 +357,21 @@ Wyoming";
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 444);
+                Assert.IsTrue(phrase.Gematria == 444);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.Greek);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 555 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 555 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 2);
             Assert.IsTrue(matched.Contains(new Phrase("ΔΥΝΑΜΙΝ")));
             Assert.IsTrue(matched.Contains(new Phrase("ΔΡΑΚΟΝΤΙ")));
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 555);
+                Assert.IsTrue(phrase.Gematria == 555);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.Greek);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 888 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 5));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 888 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 5));
             Assert.IsTrue(matched.Count == 12);
             Assert.IsTrue(matched.Contains(new Phrase("ΗΜΑΣ ΒΑΣΙΛΕΙΑΝ ΙΕΡΕΙΣ")));
             Assert.IsTrue(matched.Contains(new Phrase("ΘΕΟΥ ΚΑΙ ΔΙΑ ΤΗΝ")));
@@ -372,22 +387,22 @@ Wyoming";
             Assert.IsTrue(matched.Contains(new Phrase("ΙΗΣΟΥΣ")));
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 888);
+                Assert.IsTrue(phrase.Gematria == 888);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.Greek);
             }
 
             path = @$"{Environment.CurrentDirectory}\\Assets\\prometheus.txt";
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 666 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 666 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 2);
             Assert.IsTrue(matched.Contains(new Phrase("ΕΚΛΥΣΑΙ")));
             Assert.IsTrue(matched.Contains(new Phrase("ΖΕΥΓΛΑΙΣΙ")));
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 666);
+                Assert.IsTrue(phrase.Gematria == 666);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.Greek);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 999 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 5));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 999 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 5));
             Assert.IsTrue(matched.Count == 10);
             Assert.IsTrue(matched.Contains(new Phrase("ΧΘΟΝΟΣ")));
             Assert.IsTrue(matched.Contains(new Phrase("ΠΥΡΟΣ ΠΗΓΗΝ")));
@@ -402,7 +417,7 @@ Wyoming";
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 999);
+                Assert.IsTrue(phrase.Gematria == 999);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.Greek);
             }
         }
@@ -412,7 +427,7 @@ Wyoming";
         {
             HashSet<Phrase> matched;
             string path = @$"{Environment.CurrentDirectory}\\Assets\\hunger.txt";
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 8);
             Assert.IsTrue(matched.Contains(new Phrase("מדת")));
             Assert.IsTrue(matched.Contains(new Phrase("ותחל")));
@@ -425,11 +440,11 @@ Wyoming";
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 444);
+                Assert.IsTrue(phrase.Gematria == 444);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.Hebrew);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 5));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 444 }, CalculationMethod.Gematria, PhraseSeparator.All, 1, 1, 5));
             Assert.IsTrue(matched.Count == 51);
             Assert.IsTrue(matched.Contains(new Phrase("בגדי השמיע")));
             Assert.IsTrue(matched.Contains(new Phrase("אני מכיסי כסף לבטלה או")));
@@ -438,11 +453,11 @@ Wyoming";
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Gematria] == 444);
+                Assert.IsTrue(phrase.Gematria == 444);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.Hebrew);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 666 }, CalculationMethod.MisparGadol, PhraseSeparator.All, 1, 1, 1));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 666 }, CalculationMethod.MisparGadol, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 7);
             Assert.IsTrue(matched.Contains(new Phrase("תכריכיבד")));
             Assert.IsTrue(matched.Contains(new Phrase("ותמכר")));
@@ -454,11 +469,11 @@ Wyoming";
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.MisparGadol] == 666);
+                Assert.IsTrue(phrase.MisparGadol == 666);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.Hebrew);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 666 }, CalculationMethod.MisparGadol, PhraseSeparator.All, 1, 1, 5));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 666 }, CalculationMethod.MisparGadol, PhraseSeparator.All, 1, 1, 5));
             Assert.IsTrue(matched.Count == 33);
             Assert.IsTrue(matched.Contains(new Phrase("להכיר את")));
             Assert.IsTrue(matched.Contains(new Phrase("נפלאה ער כרי")));
@@ -469,11 +484,11 @@ Wyoming";
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.MisparGadol] == 666);
+                Assert.IsTrue(phrase.MisparGadol == 666);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.Hebrew);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 123 }, CalculationMethod.Ordinal, PhraseSeparator.All, 1, 1, 1));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 123 }, CalculationMethod.Ordinal, PhraseSeparator.All, 1, 1, 1));
             Assert.IsTrue(matched.Count == 8);
             Assert.IsTrue(matched.Contains(new Phrase("תמהוןראשי")));
             Assert.IsTrue(matched.Contains(new Phrase("ברכתהשלום")));
@@ -486,11 +501,11 @@ Wyoming";
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Ordinal] == 123);
+                Assert.IsTrue(phrase.Ordinal == 123);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.Hebrew);
             }
 
-            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new int[] { 123 }, CalculationMethod.Ordinal, PhraseSeparator.All, 1, 1, 5));
+            matched = new HashSet<Phrase>(await Scanner.ScanFileAsync(path, new HashSet<int> { 123 }, CalculationMethod.Ordinal, PhraseSeparator.All, 1, 1, 5));
             Assert.IsTrue(matched.Count == 393);
             Assert.IsTrue(matched.Contains(new Phrase("את חותמה המיוחד")));
             Assert.IsTrue(matched.Contains(new Phrase("הדבר האחד אשר מצא")));
@@ -503,10 +518,9 @@ Wyoming";
 
             foreach (Phrase phrase in matched)
             {
-                Assert.IsTrue(phrase.Values[CalculationMethod.Ordinal] == 123);
+                Assert.IsTrue(phrase.Ordinal == 123);
                 Assert.IsTrue(phrase.Alphabet == Alphabet.Hebrew);
             }
-
         }
     }
 }

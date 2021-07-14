@@ -8,7 +8,6 @@ using ArithmosViewModels.Services;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Mvvm.Messaging;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ArithmosViewModels

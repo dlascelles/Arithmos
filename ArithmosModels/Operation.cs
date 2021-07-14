@@ -17,6 +17,5 @@ namespace ArithmosModels
         public string Description { get; set; }
 
         public DateTime EntryDate { get; set; }
-
     }
 }

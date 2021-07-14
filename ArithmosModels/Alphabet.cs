@@ -11,7 +11,7 @@ namespace ArithmosModels
     /// The alphabet of a character or a phrase
     /// </summary>
     [Flags]
-    public enum Alphabet
+    public enum Alphabet : sbyte
     {
         None = 0,
         Mixed = 1,

@@ -16,6 +16,7 @@ namespace ArithmosViewModels.Services
         {
             return await Task.Run(async () => { return await new OperationDataAccess().RetrtieveAllAsync(); });
         }
+
         public async Task<int> DeleteAsync(List<Operation> operations)
         {
             return await Task.Run(async () => { return await new OperationDataAccess().DeleteAsync(operations); });
