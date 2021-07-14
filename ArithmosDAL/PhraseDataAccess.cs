@@ -171,7 +171,7 @@ namespace ArithmosDAL
 
             if (values != null && values.Count > 0 && calculationMethod != CalculationMethod.None && alphabet != Alphabet.None)
             {
-                string query = $"SELECT Text, OperationId FROM Phrase WHERE ({SQLValuesString(values, calculationMethod, alphabet)}) ";
+                string query = $"SELECT Id, Text, OperationId FROM Phrase WHERE ({SQLValuesString(values, calculationMethod, alphabet)}) ";
                 using (SQLiteConnection con = new(Database.ConnectionString))
                 {
                     using (SQLiteCommand cmd = new(query, con))
@@ -181,7 +181,7 @@ namespace ArithmosDAL
                         {
                             while (await dare.ReadAsync())
                             {
-                                Phrase phrase = new(dare["Text"].ToString(), dare["OperationId"] == DBNull.Value ? 0 : Convert.ToInt32(dare["OperationId"]));
+                                Phrase phrase = new(dare["Text"].ToString(), Convert.ToInt64(dare["Id"]), dare["OperationId"] == DBNull.Value ? 0 : Convert.ToInt32(dare["OperationId"]));
                                 phrases.Add(phrase);
                             }
                         }
@@ -214,7 +214,7 @@ namespace ArithmosDAL
                         {
                             while (await dare.ReadAsync())
                             {
-                                Phrase phrase = new(dare["Text"].ToString(), Convert.ToInt32(dare["OperationId"]));
+                                Phrase phrase = new(dare["Text"].ToString(), Convert.ToInt64(dare["Id"]), Convert.ToInt32(dare["OperationId"]));
                                 phrases.Add(phrase);
                             }
                         }
@@ -245,7 +245,7 @@ namespace ArithmosDAL
                     {
                         while (await dare.ReadAsync())
                         {
-                            Phrase phrase = new(dare["Text"].ToString(), 0);
+                            Phrase phrase = new(dare["Text"].ToString(), Convert.ToInt64(dare["Id"]), 0);
                             phrases.Add(phrase);
                         }
                     }
@@ -287,6 +287,7 @@ namespace ArithmosDAL
             {
                 foreach (Phrase phrase in phrases)
                 {
+                    sb.Append(phrase.Id);
                     sb.Append(',');
                 }
                 sb.Remove(sb.Length - 1, 1);

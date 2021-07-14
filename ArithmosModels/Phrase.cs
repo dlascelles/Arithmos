@@ -19,10 +19,11 @@ namespace ArithmosModels
         /// <param name="originalText">The original text from which we will derive a new phrase</param>
         /// <param name="operationId">The id of the operation associated with this phrase</param>
         /// <exception cref="Argument">Thrown when the originalText parameter is null</exception>
-        public Phrase(string originalText, int operationId = 0)
+        public Phrase(string originalText, long phraseId = 0, int operationId = 0)
         {
             if (originalText == null) { throw new ArgumentNullException(nameof(originalText), "Original Text cannot be null"); }
 
+            Id = phraseId;
             OperationId = operationId;
             NormalizedText = CharacterHandler.NormalizeText(originalText.Trim());
             Alphabet = CharacterHandler.GetAlphabet(NormalizedText);
@@ -70,6 +71,8 @@ namespace ArithmosModels
         public readonly Alphabet Alphabet;
 
         public readonly string NormalizedText;
+
+        public readonly long Id;
 
         public readonly int OperationId;
 
