@@ -92,6 +92,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="200"/>
+                        <RowDefinition Height="65"/>
                         <RowDefinition Height="100*"/>
                         <RowDefinition Height="30"/>
                     </Grid.RowDefinitions>
@@ -205,7 +206,24 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                             </Grid>
                         </GroupBox>
                     </Grid>
-                    <DataGrid x:Name="phraseGrid" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}" ItemsSource="{Binding Phrases, IsAsync=True}" EnableRowVirtualization="True" Grid.Column="0" Grid.Row="1" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" EnableColumnVirtualization="True" Margin="0,5,0,0" SelectionChanged="PhraseGrid_SelectionChanged">
+                    <GroupBox Grid.Row="1" Header="Output locations" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox Grid.Row="0" VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding GridOutput}">Show on Grid</CheckBox>
+                            <CheckBox Grid.Row="1" VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding FileOutput}">Export to file</CheckBox>
+                            <TextBox Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" IsEnabled="False" Text="{Binding ExportFolderPath}"></TextBox>
+                            <Button x:Name="btnBrowseFolder" Grid.Column="2" Grid.Row="1" Command="{Binding GetFolderPathCommand}"  Margin="1,0" >Select folder...</Button>
+                        </Grid>
+                    </GroupBox>
+                    <DataGrid x:Name="phraseGrid" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}" ItemsSource="{Binding Phrases, IsAsync=True}" EnableRowVirtualization="True" Grid.Column="0" Grid.Row="2" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserAddRows="False" EnableColumnVirtualization="True" Margin="0,5,0,0" SelectionChanged="PhraseGrid_SelectionChanged">
                         <DataGrid.Resources>
                             <Style TargetType="DataGridRow">
                                 <Setter Property="IsSelected"
@@ -233,7 +251,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                             <DataGridTextColumn Header="Alphabet" Binding="{Binding Alphabet, Mode=OneTime}" Visibility="{Binding Content.SettingsService.ShowAlphabet, Source={StaticResource BindingAssist}, Converter={StaticResource BooleanToVisibilityConverter}}" Width="60" IsReadOnly="True" DisplayIndex="10"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Grid Grid.Column="0" Grid.Row="2" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
+                    <Grid Grid.Column="0" Grid.Row="3" IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="12*"/>
                             <ColumnDefinition Width="12*"/>
@@ -265,7 +283,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                         </TextBlock>
                         <Button Grid.Column="7" Command="{Binding SaveMarkedItemsCommand}" >Save Marked</Button>
                     </Grid>
-                    <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Orientation="Vertical" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                    <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Orientation="Vertical" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
                         <ProgressBar IsIndeterminate="True" Height="24"/>
                         <Button Command="{Binding CancelCommand}" Content="Cancel" Height="24"></Button>
                     </StackPanel>

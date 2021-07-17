@@ -21,6 +21,7 @@ namespace Arithmos
             WeakReferenceMessenger.Default.Register<MainWindow, ErrorMessage>(this, static (r, m) => r.IncomingErrorMessage(m));
             WeakReferenceMessenger.Default.Register<MainWindow, ConfirmationMessage>(this, static (r, m) => r.IncomingConfirmation(m));
             WeakReferenceMessenger.Default.Register<MainWindow, FileDialogMessage>(this, static (r, m) => r.IncomingFileRequest(m));
+
         }
 
         private void IncomingFileRequest(FileDialogMessage msg)
@@ -30,6 +31,7 @@ namespace Arithmos
             ofd.ShowDialog();
             msg.Reply(ofd.FileName);
         }
+
 
         private void IncomingConfirmation(ConfirmationMessage msg)
         {

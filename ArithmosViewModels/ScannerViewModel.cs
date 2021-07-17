@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ArithmosViewModels
 {
@@ -28,6 +29,7 @@ namespace ArithmosViewModels
             ScanTextCommand = new AsyncRelayCommand(ScanTextAsync, CanScanText);
             SaveMarkedItemsCommand = new AsyncRelayCommand(SaveMarkedItems, CanSaveMarkedItems);
             GetFilePathCommand = new RelayCommand(GetFilePath, CanGetFilePath);
+            GetFolderPathCommand = new RelayCommand(GetFolderPath, CanGetFolderPath);
             this.phraseDataService = phraseDataService;
             SettingsService = settingsService;
             NumericValues.CollectionChanged += NumericValues_CollectionChanged;
@@ -97,22 +99,37 @@ namespace ArithmosViewModels
                 Phrases.Clear();
                 List<Phrase> phrases = new();
                 string message = "";
+
                 using (cts = new CancellationTokenSource())
                 {
                     if (!GetAllText)
                     {
-                        phrases = await Scanner.ScanFileAsync(FilePath, NumericValues.ToHashSet<int>(), CalculationMethod, PhraseSeparator, MinimumCharacters, MinimumWordsPerPhrase, MaximumWordsPerPhrase, cts.Token);
+                        phrases = await Scanner.ScanFileAsync(FilePath, NumericValues.ToHashSet(), CalculationMethod, PhraseSeparator, MinimumCharacters, MinimumWordsPerPhrase, MaximumWordsPerPhrase, cts.Token);
                     }
                     else
                     {
                         phrases = await Scanner.ScanFileAsync(FilePath, PhraseSeparator, MinimumCharacters, MinimumWordsPerPhrase, MaximumWordsPerPhrase, cts.Token);
                     }
+
+                    if (cts.IsCancellationRequested == false)
+                    {
+                        if (GridOutput)
+                        {
+                            foreach (Phrase phrase in phrases)
+                            {
+                                Phrases.Add(new PhraseViewModel(phrase));
+                            }
+                        }
+
+                        if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
+                        {
+                            await Exporter.ExportAsync(Exporter.FormatPhrases(phrases, ','), ExportFolderPath, cts.Token, "Arithmos_Export_", "csv");
+                        }
+                    }
+
                     message = cts.IsCancellationRequested ? $"Operation interrupted by user." : $"The file was successfully scanned. {phrases.Count} unique phrases were extracted.";
                 }
-                foreach (Phrase phrase in phrases)
-                {
-                    Phrases.Add(new PhraseViewModel(phrase));
-                }
+
                 IsBusy = false;
                 NotificationMessage scannedMessage = new(message);
                 WeakReferenceMessenger.Default.Send(scannedMessage);
@@ -152,12 +169,26 @@ namespace ArithmosViewModels
                     {
                         phrases = await Scanner.ScanTextAsync(ImportedText, PhraseSeparator, MinimumCharacters, MinimumWordsPerPhrase, MaximumWordsPerPhrase, cts.Token);
                     }
+
+                    if (cts.IsCancellationRequested == false)
+                    {
+                        if (GridOutput)
+                        {
+                            foreach (Phrase phrase in phrases)
+                            {
+                                Phrases.Add(new PhraseViewModel(phrase));
+                            }
+                        }
+
+                        if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
+                        {
+                            await Exporter.ExportAsync(Exporter.FormatPhrases(phrases, ','), ExportFolderPath, cts.Token, "Arithmos_Export_", "csv");
+                        }
+                    }
+
                     message = cts.IsCancellationRequested ? $"Operation interrupted by user." : $"The text was successfully scanned. {phrases.Count} unique phrases were extracted.";
                 }
-                foreach (Phrase phrase in phrases)
-                {
-                    Phrases.Add(new PhraseViewModel(phrase));
-                }
+
                 IsBusy = false;
                 NotificationMessage scannedMessage = new(message);
                 WeakReferenceMessenger.Default.Send(scannedMessage);
@@ -191,6 +222,21 @@ namespace ArithmosViewModels
             }
         }
         public bool CanGetFilePath()
+        {
+            return true;
+        }
+
+        public RelayCommand GetFolderPathCommand { get; private set; }
+        public void GetFolderPath()
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.ShowNewFolderButton = true;
+            if (fbd.ShowDialog() == DialogResult.OK && GetFolderPathCommand.CanExecute(fbd.SelectedPath))
+            {
+                ExportFolderPath = fbd.SelectedPath;
+            }
+        }
+        public bool CanGetFolderPath()
         {
             return true;
         }
@@ -285,6 +331,39 @@ namespace ArithmosViewModels
             {
                 SetProperty(ref currentOperation, value);
                 CurrentOperation.PropertyChanged += CurrentOperation_PropertyChanged;
+                GroupNotifyCanExecuteChanged();
+            }
+        }
+
+        private bool gridOutput = true;
+        public bool GridOutput
+        {
+            get => gridOutput;
+            set
+            {
+                SetProperty(ref gridOutput, value);
+                GroupNotifyCanExecuteChanged();
+            }
+        }
+
+        private bool fileOutput = false;
+        public bool FileOutput
+        {
+            get => fileOutput;
+            set
+            {
+                SetProperty(ref fileOutput, value);
+                GroupNotifyCanExecuteChanged();
+            }
+        }
+
+        private string exportFolderPath;
+        public string ExportFolderPath
+        {
+            get => exportFolderPath;
+            set
+            {
+                SetProperty(ref exportFolderPath, value);
                 GroupNotifyCanExecuteChanged();
             }
         }
