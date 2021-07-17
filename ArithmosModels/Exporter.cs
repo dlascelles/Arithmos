@@ -4,7 +4,6 @@
 * License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 */
 using ArithmosModels.Helpers;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -15,7 +14,7 @@ namespace ArithmosModels
 {
     public static class Exporter
     {
-        public static string FormatPhrases(List<Phrase> phrases, char delimiter)
+        public static string GetPhrasesForExport(List<Phrase> phrases, char delimiter)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -27,8 +26,8 @@ namespace ArithmosModels
 
                 foreach (Phrase phrase in phrases)
                 {
-                    //If the phrase is in an rtl language we must switch back to ltr afterwards using the special character
-                    string text = phrase.NormalizedText + ((Char)0x200E).ToString();
+                    //If the language of the phrase is rtl, then we must switch back to ltr using the special character
+                    string text = phrase.NormalizedText + ((char)0x200E).ToString();
                     sb.AppendJoin(delimiter, text,
                         phrase.Gematria.ToString(), phrase.Ordinal.ToString(), phrase.Reduced.ToString(), phrase.Sumerian.ToString(),
                         phrase.Primes.ToString(), phrase.Squared.ToString(), phrase.MisparGadol.ToString(), phrase.MisparShemi.ToString()).AppendLine();

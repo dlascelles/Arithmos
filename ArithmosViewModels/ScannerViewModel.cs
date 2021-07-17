@@ -123,7 +123,7 @@ namespace ArithmosViewModels
 
                         if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
                         {
-                            await Exporter.ExportAsync(Exporter.FormatPhrases(phrases, ','), ExportFolderPath, cts.Token, "Arithmos_Export_", "csv");
+                            await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, "Arithmos_Export_", "csv");
                         }
                     }
 
@@ -182,7 +182,7 @@ namespace ArithmosViewModels
 
                         if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
                         {
-                            await Exporter.ExportAsync(Exporter.FormatPhrases(phrases, ','), ExportFolderPath, cts.Token, "Arithmos_Export_", "csv");
+                            await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, "Arithmos_Export_", "csv");
                         }
                     }
 
