@@ -99,8 +99,6 @@ namespace ArithmosModels.Helpers
             { 'ץ', Alphabet.Hebrew }
         };
 
-        private static readonly StringBuilder sb = new();
-
         /// <summary>
         /// Detects the alphabet of a character
         /// </summary>
@@ -141,6 +139,8 @@ namespace ArithmosModels.Helpers
         /// <returns>The normalized string</returns>
         public static string NormalizeText(string text)
         {
+            StringBuilder sb = new StringBuilder();
+
             if (string.IsNullOrWhiteSpace(text))
             {
                 return "";
