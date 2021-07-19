@@ -28,8 +28,7 @@ namespace ArithmosViewModels
             ScanFileCommand = new AsyncRelayCommand(ScanFileAsync, CanScanFile);
             ScanTextCommand = new AsyncRelayCommand(ScanTextAsync, CanScanText);
             SaveMarkedItemsCommand = new AsyncRelayCommand(SaveMarkedItems, CanSaveMarkedItems);
-            GetFilePathCommand = new RelayCommand(GetFilePath, CanGetFilePath);
-            GetFolderPathCommand = new RelayCommand(GetFolderPath, CanGetFolderPath);
+            GetFilePathCommand = new RelayCommand(GetFilePath, CanGetFilePath);            
             this.phraseDataService = phraseDataService;
             SettingsService = settingsService;
             NumericValues.CollectionChanged += NumericValues_CollectionChanged;
@@ -123,7 +122,7 @@ namespace ArithmosViewModels
 
                         if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
                         {
-                            await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, "Arithmos_Export_", "csv");
+                            await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, FileNamePrefix, "csv");
                         }
                     }
 
@@ -182,7 +181,7 @@ namespace ArithmosViewModels
 
                         if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
                         {
-                            await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, "Arithmos_Export_", "csv");
+                            await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, FileNamePrefix, "csv");
                         }
                     }
 
@@ -224,22 +223,7 @@ namespace ArithmosViewModels
         public bool CanGetFilePath()
         {
             return true;
-        }
-
-        public RelayCommand GetFolderPathCommand { get; private set; }
-        public void GetFolderPath()
-        {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.ShowNewFolderButton = true;
-            if (fbd.ShowDialog() == DialogResult.OK && GetFolderPathCommand.CanExecute(fbd.SelectedPath))
-            {
-                ExportFolderPath = fbd.SelectedPath;
-            }
-        }
-        public bool CanGetFolderPath()
-        {
-            return true;
-        }
+        }       
 
         private string filePath = "";
         public string FilePath
@@ -331,39 +315,6 @@ namespace ArithmosViewModels
             {
                 SetProperty(ref currentOperation, value);
                 CurrentOperation.PropertyChanged += CurrentOperation_PropertyChanged;
-                GroupNotifyCanExecuteChanged();
-            }
-        }
-
-        private bool gridOutput = true;
-        public bool GridOutput
-        {
-            get => gridOutput;
-            set
-            {
-                SetProperty(ref gridOutput, value);
-                GroupNotifyCanExecuteChanged();
-            }
-        }
-
-        private bool fileOutput = false;
-        public bool FileOutput
-        {
-            get => fileOutput;
-            set
-            {
-                SetProperty(ref fileOutput, value);
-                GroupNotifyCanExecuteChanged();
-            }
-        }
-
-        private string exportFolderPath;
-        public string ExportFolderPath
-        {
-            get => exportFolderPath;
-            set
-            {
-                SetProperty(ref exportFolderPath, value);
                 GroupNotifyCanExecuteChanged();
             }
         }

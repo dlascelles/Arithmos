@@ -14,7 +14,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Windows;
+using System.Windows.Forms;
 
 namespace ArithmosViewModels
 {
@@ -32,6 +32,7 @@ namespace ArithmosViewModels
             MarkAllItemsCommand = new RelayCommand(MarkAllItems, CanMarkAllItems);
             CopyMarkedItemsCommand = new RelayCommand(CopyMarkedItems, CanCopyMarkedItems);
             CancelCommand = new RelayCommand(CancelOperation, CanCancelOperation);
+            GetFolderPathCommand = new RelayCommand(GetFolderPath, CanGetFolderPath);
             Phrases.CollectionChanged += Phrases_CollectionChanged;
             NumericValues.CollectionChanged += NumericValues_CollectionChanged;
         }
@@ -201,13 +202,13 @@ namespace ArithmosViewModels
         public RelayCommand CopyMarkedItemsCommand { get; private set; }
         public void CopyMarkedItems()
         {
-            Clipboard.Clear();
+            System.Windows.Clipboard.Clear();
             StringBuilder sb = new();
             foreach (PhraseViewModel phrase in Phrases.Where(p => p.IsMarked))
             {
                 sb.AppendLine(phrase.Phrase.NormalizedText);
             }
-            Clipboard.SetText(sb.ToString());
+            System.Windows.Clipboard.SetText(sb.ToString());
         }
         public bool CanCopyMarkedItems()
         {
@@ -225,6 +226,21 @@ namespace ArithmosViewModels
         public bool CanCancelOperation()
         {
             return IsBusy;
+        }
+
+        public RelayCommand GetFolderPathCommand { get; private set; }
+        public void GetFolderPath()
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.ShowNewFolderButton = true;
+            if (fbd.ShowDialog() == DialogResult.OK && GetFolderPathCommand.CanExecute(fbd.SelectedPath))
+            {
+                ExportFolderPath = fbd.SelectedPath;
+            }
+        }
+        public bool CanGetFolderPath()
+        {
+            return true;
         }
 
         private bool isBusy = false;
@@ -281,6 +297,45 @@ namespace ArithmosViewModels
         {
             get => phrases;
             set => SetProperty(ref phrases, value);
+        }
+
+        private bool gridOutput = true;
+        public bool GridOutput
+        {
+            get => gridOutput;
+            set
+            {
+                SetProperty(ref gridOutput, value);
+                GroupNotifyCanExecuteChanged();
+            }
+        }
+
+        private bool fileOutput = false;
+        public bool FileOutput
+        {
+            get => fileOutput;
+            set
+            {
+                SetProperty(ref fileOutput, value);
+                GroupNotifyCanExecuteChanged();
+            }
+        }
+
+        private string exportFolderPath;
+        public string ExportFolderPath
+        {
+            get => exportFolderPath;
+            set
+            {
+                SetProperty(ref exportFolderPath, value);
+                GroupNotifyCanExecuteChanged();
+            }
+        }
+
+        private readonly string fileNamePrefix = "Arithmos_Export_";
+        protected string FileNamePrefix
+        {
+            get => fileNamePrefix;
         }
     }
 }

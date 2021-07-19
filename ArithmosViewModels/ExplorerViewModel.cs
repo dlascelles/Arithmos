@@ -78,15 +78,36 @@ namespace ArithmosViewModels
             IsBusy = true;
             Phrases.Clear();
             List<Operation> operations = new();
-            foreach (OperationViewModel ovm in Operations.Where(o => o.IsSelected))
+            NotificationMessage deletedMessage;
+
+            using (cts = new CancellationTokenSource())
             {
-                operations.Add(ovm.Operation);
+                foreach (OperationViewModel ovm in Operations.Where(o => o.IsSelected))
+                {
+                    operations.Add(ovm.Operation);
+                }
+
+                List<Phrase> phrases = await phraseDataService.RetrieveAsync(operations);
+
+                if (GridOutput)
+                {
+                    foreach (Phrase phrase in phrases)
+                    {
+                        Phrases.Add(new PhraseViewModel(phrase));
+                    }
+                }
+
+                if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
+                {
+                    await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, FileNamePrefix, "csv");
+                }
+
+                deletedMessage = new($"{phrases.Count} phrases have been retrieved.");
             }
-            foreach (Phrase phrase in await phraseDataService.RetrieveAsync(operations))
-            {
-                Phrases.Add(new PhraseViewModel(phrase));
-            }
+
             IsBusy = false;
+
+            WeakReferenceMessenger.Default.Send(deletedMessage);
         }
         public bool CanLoadSelectedOperations()
         {
@@ -98,11 +119,30 @@ namespace ArithmosViewModels
         {
             IsBusy = true;
             Phrases.Clear();
-            foreach (Phrase phrase in await phraseDataService.RetrieveOrphansAsync())
+            NotificationMessage deletedMessage;
+
+            using (cts = new CancellationTokenSource())
             {
-                Phrases.Add(new PhraseViewModel(phrase));
+                List<Phrase> phrases = await phraseDataService.RetrieveOrphansAsync();
+
+                if (GridOutput)
+                {
+                    foreach (Phrase phrase in phrases)
+                    {
+                        Phrases.Add(new PhraseViewModel(phrase));
+                    }
+                }
+
+                if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
+                {
+                    await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, FileNamePrefix, "csv");
+                }
+                deletedMessage = new($"{phrases.Count} phrases have been retrieved.");
             }
+
             IsBusy = false;
+
+            WeakReferenceMessenger.Default.Send(deletedMessage);
         }
         public bool CanLoadAllOrphans()
         {
@@ -183,13 +223,24 @@ namespace ArithmosViewModels
         {
             IsBusy = true;
             Phrases.Clear();
-            List<Phrase> retrieved = await phraseDataService.RetrieveAsync(NumericValues.ToList(), CalculationMethod, Alphabet);
-            foreach (Phrase phrase in retrieved)
+            List<Phrase> phrases = await phraseDataService.RetrieveAsync(NumericValues.ToList(), CalculationMethod, Alphabet);
+
+            if (GridOutput)
             {
-                Phrases.Add(new PhraseViewModel(phrase));
+                foreach (Phrase phrase in phrases)
+                {
+                    Phrases.Add(new PhraseViewModel(phrase));
+                }
             }
+
+            if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
+            {
+                await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, FileNamePrefix, "csv");
+            }
+
             IsBusy = false;
-            NotificationMessage retrievedMessage = new($"{retrieved.Count} phrases have been retrieved.");
+
+            NotificationMessage retrievedMessage = new($"{phrases.Count} phrases have been retrieved.");
             WeakReferenceMessenger.Default.Send(retrievedMessage);
         }
         public bool CanSearchPhrases()

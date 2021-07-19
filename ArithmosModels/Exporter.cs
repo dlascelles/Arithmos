@@ -12,8 +12,17 @@ using System.Threading.Tasks;
 
 namespace ArithmosModels
 {
+    /// <summary>
+    /// A class to export phrases to a delimited file
+    /// </summary>
     public static class Exporter
     {
+        /// <summary>
+        /// Format a list of phrases with a delimiter to be exported to a file
+        /// </summary>
+        /// <param name="phrases">A list of phrases</param>
+        /// <param name="delimiter">The delimiter to be user</param>
+        /// <returns>A list of phrases</returns>
         public static string GetPhrasesForExport(List<Phrase> phrases, char delimiter)
         {
             StringBuilder sb = new StringBuilder();
@@ -37,6 +46,15 @@ namespace ArithmosModels
             return sb.ToString();
         }
 
+        /// <summary>
+        /// It will export a properly formatted group of phrases to a delimited file
+        /// </summary>
+        /// <param name="formattedPhrases">The phrases formatted properly with a delimiter</param>
+        /// <param name="folderPath">The file system location where the file will be created</param>
+        /// <param name="ct">The cancellation token</param>
+        /// <param name="fileNamePrefix">An option prefix for the file name</param>
+        /// <param name="fileExtension">An optional extension for the file</param>
+        /// <returns>A Task</returns>
         public static async Task ExportAsync(string formattedPhrases, string folderPath, CancellationToken ct, string fileNamePrefix = null, string fileExtension = null)
         {
             if (!Directory.Exists(folderPath))

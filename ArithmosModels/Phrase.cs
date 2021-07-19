@@ -17,6 +17,7 @@ namespace ArithmosModels
         /// Constructs a new instance of a readonly struct of type Phrase 
         /// </summary>
         /// <param name="originalText">The original text from which we will derive a new phrase</param>
+        /// /// <param name="phraseId">The id of the phrase</param>
         /// <param name="operationId">The id of the operation associated with this phrase</param>
         /// <exception cref="Argument">Thrown when the originalText parameter is null</exception>
         public Phrase(string originalText, long phraseId = 0, int operationId = 0)
