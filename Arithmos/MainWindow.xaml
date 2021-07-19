@@ -465,7 +465,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
                         <Button Grid.Column="5" Command="{Binding MarkAllItemsCommand}"  Margin="0">Mark All</Button>
                         <Button Grid.Column="6" Command="{Binding DeleteMarkedItemsCommand}" Foreground="Red">Delete Marked</Button>
                     </Grid>
-                    <ProgressBar  IsIndeterminate="True" Height="24" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                    <ProgressBar  IsIndeterminate="True" Height="24" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Settings" DataContext="{Binding ChildViews[3]}" Height="50" Width="70">
