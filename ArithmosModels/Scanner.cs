@@ -29,13 +29,13 @@ namespace ArithmosModels.Helpers
         {
             List<Phrase> phrasesFound = new();
 
-            using (mmf = MemoryMappedFile.CreateFromFile(filePath))
+            using (MemoryMappedFile mmf = MemoryMappedFile.CreateFromFile(filePath))
             {
-                using (Stream mappedStream = mmf.CreateViewStream())
+                using (Stream mappedStream = mmf.CreateViewStream(0, 0, MemoryMappedFileAccess.Read))
                 {
                     using (StreamReader sr = new(mappedStream, UTF8Encoding.UTF8))
                     {
-                        string text = sr.ReadToEnd();
+                        string text = await sr.ReadToEndAsync();
                         phrasesFound = await ScanTextAsync(text, values, calculationMethod, phraseSeparator, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase, cts);
                     }
                 }
@@ -55,13 +55,13 @@ namespace ArithmosModels.Helpers
         {
             List<Phrase> phrasesFound = new();
 
-            using (mmf = MemoryMappedFile.CreateFromFile(filePath))
+            using (MemoryMappedFile mmf = MemoryMappedFile.CreateFromFile(filePath))
             {
-                using (Stream mappedStream = mmf.CreateViewStream())
+                using (Stream mappedStream = mmf.CreateViewStream(0, 0, MemoryMappedFileAccess.Read))
                 {
                     using (StreamReader sr = new(mappedStream, UTF8Encoding.UTF8))
                     {
-                        string text = sr.ReadToEnd();
+                        string text = await sr.ReadToEndAsync();
                         phrasesFound = await ScanTextAsync(text, phraseSeparator, minCharsPerPhrase, minimumWordsPerPhrase, maximumWordsPerPhrase, cts);
                     }
                 }
@@ -85,7 +85,7 @@ namespace ArithmosModels.Helpers
 
             if (!string.IsNullOrEmpty(text))
             {
-                string[] words = text.Split(GetSeparators(phraseSeparator), StringSplitOptions.RemoveEmptyEntries);
+                string[] words = await Task.Run(() => { return text.Split(GetSeparators(phraseSeparator), StringSplitOptions.RemoveEmptyEntries); }, cts);
 
                 if (words != null && words.Length > 0)
                 {
@@ -99,7 +99,7 @@ namespace ArithmosModels.Helpers
         /// <summary>
         /// Will scan some text and look for phrases that match the given criteria
         /// </summary>
-        /// <param name="text">The text you want to search</param>       
+        /// <param name="text">The text you want to search</param>
         /// <param name="minCharsPerPhrase">Set the minimum number of characters for each phrase</param>
         /// <param name="maximumWordsPerPhrase">Set the maximum amount of words for each phrase</param>
         /// <returns>A list of phrases that match our criteria</returns>
@@ -109,7 +109,7 @@ namespace ArithmosModels.Helpers
 
             if (!string.IsNullOrEmpty(text))
             {
-                string[] words = text.Split(GetSeparators(phraseSeparator), StringSplitOptions.RemoveEmptyEntries);
+                string[] words = await Task.Run(() => { return text.Split(GetSeparators(phraseSeparator), StringSplitOptions.RemoveEmptyEntries); }, cts);
 
                 if (words != null && words.Length > 0)
                 {
@@ -339,7 +339,5 @@ namespace ArithmosModels.Helpers
         }
 
         private static readonly string[] allSeparators = new string[] { " ", ",", ";", ":", ".", "·", "\t", Environment.NewLine };
-
-        private static MemoryMappedFile mmf;
     }
 }
