@@ -80,30 +80,30 @@ namespace ArithmosViewModels
             List<Operation> operations = new();
             NotificationMessage deletedMessage;
 
-            using (cts = new CancellationTokenSource())
+            foreach (OperationViewModel ovm in Operations.Where(o => o.IsSelected))
             {
-                foreach (OperationViewModel ovm in Operations.Where(o => o.IsSelected))
+                operations.Add(ovm.Operation);
+            }
+
+            List<Phrase> phrases = await phraseDataService.RetrieveAsync(operations);
+
+            if (GridOutput)
+            {
+                foreach (Phrase phrase in phrases)
                 {
-                    operations.Add(ovm.Operation);
+                    Phrases.Add(new PhraseViewModel(phrase));
                 }
+            }
 
-                List<Phrase> phrases = await phraseDataService.RetrieveAsync(operations);
-
-                if (GridOutput)
-                {
-                    foreach (Phrase phrase in phrases)
-                    {
-                        Phrases.Add(new PhraseViewModel(phrase));
-                    }
-                }
-
-                if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
+            if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
+            {
+                using (cts = new CancellationTokenSource())
                 {
                     await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, FileNamePrefix, "csv");
                 }
-
-                deletedMessage = new($"{phrases.Count} phrases have been retrieved.");
             }
+
+            deletedMessage = new($"{phrases.Count} phrases have been retrieved.");
 
             IsBusy = false;
 
@@ -121,24 +121,24 @@ namespace ArithmosViewModels
             Phrases.Clear();
             NotificationMessage deletedMessage;
 
-            using (cts = new CancellationTokenSource())
+            List<Phrase> phrases = await phraseDataService.RetrieveOrphansAsync();
+
+            if (GridOutput)
             {
-                List<Phrase> phrases = await phraseDataService.RetrieveOrphansAsync();
-
-                if (GridOutput)
+                foreach (Phrase phrase in phrases)
                 {
-                    foreach (Phrase phrase in phrases)
-                    {
-                        Phrases.Add(new PhraseViewModel(phrase));
-                    }
+                    Phrases.Add(new PhraseViewModel(phrase));
                 }
+            }
 
-                if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
+            if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
+            {
+                using (cts = new CancellationTokenSource())
                 {
                     await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, FileNamePrefix, "csv");
                 }
-                deletedMessage = new($"{phrases.Count} phrases have been retrieved.");
             }
+            deletedMessage = new($"{phrases.Count} phrases have been retrieved.");
 
             IsBusy = false;
 
@@ -235,7 +235,10 @@ namespace ArithmosViewModels
 
             if (FileOutput && !string.IsNullOrWhiteSpace(ExportFolderPath))
             {
-                await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, FileNamePrefix, "csv");
+                using (cts = new CancellationTokenSource())
+                {
+                    await Exporter.ExportAsync(Exporter.GetPhrasesForExport(phrases, ','), ExportFolderPath, cts.Token, FileNamePrefix, "csv");
+                }
             }
 
             IsBusy = false;
