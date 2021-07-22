@@ -6,7 +6,7 @@
 	<RootNamespace>ArithmosModels</RootNamespace>
 	<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 	<Authors>Daniel Lascelles</Authors>
-	<Version>2.0.2</Version>
+	<Version>2.1.0</Version>
 	<Copyright>Copyright (c) 2018 - 2021 Daniel Lascelles. Licensed under the MIT License.</Copyright>
   </PropertyGroup>  
   <ItemGroup>

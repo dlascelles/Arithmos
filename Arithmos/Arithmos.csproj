@@ -21,9 +21,9 @@
 		<ApplicationIcon>alpha.ico</ApplicationIcon>
 		<StartupObject>Arithmos.App</StartupObject>
 		<Authors>Daniel Lascelles</Authors>		
-		<AssemblyVersion>2.0.2.0</AssemblyVersion>
-		<FileVersion>2.0.2.0</FileVersion>
-		<Version>2.0.2</Version>
+		<AssemblyVersion>2.1.0.0</AssemblyVersion>
+		<FileVersion>2.1.0.0</FileVersion>
+		<Version>2.1.0</Version>
 		<Copyright>Copyright (c) 2018 - 2021 Daniel Lascelles. Licensed under the MIT License.</Copyright>
 		<Company />
 	</PropertyGroup>

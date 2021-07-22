@@ -32,5 +32,7 @@ namespace ArithmosViewModels
         {
             return true;
         }
+
+        public static string AppVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
     }
 }
