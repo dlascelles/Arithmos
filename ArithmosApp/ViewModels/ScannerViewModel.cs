@@ -581,6 +581,10 @@ public partial class ScannerViewModel : CommonViewModel
         {
             message = "The description cannot be empty";
         }
+        else if (GematriaMethodsViewModels == null || GematriaMethodsViewModels.Count == 0)
+        {
+            message = "There are no gematria methods. You must add at least one method in order to save.";
+        }
         return string.IsNullOrWhiteSpace(message);
     }
 
