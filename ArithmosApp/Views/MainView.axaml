@@ -25,7 +25,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 					<RowDefinition Height="200*"></RowDefinition>
 				</Grid.RowDefinitions>
 				<Border IsEnabled="{Binding !IsBusy}" Grid.Row="0" BorderThickness="0,0,0,2" BorderBrush="{DynamicResource ResourceKey=ArithmosBorderBrush}" HorizontalAlignment="Stretch" Height="30" MaxWidth="500">
-					<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CurrentPhraseContent}" MaxLength="1000" MaxLines="1" BorderThickness="0" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" FontSize="14" Background="Transparent">
+					<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding CurrentPhraseContent}" MaxLength="1000" MaxLines="1" Watermark="Type something..." BorderThickness="0" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" FontSize="14" Background="Transparent">
 						<TextBox.Styles>
 							<Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
 								<Setter Property="BorderThickness" Value="0"/>
