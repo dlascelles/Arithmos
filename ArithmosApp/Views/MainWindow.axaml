@@ -1,0 +1,31 @@
+<!--
+Copyright (c) 2018 - 2024 Daniel Lascelles, https://github.com/dlascelles
+This code is licensed under The MIT License. See LICENSE file in the project root for full license information.
+License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
+-->
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ArithmosApp.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"		
+        xmlns:views="clr-namespace:ArithmosApp.Views"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="600"
+        x:Class="ArithmosApp.Views.MainWindow"
+        Icon="/Assets/alpha.ico"
+        Title="Arithmos - Gematria Calculator &amp; Scanner">
+	<views:MainView />
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key='Light'>
+					<SolidColorBrush x:Key='ArithmosBorderBrush'>LightGray</SolidColorBrush>
+					<SolidColorBrush x:Key='ArithmosProgressBackground'>LightGray</SolidColorBrush>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key='Dark'>
+					<SolidColorBrush x:Key='ArithmosBorderBrush'>WhiteSmoke</SolidColorBrush>
+					<SolidColorBrush x:Key='ArithmosProgressBackground'>DimGray</SolidColorBrush>
+				</ResourceDictionary>				
+			</ResourceDictionary.ThemeDictionaries>			
+		</ResourceDictionary>
+	</Window.Resources>
+</Window>

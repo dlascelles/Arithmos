@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>disable</Nullable>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Authors>Daniel Lascelles</Authors>
+		<AssemblyVersion>3.0.0.0</AssemblyVersion>
+		<FileVersion>3.0.0.0</FileVersion>
+		<Version>3.0.0.0</Version>
+		<Copyright>Copyright (c) 2018 - 2024 Daniel Lascelles. Licensed under the MIT License.</Copyright>
+		<Company />
+	</PropertyGroup>
+
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Assets\alpha.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="11.0.6" />
+		<PackageReference Include="Avalonia.Controls.TreeDataGrid" Version="11.0.1" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.6" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.6" />
+		<PackageReference Include="Avalonia.Xaml.Behaviors" Version="11.0.5" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+
+		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.6" />
+		<PackageReference Include="MessageBox.Avalonia" Version="3.1.5.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ArithmosDataAccess\ArithmosDataAccess.csproj" />
+		<ProjectReference Include="..\ArithmosModels\ArithmosModels.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AvaloniaResource Update="Assets\alpha.ico">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </AvaloniaResource>
+	</ItemGroup>
+</Project>

@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>		
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>disable</Nullable>
+		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<PublishSingleFile>true</PublishSingleFile>
+		<SelfContained>true</SelfContained>
+		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+		<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<PublishReadyToRun>true</PublishReadyToRun>
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+		<AllowedReferenceRelatedFileExtensions>*.pdb</AllowedReferenceRelatedFileExtensions>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Authors>Daniel Lascelles</Authors>
+		<AssemblyVersion>3.0.0.0</AssemblyVersion>
+		<FileVersion>3.0.0.0</FileVersion>
+		<Version>3.0.0.0</Version>
+		<Copyright>Copyright (c) 2018 - 2024 Daniel Lascelles. Licensed under the MIT License.</Copyright>
+		<PublishAot>False</PublishAot>
+		<ErrorReport>none</ErrorReport>
+		<ApplicationIcon>alpha.ico</ApplicationIcon>
+		<Trimming>none</Trimming>
+		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugType>none</DebugType>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="alpha.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.6" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ArithmosApp\ArithmosApp.csproj" />		
+	</ItemGroup>
+</Project>

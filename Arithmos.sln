@@ -3,7 +3,49 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArithmosModels", "ArithmosModels\ArithmosModels.csproj", "{A9E1831A-C022-4387-A9BE-C0C59F92DF08}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArithmosModelsTests", "ArithmosModelsTests\ArithmosModelsTests.csproj", "{79375263-D1A8-48F6-A7A5-E6A69CD8D8E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArithmosDataAccess", "ArithmosDataAccess\ArithmosDataAccess.csproj", "{B8E5FC01-0378-4185-B7D1-1B60C7E76A0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArithmosApp", "ArithmosApp\ArithmosApp.csproj", "{EA84A32B-4ABE-411B-95A7-908D4103D110}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arithmos", "Arithmos\Arithmos.csproj", "{CEBDBC95-6277-4FB8-A95C-17FB01079F2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArithmosAppTests", "ArithmosAppTests\ArithmosAppTests.csproj", "{DE283BD4-24CD-44D7-B28F-AE16758D8601}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9E1831A-C022-4387-A9BE-C0C59F92DF08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E1831A-C022-4387-A9BE-C0C59F92DF08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E1831A-C022-4387-A9BE-C0C59F92DF08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E1831A-C022-4387-A9BE-C0C59F92DF08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79375263-D1A8-48F6-A7A5-E6A69CD8D8E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79375263-D1A8-48F6-A7A5-E6A69CD8D8E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79375263-D1A8-48F6-A7A5-E6A69CD8D8E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79375263-D1A8-48F6-A7A5-E6A69CD8D8E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8E5FC01-0378-4185-B7D1-1B60C7E76A0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8E5FC01-0378-4185-B7D1-1B60C7E76A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8E5FC01-0378-4185-B7D1-1B60C7E76A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8E5FC01-0378-4185-B7D1-1B60C7E76A0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA84A32B-4ABE-411B-95A7-908D4103D110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA84A32B-4ABE-411B-95A7-908D4103D110}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA84A32B-4ABE-411B-95A7-908D4103D110}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA84A32B-4ABE-411B-95A7-908D4103D110}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEBDBC95-6277-4FB8-A95C-17FB01079F2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEBDBC95-6277-4FB8-A95C-17FB01079F2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEBDBC95-6277-4FB8-A95C-17FB01079F2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEBDBC95-6277-4FB8-A95C-17FB01079F2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE283BD4-24CD-44D7-B28F-AE16758D8601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE283BD4-24CD-44D7-B28F-AE16758D8601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE283BD4-24CD-44D7-B28F-AE16758D8601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE283BD4-24CD-44D7-B28F-AE16758D8601}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

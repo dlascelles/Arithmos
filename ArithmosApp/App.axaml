@@ -1,0 +1,18 @@
+<!--
+Copyright (c) 2018 - 2024 Daniel Lascelles, https://github.com/dlascelles
+This code is licensed under The MIT License. See LICENSE file in the project root for full license information.
+License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
+-->
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             x:Class="ArithmosApp.App"
+             RequestedThemeVariant="Light">
+	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+	<Application.Styles>
+		<FluentTheme DensityStyle="Compact"/>		
+		<StyleInclude Source="avares://Avalonia.Controls.TreeDataGrid/Themes/Fluent.axaml"/>
+		<dialogHostAvalonia:DialogHostStyles />
+	</Application.Styles>
+</Application>
