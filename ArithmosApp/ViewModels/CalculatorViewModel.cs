@@ -36,6 +36,7 @@ public partial class CalculatorViewModel : CommonViewModel
     private void SaveCurrentPhrase()
     {
         if (CurrentPhrase == null || string.IsNullOrWhiteSpace(CurrentPhrase.Content)) return;
+        if (GematriaMethodsViewModels == null || GematriaMethodsViewModels.Count == 0) return;
 
         try
         {
@@ -58,6 +59,7 @@ public partial class CalculatorViewModel : CommonViewModel
     private async Task SearchByCurrentPhraseAsync()
     {
         if (CurrentPhrase == null || string.IsNullOrWhiteSpace(CurrentPhrase.Content)) return;
+        if (GematriaMethodsViewModels == null || GematriaMethodsViewModels.Count == 0) return;
 
         IsBusy = true;
         BusyMessage = "Searching...";
