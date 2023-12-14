@@ -67,6 +67,7 @@ public partial class CipherViewModel : ViewModelBase
     {
         IsEditMode = true;
         UpdateCipher(SelectedGematriaMethod.Cipher);
+        CipherEditControlsNotify();
     }
 
     private bool CanEditCipher()
