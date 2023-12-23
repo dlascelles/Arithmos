@@ -1,8 +1,8 @@
-﻿using System;
-using ArithmosApp;
+﻿using ArithmosApp;
 using Avalonia;
+using System;
 
-namespace Arithmos.Desktop;
+namespace Arithmos;
 
 class Program
 {
