@@ -224,14 +224,14 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 							<ColumnDefinition MinWidth="850"></ColumnDefinition>
 						</Grid.ColumnDefinitions>
 						<TextBlock Grid.Row="0" FontWeight="Bold" FontSize="14" Padding="0,5" Text="{Binding ResultsGridCountLabel}"></TextBlock>
-						<TreeDataGrid Name="ResultsGrid" Grid.Row="1" Source="{Binding ResultsGridSource}" ShowColumnHeaders="True" BorderThickness="1,1,1,0" CornerRadius="3,0" BorderBrush="{DynamicResource ResourceKey=ArithmosBorderBrush}">
+						<TreeDataGrid Name="ResultsGrid" Grid.Row="1" Source="{Binding ResultsGridSource}" ShowColumnHeaders="True" BorderThickness="1,1,1,0" CornerRadius="3,3,0,0" BorderBrush="{DynamicResource ResourceKey=ArithmosBorderBrush}">
 							<!--<i:Interaction.Behaviors>
 								<ia:EventTriggerBehavior EventName="DoubleTapped">
 									<InvokeCommandAction Command="{Binding MoveResultsCommand}"/>
 								</ia:EventTriggerBehavior>
 							</i:Interaction.Behaviors>-->
 						</TreeDataGrid>
-						<Border Grid.Row="2" BorderThickness="1" BorderBrush="{DynamicResource ResourceKey=ArithmosBorderBrush}" CornerRadius="0,3">
+						<Border Grid.Row="2" BorderThickness="1" BorderBrush="{DynamicResource ResourceKey=ArithmosBorderBrush}" CornerRadius="0,0,3,3">
 							<StackPanel Orientation="Horizontal">
 								<Button Content="Clear" Command="{Binding ClearAllResultsCommand}" ToolTip.Tip="Clear all grid contents" Margin="5,0,0,0"></Button>
 								<Button Content="Copy" Command="{Binding CopyResultsCommand}" ToolTip.Tip="Copy selected phrases to the clipboard" Margin="5,0,0,0"></Button>
@@ -252,7 +252,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 							<ColumnDefinition MinWidth="850"></ColumnDefinition>
 						</Grid.ColumnDefinitions>
 						<TextBlock Grid.Row="0" FontWeight="Bold" Padding="0,5" FontSize="14" Text="{Binding SelectionsGridCountLabel}"></TextBlock>
-						<TreeDataGrid x:Name="SelectionGrid" Grid.Row="1" Source="{Binding SelectionsGridSource}" ShowColumnHeaders="True" BorderThickness="1,1,1,0" CornerRadius="3,0" BorderBrush="{DynamicResource ResourceKey=ArithmosBorderBrush}">
+						<TreeDataGrid x:Name="SelectionGrid" Grid.Row="1" Source="{Binding SelectionsGridSource}" ShowColumnHeaders="True" BorderThickness="1,1,1,0" CornerRadius="3,3,0,0" BorderBrush="{DynamicResource ResourceKey=ArithmosBorderBrush}">
 							<!--<i:Interaction.Behaviors>
 								<ia:EventTriggerBehavior EventName="DoubleTapped" SourceObject="SelectionGrid">
 									<InvokeCommandAction Command="{Binding MoveSelectionsCommand}"/>
@@ -468,7 +468,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 						</ItemsControl>
 					</ScrollViewer>
 				</Border>
-				<Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="5" VerticalAlignment="Stretch" IsEnabled="{Binding IsEditMode}" BorderBrush="{DynamicResource ResourceKey=ArithmosBorderBrush}" BorderThickness="1,0,1,1" CornerRadius="0,3" Padding="0,3">
+				<Border Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="5" VerticalAlignment="Stretch" IsEnabled="{Binding IsEditMode}" BorderBrush="{DynamicResource ResourceKey=ArithmosBorderBrush}" BorderThickness="1,0,1,1" CornerRadius="0,0,3,3" Padding="0,3">
 					<StackPanel Orientation="Horizontal">
 						<Button Content="Clear" Command="{Binding ClearCipherPairsCommand}" ToolTip.Tip="Remove all pairs" Margin="5,0,5,0"></Button>
 						<ComboBox ToolTip.Tip="Select a pre-made template to save time" Width="180" Height="22" Margin="0,2,5,0" ItemsSource="{Binding CipherGroups}" SelectedValue="{Binding SelectedCipherGroup}" FontSize="12"></ComboBox>
