@@ -20,7 +20,7 @@ public static class Database
     static Database()
     {
         MainPath = Path.Combine(Environment.CurrentDirectory);
-        ConnectionString = $@"Data Source={MainPath}\ArithmosDatabase.sqlite;Version=3;foreign keys = 1;locking mode = exclusive";
+        ConnectionString = $@"Data Source={Path.Combine(MainPath, "ArithmosDatabase.sqlite")};Version=3;foreign keys = 1;locking mode = exclusive";
     }
 
     /// <summary>
