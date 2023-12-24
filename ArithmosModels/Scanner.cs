@@ -3,6 +3,7 @@
 * This code is licensed under The MIT License. See LICENSE file in the project root for full license information.
 * License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 */
+using System.Diagnostics;
 using System.IO.MemoryMappedFiles;
 using System.Text;
 
@@ -86,20 +87,22 @@ public class Scanner
     private async Task<List<Phrase>> ScanAsync(string textToScan)
     {
         if (MinimumWordsPerPhrase > MaximumWordsPerPhrase) throw new InvalidOperationException("The Minimum words per phrase cannot be more than the Maximum words per phrase");
-
+        
         HashSet<Phrase> matchedPhrases = [];
         hasSpaceSeparator = TextSeparators.Contains(" ");
         await Task.Run(() =>
         {
             string[] segments = textToScan.Split(TextSeparators, StringSplitOptions.RemoveEmptyEntries);
+            StringBuilder currentText = new (MaximumWordsPerPhrase * 5);
             for (int i = 0; i < segments.Length; i++)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                string currentText = segments[i];
+                currentText.Clear();
+                currentText.Append(segments[i]);
                 int addedSegments = 0;
                 while (true)
                 {
-                    Phrase currentPhrase = new(currentText, allGematriaMethods);
+                    Phrase currentPhrase = new(currentText.ToString(), allGematriaMethods);
                     if (!IsPhraseWithinMaximumLengthConstraints(currentPhrase)) break;
                     if (valuesToLookFor != null && valuesToLookFor.Count != 0)
                     {
@@ -124,12 +127,12 @@ public class Scanner
                     if (segments.Length <= i + addedSegments) break;
                     if (!string.IsNullOrWhiteSpace(segments[i + addedSegments]))
                     {
-                        currentText += " " + segments[i + addedSegments];
+                        currentText.Append(' ').Append(segments[i + addedSegments]);
                     }
                 }
             }
         });
-
+        
         return matchedPhrases.ToList();
     }
 
@@ -154,7 +157,12 @@ public class Scanner
     /// <returns>True if the phrase content is within the minimum length constraints; otherwise, false.</returns>
     private bool IsPhraseWithinMinimumLengthConstraints(Phrase phrase)
     {
-        return phrase.Content.Length >= MinimumCharactersPerPhrase && (phrase.Content.Count(c => c == ' ') + 1 >= MinimumWordsPerPhrase);
+        int wordCount = 1;
+        foreach (char c in phrase.Content)
+        {
+            if (c == ' ') wordCount++;
+        }
+        return phrase.Content.Length >= MinimumCharactersPerPhrase && (wordCount >= MinimumWordsPerPhrase);
     }
 
     /// <summary>
@@ -164,7 +172,12 @@ public class Scanner
     /// <returns>True if the phrase content is within the maximum length constraints; otherwise, false.</returns>
     private bool IsPhraseWithinMaximumLengthConstraints(Phrase phrase)
     {
-        return phrase.Content.Count(c => c == ' ') + 1 <= MaximumWordsPerPhrase;
+        int wordCount = 1;
+        foreach (char c in phrase.Content)
+        {
+            if (c == ' ') wordCount++;
+        }
+        return wordCount <= MaximumWordsPerPhrase;
     }
 
     /// <summary>

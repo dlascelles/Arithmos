@@ -69,21 +69,31 @@ public class Exporter
 
         foreach (string columnName in columnNames)
         {
-            csvData.Append(Delimiter.ToString() + columnName);
+            csvData.Append(Delimiter + columnName);
         }
         csvData.AppendLine();
 
         foreach (Phrase phrase in phrases)
         {
-            csvData.Append('"' + phrase.Content.Replace('"', '\''));
+            csvData.Append('"');
+            csvData.Append(phrase.Content);
             Alphabet alphabet = phrase.Content[^1].GetAlphabet();
             //We need to add the special character 0x200E to handle RTL languages
             csvData.Append(alphabet == Alphabet.Hebrew || alphabet == Alphabet.Arabic || alphabet == Alphabet.Unknown ? ((char)0x200E).ToString() : "");
             csvData.Append('"');
             foreach (string columnName in columnNames)
             {
-                ((int, string), int) value = phrase.Values.FirstOrDefault(v => v.GematriaMethod.Name == columnName);
-                csvData.Append(Delimiter.ToString() + value.Item2);
+                csvData.Append(Delimiter);
+                bool found = false;
+                foreach (((int Id, string Name) GematriaMethod, int Value) method in phrase.Values)
+                {
+                    if (method.GematriaMethod.Name != columnName) continue;
+                    
+                    csvData.Append(method.Value);
+                    found = true;
+                    break;
+                }
+                if (!found) csvData.Append('0');
             }
             csvData.AppendLine();
         }

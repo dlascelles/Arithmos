@@ -61,7 +61,7 @@ public readonly struct Phrase : IEquatable<Phrase>
 
     private static string CleanText(string text)
     {
-        StringBuilder cleanedString = new();
+        StringBuilder cleanedString = new(text.Length);
         foreach (char c in text)
         {
             cleanedString.Append(c.IsNonLetterCharacter(allowedExceptions) ? ' ' : c);
