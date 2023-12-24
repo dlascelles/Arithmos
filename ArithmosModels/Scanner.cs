@@ -154,7 +154,7 @@ public class Scanner
     /// <returns>True if the phrase content is within the minimum length constraints; otherwise, false.</returns>
     private bool IsPhraseWithinMinimumLengthConstraints(Phrase phrase)
     {
-        return phrase.Content.Length >= MinimumCharactersPerPhrase && (phrase.Content.Split(" ").Length >= MinimumWordsPerPhrase);
+        return phrase.Content.Length >= MinimumCharactersPerPhrase && (phrase.Content.Count(c => c == ' ') + 1 >= MinimumWordsPerPhrase);
     }
 
     /// <summary>
@@ -164,7 +164,7 @@ public class Scanner
     /// <returns>True if the phrase content is within the maximum length constraints; otherwise, false.</returns>
     private bool IsPhraseWithinMaximumLengthConstraints(Phrase phrase)
     {
-        return phrase.Content.Split(" ").Length <= MaximumWordsPerPhrase;
+        return phrase.Content.Count(c => c == ' ') + 1 <= MaximumWordsPerPhrase;
     }
 
     /// <summary>
@@ -175,7 +175,7 @@ public class Scanner
     /// <returns>True if the phrase contains any specified value; otherwise, false.</returns>
     private bool PhraseContainsAnyValue(Phrase phrase)
     {
-        return phrase.Values.Any(tuple => valuesToLookFor.Contains(tuple.Value) && selectedMethods.Where(m => m.Id == tuple.GematriaMethod.Id).Any());
+        return phrase.Values.Any(tuple => valuesToLookFor.Contains(tuple.Value) && selectedMethods.Any(m => m.Id == tuple.GematriaMethod.Id));
     }
 
     /// <summary>
