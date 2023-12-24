@@ -12,7 +12,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
              xmlns:vm="clr-namespace:ArithmosApp.ViewModels"
              mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="485"
              x:Class="ArithmosApp.Views.MainView">
-	<TabControl TabStripPlacement="Left" SelectedIndex="0" FontSize="12">
+	<TabControl TabStripPlacement="Left" SelectedIndex="1" FontSize="12">
 		<TabItem Header="Calculator" FontWeight="Bold" Margin="2,5,0,5" FontSize="16" Padding="0">
 			<Grid Margin="0,5">
 				<Grid.DataContext>
@@ -93,6 +93,9 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 				<Grid.DataContext>
 					<vm:ScannerViewModel/>
 				</Grid.DataContext>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" MinWidth="100"></ColumnDefinition>
+				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"></RowDefinition>
 					<RowDefinition Height="*"></RowDefinition>
