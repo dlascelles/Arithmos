@@ -23,7 +23,7 @@ public static class StringMethods
     {
         if (string.IsNullOrWhiteSpace(value)) return "";
 
-        StringBuilder stringBuilder = new();
+        StringBuilder stringBuilder = new(value.Length);
         foreach (char c in value)
         {
             UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(c);
@@ -47,7 +47,7 @@ public static class StringMethods
     {
         if (string.IsNullOrWhiteSpace(value)) return "";
 
-        StringBuilder stringBuilder = new();
+        StringBuilder stringBuilder = new(value.Length);
         foreach (char c in value)
         {
             UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(c);
@@ -71,7 +71,7 @@ public static class StringMethods
     {
         if (string.IsNullOrWhiteSpace(value)) return "";
 
-        StringBuilder sb = new();
+        StringBuilder sb = new(value.Length);
         bool isPreviousSpace = false;
         foreach (char c in value)
         {
@@ -132,12 +132,10 @@ public static class StringMethods
         if (string.IsNullOrWhiteSpace(value)) return Alphabet.None;
 
         Alphabet alphabet = Alphabet.None;
-
         foreach (char c in value)
         {
             alphabet |= c.GetAlphabet();
         }
-
         return alphabet;
     }
 }
