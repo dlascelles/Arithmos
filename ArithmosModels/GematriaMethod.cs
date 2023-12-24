@@ -36,8 +36,11 @@ public class GematriaMethod
     public int GetTextValue(string text)
     {
         if (ValueMapper == null || string.IsNullOrWhiteSpace(text)) return 0;
-
-        int total = text.Sum(c => ValueMapper.TryGetValue(c, out int value) ? value : 0);
+        int total = 0;
+        foreach (char c in text)
+        {
+            total += CollectionExtensions.GetValueOrDefault(ValueMapper, c, 0);
+        }
         total += AddsTotalNumberOfCharacters ? text.Sum(c => c.IsNonLetterCharacter() ? 0 : 1) : 0;
         total += AddsTotalNumberOfWords ? text.Split(' ').Length : 0;
         return total;
