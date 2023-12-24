@@ -240,7 +240,7 @@ public class ScannerTests
         CancellationToken cancellationToken = new();
         HashSet<int> valuesToLookFor = new() { 50, 100, 200, 300, 400 };
         Scanner scanner = new(gematriaMethods, gematriaMethods, cancellationToken, valuesToLookFor);
-        string filePath = @$"{Environment.CurrentDirectory}\\Assets\\bible.txt";
+        string filePath = Path.Combine(Environment.CurrentDirectory, "Assets", "bible.txt");
 
         // Act
         List<Phrase> phrases = await scanner.ScanFileAsync(filePath);
@@ -263,7 +263,7 @@ public class ScannerTests
         CancellationToken cancellationToken = new();
         HashSet<int> valuesToLookFor = new() { 333 };
         Scanner scanner = new(gematriaMethods, gematriaMethods, cancellationToken, valuesToLookFor);
-        string filePath = @$"{Environment.CurrentDirectory}\\Assets\\hunger.txt";
+        string filePath = Path.Combine(Environment.CurrentDirectory, "Assets", "hunger.txt");
 
         // Act
         List<Phrase> phrases = await scanner.ScanFileAsync(filePath);
@@ -286,7 +286,7 @@ public class ScannerTests
         CancellationToken cancellationToken = new();
         HashSet<int> valuesToLookFor = new() { 111, 222, 333 };
         Scanner scanner = new(gematriaMethods, gematriaMethods, cancellationToken, valuesToLookFor);
-        string filePath = @$"{Environment.CurrentDirectory}\\Assets\\prometheus.txt";
+        string filePath = Path.Combine(Environment.CurrentDirectory, "Assets", "prometheus.txt");
 
         // Act
         List<Phrase> phrases = await scanner.ScanFileAsync(filePath);
@@ -312,7 +312,7 @@ public class ScannerTests
         {
             MaximumWordsPerPhrase = 3
         };
-        string filePath = @$"{Environment.CurrentDirectory}\\Assets\\bible.txt";
+        string filePath = Path.Combine(Environment.CurrentDirectory, "Assets", "bible.txt");
 
         // Act
         List<Phrase> phrases = await scanner.ScanFileAsync(filePath);
@@ -336,7 +336,7 @@ public class ScannerTests
         {
             MaximumWordsPerPhrase = 6
         };
-        string filePath = @$"{Environment.CurrentDirectory}\\Assets\\law.txt";
+        string filePath = Path.Combine(Environment.CurrentDirectory, "Assets", "law.txt");
 
         // Act
         List<Phrase> phrases = await scanner.ScanFileAsync(filePath);
@@ -362,7 +362,7 @@ public class ScannerTests
         {
             MaximumWordsPerPhrase = 3
         };
-        string filePath = @$"{Environment.CurrentDirectory}\\Assets\\hunger.txt";
+        string filePath = Path.Combine(Environment.CurrentDirectory, "Assets", "hunger.txt");
 
         // Act
         List<Phrase> phrases = await scanner.ScanFileAsync(filePath);
@@ -388,7 +388,7 @@ public class ScannerTests
         {
             MaximumWordsPerPhrase = 3
         };
-        string filePath = @$"{Environment.CurrentDirectory}\\Assets\\prometheus.txt";
+        string filePath = Path.Combine(Environment.CurrentDirectory, "Assets", "prometheus.txt");
 
         // Act
         List<Phrase> phrases = await scanner.ScanFileAsync(filePath);
@@ -414,7 +414,7 @@ public class ScannerTests
         {
             MaximumWordsPerPhrase = 3
         };
-        string filePath = @$"{Environment.CurrentDirectory}\\Assets\\apocalypse.txt";
+        string filePath = Path.Combine(Environment.CurrentDirectory, "Assets", "apocalypse.txt");
 
         // Act
         List<Phrase> phrases = await scanner.ScanFileAsync(filePath);
@@ -444,7 +444,7 @@ public class ScannerTests
             MaximumWordsPerPhrase = 50,
             TextSeparators = textSeparator.GetSelectedSeparators()
         };
-        string filePath = @$"{Environment.CurrentDirectory}\\Assets\\bible.txt";
+        string filePath = Path.Combine(Environment.CurrentDirectory, "Assets", "bible.txt");
 
         // Act
         List<Phrase> phrases = await scanner.ScanFileAsync(filePath);
