@@ -46,7 +46,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<Border BorderThickness="1" CornerRadius="3" BoxShadow="0 0 5 0 LightGreen" BorderBrush="{DynamicResource ResourceKey=ArithmosBorderBrush}" Margin="15" MinWidth="150" MaxWidth="150">
+								<Border BorderThickness="1" CornerRadius="3" BorderBrush="{DynamicResource ResourceKey=ArithmosBorderBrush}" Margin="15" MinWidth="150" MaxWidth="150">
 									<ToggleButton ClickMode="Release" HorizontalAlignment="Stretch" Cursor="Hand" IsChecked="{Binding IsSelected}">
 										<ToggleButton.Content>
 											<StackPanel Orientation="Vertical" ToolTip.Tip="{Binding Name}">
