@@ -12,26 +12,8 @@ public class PhraseViewModel : ViewModelBase
 {
     public PhraseViewModel(Phrase phrase)
     {
-        Id = phrase.Id;
-        OperationId = phrase.OperationId;
-        Content = phrase.Content;
-        foreach (var val in phrase.Values)
-        {
-            Values.Add(val.GematriaMethod.Name, val.Value);
-        }
-        Alphabet = phrase.Alphabet.ToString();
         Phrase = phrase;
     }
-
-    public long Id { get; set; }
-
-    public int OperationId { get; set; }
-
-    public string Content { get; set; }
-
-    public Dictionary<string, int> Values { get; set; } = [];
-
-    public string Alphabet { get; set; }
-
+    
     public Phrase Phrase { get; set; }
 }

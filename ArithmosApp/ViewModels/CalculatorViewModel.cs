@@ -35,12 +35,12 @@ public partial class CalculatorViewModel : CommonViewModel
     [RelayCommand(CanExecute = nameof(CanSaveCurrentPhrase))]
     private void SaveCurrentPhrase()
     {
-        if (CurrentPhrase == null || string.IsNullOrWhiteSpace(CurrentPhrase.Content)) return;
+        if (string.IsNullOrWhiteSpace(CurrentPhrase.Content)) return;
         if (GematriaMethodsViewModels == null || GematriaMethodsViewModels.Count == 0) return;
 
         try
         {
-            phraseDataService.Create(CurrentPhrase.Phrase, null);
+            phraseDataService.Create(CurrentPhrase, null);
         }
         catch (Exception ex)
         {
@@ -51,14 +51,14 @@ public partial class CalculatorViewModel : CommonViewModel
 
     private bool CanSaveCurrentPhrase()
     {
-        return CurrentPhrase != null && !string.IsNullOrWhiteSpace(CurrentPhrase.Content);
+        return !string.IsNullOrWhiteSpace(CurrentPhrase.Content);
     }
 
 
     [RelayCommand(CanExecute = nameof(CanSearchByCurrentPhrase))]
     private async Task SearchByCurrentPhraseAsync()
     {
-        if (CurrentPhrase == null || string.IsNullOrWhiteSpace(CurrentPhrase.Content)) return;
+        if (string.IsNullOrWhiteSpace(CurrentPhrase.Content)) return;
         if (GematriaMethodsViewModels == null || GematriaMethodsViewModels.Count == 0) return;
 
         IsBusy = true;
@@ -76,14 +76,13 @@ public partial class CalculatorViewModel : CommonViewModel
                     }
                 }
                 List<PhraseViewModel> phraseViewModels = [];
-                foreach (Phrase phrase in await phraseDataService.SearchForSimilarPhrasesAsync(currentPhrase.Phrase, selectedMethodsIds.ToArray()))
+                foreach (Phrase phrase in await phraseDataService.SearchForSimilarPhrasesAsync(currentPhrase, selectedMethodsIds.ToArray()))
                 {
                     phraseViewModels.Add(new PhraseViewModel(phrase));
                 }
                 return phraseViewModels;
             });
             Phrases = new(phrases);
-            ResultsGridCountLabel = CalculatorGridSource != null ? GetCountLabel("Database Results", CalculatorGridSource.RowSelection.Count, Phrases.Count) : GetCountLabel("Database Results", 0, 0);
         }
         catch (Exception ex)
         {
@@ -94,12 +93,13 @@ public partial class CalculatorViewModel : CommonViewModel
         {
             IsBusy = false;
             GridActionsNotify();
+            UpdateGridLabel();
         }
     }
 
     private bool CanSearchByCurrentPhrase()
     {
-        return CurrentPhrase != null && !string.IsNullOrWhiteSpace(CurrentPhrase.Content);
+        return !string.IsNullOrWhiteSpace(CurrentPhrase.Content);
     }
 
 
@@ -108,6 +108,7 @@ public partial class CalculatorViewModel : CommonViewModel
     {
         Phrases.Clear();
         GridActionsNotify();
+        UpdateGridLabel();
     }
 
     private bool CanClearAllResults()
@@ -221,8 +222,9 @@ public partial class CalculatorViewModel : CommonViewModel
         finally
         {
             IsBusy = false;
+            GridActionsNotify();
+            UpdateGridLabel();
         }
-        GridActionsNotify();
     }
 
     private bool CanDeleteSelected()
@@ -241,7 +243,7 @@ public partial class CalculatorViewModel : CommonViewModel
         {
             methods.Add(gematriaMethodViewModel.GetModel());
         }
-        CurrentPhrase = new PhraseViewModel(new Phrase(CurrentPhraseContent, methods));
+        CurrentPhrase = new Phrase(CurrentPhraseContent, methods);
     }
 
     private void UpdateGematriaValues()
@@ -250,7 +252,7 @@ public partial class CalculatorViewModel : CommonViewModel
 
         foreach (GematriaMethodViewModel gematriaMethodViewModel in GematriaMethodsViewModels)
         {
-            gematriaMethodViewModel.Value = CurrentPhrase.Values[gematriaMethodViewModel.Name];
+            gematriaMethodViewModel.Value = CurrentPhrase.Values.Single(v => v.GematriaMethod.Name == gematriaMethodViewModel.Name).Value;
         }
     }
 
@@ -262,15 +264,15 @@ public partial class CalculatorViewModel : CommonViewModel
         CalculatorGridSource.RowSelection!.SingleSelect = false;
         CalculatorGridSource.RowSelection.SelectionChanged += RowSelection_SelectionChanged;
         CalculatorGridSource.Columns.Add(new TextColumn<PhraseViewModel, string>("Phrase",
-            x => x.Content, options: new()
+            x => x.Phrase.Content, options: new()
             {
                 MinWidth = new GridLength(100),
                 CanUserResizeColumn = true
             }));
-        foreach (KeyValuePair<string, int> kvp in (new PhraseViewModel(new Phrase("Initialize", GetAllGematriaMethods())).Values))
+        foreach (((int Id, string Name) GematriaMethod, int Value) values in (new PhraseViewModel(new Phrase("Initialize", GetAllGematriaMethods())).Phrase.Values))
         {
-            CalculatorGridSource.Columns.Add(new TextColumn<PhraseViewModel, int>(kvp.Key,
-                p => p.Values[kvp.Key],
+            CalculatorGridSource.Columns.Add(new TextColumn<PhraseViewModel, int>(values.GematriaMethod.Name,
+                p => p.Phrase.GetValue(values.GematriaMethod.Name),
                 options: new()
                 {
                     MinWidth = new GridLength(85),
@@ -280,7 +282,7 @@ public partial class CalculatorViewModel : CommonViewModel
         if (settingDataService.Retrieve(Constants.Settings.ShowColumnAlphabet) == Constants.Settings.True)
         {
             CalculatorGridSource.Columns.Add(new TextColumn<PhraseViewModel, string>("Alphabet",
-          x => x.Alphabet, options: new()
+          x => x.Phrase.Alphabet.ToString(), options: new()
           {
               MinWidth = new GridLength(85),
               CanUserResizeColumn = true
@@ -289,7 +291,7 @@ public partial class CalculatorViewModel : CommonViewModel
         if (settingDataService.Retrieve(Constants.Settings.ShowColumnOperationId) == Constants.Settings.True)
         {
             CalculatorGridSource.Columns.Add(new TextColumn<PhraseViewModel, int>("Op. Id",
-          x => x.OperationId, options: new()
+          x => x.Phrase.OperationId, options: new()
           {
               MinWidth = new GridLength(60),
               CanUserResizeColumn = true
@@ -306,12 +308,7 @@ public partial class CalculatorViewModel : CommonViewModel
     private void RowSelection_SelectionChanged(object sender, Avalonia.Controls.Selection.TreeSelectionModelSelectionChangedEventArgs<PhraseViewModel> e)
     {
         GridActionsNotify();
-        ResultsGridCountLabel = CalculatorGridSource != null ? GetCountLabel("Database Results", CalculatorGridSource.RowSelection.Count, Phrases.Count) : GetCountLabel("Database Results", 0, 0);
-    }
-
-    private void Phrases_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-        ResultsGridCountLabel = CalculatorGridSource != null ? GetCountLabel("Database Results", CalculatorGridSource.RowSelection.Count, Phrases.Count) : GetCountLabel("Database Results", 0, 0);
+        UpdateGridLabel();
     }
 
     private void ReloadGematriaMethods(object recipient, ReloadGematriaMethodsMessage message)
@@ -340,11 +337,16 @@ public partial class CalculatorViewModel : CommonViewModel
         ExportGridCommand.NotifyCanExecuteChanged();
         DeleteSelectedCommand.NotifyCanExecuteChanged();
     }
+
+    private void UpdateGridLabel()
+    {
+        ResultsGridCountLabel = CalculatorGridSource != null ? GetCountLabel("Database Results", CalculatorGridSource.RowSelection.Count, Phrases.Count) : GetCountLabel("Database Results", 0, 0);
+    }
     #endregion
 
     #region Properties
-    private PhraseViewModel currentPhrase;
-    public PhraseViewModel CurrentPhrase
+    private Phrase currentPhrase;
+    public Phrase CurrentPhrase
     {
         get => currentPhrase;
         set => SetProperty(ref currentPhrase, value);
@@ -379,7 +381,6 @@ public partial class CalculatorViewModel : CommonViewModel
         {
             SetProperty(ref phrases, value);
             GenerateResultsColumns();
-            Phrases.CollectionChanged += Phrases_CollectionChanged;
         }
     }
 

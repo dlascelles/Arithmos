@@ -85,6 +85,7 @@ public partial class ScannerViewModel : CommonViewModel
     {
         Phrases.Clear();
         GridActionsNotify();
+        UpdateResultsGridLabel();
     }
 
     private bool CanClearAllResults()
@@ -201,6 +202,8 @@ public partial class ScannerViewModel : CommonViewModel
             }
         }
         GridActionsNotify();
+        UpdateResultsGridLabel();
+        UpdateSelectionsGridLabel();
     }
 
     private bool CanMoveResults()
@@ -218,6 +221,8 @@ public partial class ScannerViewModel : CommonViewModel
         }
         Phrases.Clear();
         GridActionsNotify();
+        UpdateResultsGridLabel();
+        UpdateSelectionsGridLabel();
     }
 
     private bool CanMoveAllResults()
@@ -231,6 +236,7 @@ public partial class ScannerViewModel : CommonViewModel
     {
         SelectedPhrases.Clear();
         GridActionsNotify();
+        UpdateSelectionsGridLabel();
     }
 
     private bool CanClearAllSelections()
@@ -347,6 +353,8 @@ public partial class ScannerViewModel : CommonViewModel
             }
         }
         GridActionsNotify();
+        UpdateResultsGridLabel();
+        UpdateSelectionsGridLabel();
     }
 
     private bool CanMoveSelections()
@@ -364,6 +372,8 @@ public partial class ScannerViewModel : CommonViewModel
         }
         SelectedPhrases.Clear();
         GridActionsNotify();
+        UpdateResultsGridLabel();
+        UpdateSelectionsGridLabel();
     }
 
     private bool CanMoveAllSelections()
@@ -434,6 +444,7 @@ public partial class ScannerViewModel : CommonViewModel
         finally
         {
             IsBusy = false;
+            UpdateResultsGridLabel();
         }
     }
 
@@ -596,15 +607,15 @@ public partial class ScannerViewModel : CommonViewModel
         ResultsGridSource.RowSelection.SelectionChanged += Results_RowSelection_SelectionChanged;
         ResultsGridSource.RowSelection!.SingleSelect = false;
         ResultsGridSource.Columns.Add(new TextColumn<PhraseViewModel, string>("Phrase",
-            x => x.Content, options: new()
+            x => x.Phrase.Content, options: new()
             {
                 MinWidth = new GridLength(100),
                 CanUserResizeColumn = true
             }));
-        foreach (KeyValuePair<string, int> kvp in (new PhraseViewModel(new Phrase("Initialize", GetAllGematriaMethods())).Values))
+        foreach (((int Id, string Name) GematriaMethod, int Value) values in (new PhraseViewModel(new Phrase("Initialize", GetAllGematriaMethods())).Phrase.Values))
         {
-            ResultsGridSource.Columns.Add(new TextColumn<PhraseViewModel, int>(kvp.Key,
-                p => p.Values[kvp.Key],
+            ResultsGridSource.Columns.Add(new TextColumn<PhraseViewModel, int>(values.GematriaMethod.Name,
+                p => p.Phrase.GetValue(values.GematriaMethod.Name),
                 options: new()
                 {
                     MinWidth = new GridLength(85),
@@ -614,7 +625,7 @@ public partial class ScannerViewModel : CommonViewModel
         if (settingDataService.Retrieve(Constants.Settings.ShowColumnAlphabet) == Constants.Settings.True)
         {
             ResultsGridSource.Columns.Add(new TextColumn<PhraseViewModel, string>("Alphabet",
-          x => x.Alphabet, options: new()
+          x => x.Phrase.Alphabet.ToString(), options: new()
           {
               MinWidth = new GridLength(85),
               CanUserResizeColumn = true
@@ -625,14 +636,9 @@ public partial class ScannerViewModel : CommonViewModel
     private void Results_RowSelection_SelectionChanged(object sender, Avalonia.Controls.Selection.TreeSelectionModelSelectionChangedEventArgs<PhraseViewModel> e)
     {
         GridActionsNotify();
-        ResultsGridCountLabel = ResultsGridSource != null ? GetCountLabel("Scanner Results", ResultsGridSource.RowSelection.Count, Phrases.Count) : GetCountLabel("Scanner Results", 0, 0);
+        UpdateResultsGridLabel();
     }
-
-    private void Phrases_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        ResultsGridCountLabel = ResultsGridSource != null ? GetCountLabel("Scanner Results", ResultsGridSource.RowSelection.Count, Phrases.Count) : GetCountLabel("Scanner Results", 0, 0);
-    }
-
+    
     private void GenerateSelectionsColumns()
     {
         if (GematriaMethodsViewModels == null || GematriaMethodsViewModels.Count == 0) return;
@@ -641,15 +647,15 @@ public partial class ScannerViewModel : CommonViewModel
         SelectionsGridSource.RowSelection.SelectionChanged += Selections_RowSelection_SelectionChanged;
         SelectionsGridSource.RowSelection!.SingleSelect = false;
         SelectionsGridSource.Columns.Add(new TextColumn<PhraseViewModel, string>("Phrase",
-            x => x.Content, options: new()
+            x => x.Phrase.Content, options: new()
             {
                 MinWidth = new GridLength(100),
                 CanUserResizeColumn = true
             }));
-        foreach (KeyValuePair<string, int> kvp in (new PhraseViewModel(new Phrase("Initialize", GetAllGematriaMethods())).Values))
+        foreach (((int Id, string Name) GematriaMethod, int Value) values in (new PhraseViewModel(new Phrase("Initialize", GetAllGematriaMethods())).Phrase.Values))
         {
-            SelectionsGridSource.Columns.Add(new TextColumn<PhraseViewModel, int>(kvp.Key,
-                p => p.Values[kvp.Key],
+            SelectionsGridSource.Columns.Add(new TextColumn<PhraseViewModel, int>(values.GematriaMethod.Name,
+                p => p.Phrase.GetValue(values.GematriaMethod.Name),
                 options: new()
                 {
                     MinWidth = new GridLength(85),
@@ -659,7 +665,7 @@ public partial class ScannerViewModel : CommonViewModel
         if (settingDataService.Retrieve(Constants.Settings.ShowColumnAlphabet) == Constants.Settings.True)
         {
             SelectionsGridSource.Columns.Add(new TextColumn<PhraseViewModel, string>("Alphabet",
-          x => x.Alphabet, options: new()
+          x => x.Phrase.Alphabet.ToString(), options: new()
           {
               MinWidth = new GridLength(85),
               CanUserResizeColumn = true
@@ -670,12 +676,7 @@ public partial class ScannerViewModel : CommonViewModel
     private void Selections_RowSelection_SelectionChanged(object sender, Avalonia.Controls.Selection.TreeSelectionModelSelectionChangedEventArgs<PhraseViewModel> e)
     {
         GridActionsNotify();
-        SelectionsGridCountLabel = SelectionsGridSource != null ? GetCountLabel("Selected Results", SelectionsGridSource.RowSelection.Count, SelectedPhrases.Count) : GetCountLabel("Selected Results", 0, 0);
-    }
-
-    private void SelectedPhrases_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        SelectionsGridCountLabel = SelectionsGridSource != null ? GetCountLabel("Selected Results", SelectionsGridSource.RowSelection.Count, SelectedPhrases.Count) : GetCountLabel("Selected Results", 0, 0);
+        UpdateSelectionsGridLabel();
     }
 
     private void RegenerateColumns(object recipient, RegenerateColumnsMessage message)
@@ -741,6 +742,16 @@ public partial class ScannerViewModel : CommonViewModel
         GenerateResultsColumns();
         GenerateSelectionsColumns();
     }
+
+    private void UpdateSelectionsGridLabel()
+    {
+        SelectionsGridCountLabel = SelectionsGridSource != null ? GetCountLabel("Selected Results", SelectionsGridSource.RowSelection.Count, SelectedPhrases.Count) : GetCountLabel("Selected Results", 0, 0);
+    }
+
+    private void UpdateResultsGridLabel()
+    {
+        ResultsGridCountLabel = ResultsGridSource != null ? GetCountLabel("Scanner Results", ResultsGridSource.RowSelection.Count, Phrases.Count) : GetCountLabel("Scanner Results", 0, 0);
+    }
     #endregion
 
     #region Properties
@@ -766,8 +777,6 @@ public partial class ScannerViewModel : CommonViewModel
         {
             SetProperty(ref phrases, value);
             GenerateResultsColumns();
-            Phrases.CollectionChanged += Phrases_CollectionChanged;
-
         }
     }
 
@@ -779,7 +788,6 @@ public partial class ScannerViewModel : CommonViewModel
         {
             SetProperty(ref selectedPhrases, value);
             GenerateSelectionsColumns();
-            SelectedPhrases.CollectionChanged += SelectedPhrases_CollectionChanged;
         }
     }
 

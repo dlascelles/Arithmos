@@ -116,7 +116,6 @@ public partial class ExplorerViewModel : CommonViewModel
                 return phraseViewModels;
             });
             Phrases = new(phrases);
-            ResultsGridCountLabel = ResultsGridSource != null ? GetCountLabel("Database Results", ResultsGridSource.RowSelection.Count, Phrases.Count) : GetCountLabel("Database Results", 0, 0);
         }
         catch (Exception ex)
         {
@@ -126,6 +125,7 @@ public partial class ExplorerViewModel : CommonViewModel
         finally
         {
             IsBusy = false;
+            UpdateGridLabel();
         }
     }
 
@@ -180,6 +180,7 @@ public partial class ExplorerViewModel : CommonViewModel
         finally
         {
             IsBusy = false;
+            UpdateGridLabel();
         }
     }
 
@@ -227,6 +228,7 @@ public partial class ExplorerViewModel : CommonViewModel
         finally
         {
             IsBusy = false;
+            UpdateGridLabel();
         }
     }
 
@@ -266,6 +268,7 @@ public partial class ExplorerViewModel : CommonViewModel
         finally
         {
             IsBusy = false;
+            UpdateGridLabel();
         }
         OperationsGridActionsNotify();
     }
@@ -281,6 +284,7 @@ public partial class ExplorerViewModel : CommonViewModel
     {
         Phrases.Clear();
         ResultsGridActionsNotify();
+        UpdateGridLabel();
     }
 
     private bool CanClearAllResults()
@@ -379,7 +383,7 @@ public partial class ExplorerViewModel : CommonViewModel
             {
                 long result = await Task.Run(async () =>
                 {
-                    return await phraseDataService.DeleteAsync(selectedPhrases.Select(phrase => phrase.Id).ToList());
+                    return await phraseDataService.DeleteAsync(selectedPhrases.Select(phrase => phrase.Phrase.Id).ToList());
                 });
             }
             foreach (PhraseViewModel phrase in selectedPhrases)
@@ -395,8 +399,9 @@ public partial class ExplorerViewModel : CommonViewModel
         finally
         {
             IsBusy = false;
+            ResultsGridActionsNotify();
+            UpdateGridLabel();
         }
-        ResultsGridActionsNotify();
     }
 
     private bool CanDeleteSelectedPhrases()
@@ -415,15 +420,15 @@ public partial class ExplorerViewModel : CommonViewModel
         ResultsGridSource.Rows.CollectionChanged += ResultsRows_CollectionChanged;
         ResultsGridSource.RowSelection!.SingleSelect = false;
         ResultsGridSource.Columns.Add(new TextColumn<PhraseViewModel, string>("Phrase",
-            x => x.Content, options: new()
+            x => x.Phrase.Content, options: new()
             {
                 MinWidth = new GridLength(100),
                 CanUserResizeColumn = true,
             }));
-        foreach (KeyValuePair<string, int> kvp in (new PhraseViewModel(new Phrase("Initialize", GetAllGematriaMethods())).Values))
+        foreach (((int Id, string Name) GematriaMethod, int Value) values in (new PhraseViewModel(new Phrase("Initialize", GetAllGematriaMethods())).Phrase.Values))
         {
-            ResultsGridSource.Columns.Add(new TextColumn<PhraseViewModel, int>(kvp.Key,
-                p => p.Values[kvp.Key],
+            ResultsGridSource.Columns.Add(new TextColumn<PhraseViewModel, int>(values.GematriaMethod.Name,
+                p => p.Phrase.GetValue(values.GematriaMethod.Name),
                 options: new()
                 {
                     MinWidth = new GridLength(85),
@@ -433,7 +438,7 @@ public partial class ExplorerViewModel : CommonViewModel
         if (settingDataService.Retrieve(Constants.Settings.ShowColumnAlphabet) == Constants.Settings.True)
         {
             ResultsGridSource.Columns.Add(new TextColumn<PhraseViewModel, string>("Alphabet",
-              x => x.Alphabet, options: new()
+              x => x.Phrase.Alphabet.ToString(), options: new()
               {
                   MinWidth = new GridLength(85),
                   CanUserResizeColumn = true
@@ -442,7 +447,7 @@ public partial class ExplorerViewModel : CommonViewModel
         if (settingDataService.Retrieve(Constants.Settings.ShowColumnOperationId) == Constants.Settings.True)
         {
             ResultsGridSource.Columns.Add(new TextColumn<PhraseViewModel, int>("Op. Id",
-          x => x.OperationId, options: new()
+          x => x.Phrase.OperationId, options: new()
           {
               MinWidth = new GridLength(60),
               CanUserResizeColumn = true
@@ -458,12 +463,7 @@ public partial class ExplorerViewModel : CommonViewModel
     private void ResultsRowSelection_SelectionChanged(object sender, Avalonia.Controls.Selection.TreeSelectionModelSelectionChangedEventArgs<PhraseViewModel> e)
     {
         ResultsGridActionsNotify();
-        ResultsGridCountLabel = ResultsGridSource != null ? GetCountLabel("Database Results", ResultsGridSource.RowSelection.Count, Phrases.Count) : GetCountLabel("Database Results", 0, 0);
-    }
-
-    private void Phrases_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-        ResultsGridCountLabel = ResultsGridSource != null ? GetCountLabel("Database Results", ResultsGridSource.RowSelection.Count, Phrases.Count) : GetCountLabel("Database Results", 0, 0);
+        UpdateGridLabel();
     }
 
     private void GenerateOperationsColumns()
@@ -566,6 +566,11 @@ public partial class ExplorerViewModel : CommonViewModel
         }
         GenerateResultsColumns();
     }
+
+    private void UpdateGridLabel()
+    {
+        ResultsGridCountLabel = ResultsGridSource != null ? GetCountLabel("Database Results", ResultsGridSource.RowSelection.Count, Phrases.Count) : GetCountLabel("Database Results", 0, 0);
+    }
     #endregion
 
     #region Properties
@@ -592,7 +597,6 @@ public partial class ExplorerViewModel : CommonViewModel
             SetProperty(ref phrases, value);
             GenerateResultsColumns();
             ResultsGridActionsNotify();
-            Phrases.CollectionChanged += Phrases_CollectionChanged;
         }
     }
 
