@@ -280,6 +280,7 @@ public partial class ExplorerViewModel : CommonViewModel
     private void ClearAllResults()
     {
         Phrases.Clear();
+        ResultsGridActionsNotify();
     }
 
     private bool CanClearAllResults()
@@ -395,6 +396,7 @@ public partial class ExplorerViewModel : CommonViewModel
         {
             IsBusy = false;
         }
+        ResultsGridActionsNotify();
     }
 
     private bool CanDeleteSelectedPhrases()
