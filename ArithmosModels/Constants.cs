@@ -1,8 +1,8 @@
 ﻿/*
-* Copyright (c) 2018 - 2024 Daniel Lascelles, https://github.com/dlascelles
-* This code is licensed under The MIT License. See LICENSE file in the project root for full license information.
-* License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
-*/
+ * Copyright (c) 2018 - 2024 Daniel Lascelles, https://github.com/dlascelles
+ * This code is licensed under The MIT License. See LICENSE file in the project root for full license information.
+ * License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
+ */
 namespace ArithmosModels;
 
 public static class Constants
@@ -55,7 +55,7 @@ public static class Constants
 
         public const string HebrewTriangular = "א=1,ב=3,ג=6,ד=10,ה=15,ו=21,ז=28,ח=36,ט=45,י=55,כ=66,ל=78,מ=91,נ=105,ס=120,ע=136,פ=153,צ=171,ק=190,ר=210,ש=231,ת=253,ך=276,ם=300,ן=325,ף=351,ץ=378";
 
-        
+
         public const string EnglishAlphabetName = "English Alphabet";
 
         public const string EnglishStandardName = "English Standard";
@@ -145,7 +145,7 @@ public static class Constants
 
         public static readonly HashSet<char> Arabic = ['ا', 'ب', 'ج', 'د', 'ه', 'و', 'ز', 'ح', 'ط', 'ي', 'ك', 'ل', 'م', 'ن', 'س', 'ع', 'ف', 'ص', 'ق', 'ر', 'ش', 'ت', 'ث', 'خ', 'ذ', 'ض', 'ظ', 'غ', 'ء', 'ة', 'ى'];
 
-        public static readonly HashSet<char> Cyrillic = ['А', 'а', 'Б', 'б', 'В', 'в', 'Г', 'г', 'Д', 'д', 'Е', 'е', 'Є', 'є', 'Ж', 'ж', 'Ꙁ', 'ꙁ', 'З', 'з', 'И', 'и', 'Й', 'й', 'К', 'к', 'Л', 'л', 'М', 'м', 'Н', 'н', 'О', 'о', 'П', 'п', 'Р', 'р', 'С', 'с', 'Т', 'т', 'У', 'у', 'Ф', 'ф', 'Х', 'х', 'Ц', 'ц', 'Ч', 'ч', 'Ш', 'ш', 'Щ', 'щ', 'Ъ', 'ъ', 'Ы', 'ы', 'Ь', 'ь', 'Э', 'э', 'Ю', 'ю', 'Я', 'я', 'Ґ', 'Ђ', 'Ѕ', 'І', 'Ј', 'Љ', 'Њ', 'Ћ', 'Џ'];
+        public static readonly HashSet<char> Cyrillic = ['А', 'а', 'Б', 'б', 'В', 'в', 'Г', 'г', 'Д', 'д', 'Е', 'е', 'Є', 'є', 'Ж', 'ж', 'Ꙁ', 'ꙁ', 'З', 'з', 'И', 'и', 'К', 'к', 'Л', 'л', 'М', 'м', 'Н', 'н', 'О', 'о', 'П', 'п', 'Р', 'р', 'С', 'с', 'Т', 'т', 'У', 'у', 'Ф', 'ф', 'Х', 'х', 'Ц', 'ц', 'Ч', 'ч', 'Ш', 'ш', 'Щ', 'щ', 'Ъ', 'ъ', 'Ы', 'ы', 'Ь', 'ь', 'Э', 'э', 'Ю', 'ю', 'Я', 'я', 'Ґ', 'Ђ', 'Ѕ', 'І', 'Ј', 'Љ', 'Њ', 'Ћ', 'Џ'];
 
         public static readonly HashSet<char> Coptic = ['Ⲁ', 'ⲁ', 'Ⲃ', 'ⲃ', 'Ⲅ', 'ⲅ', 'Ⲇ', 'ⲇ', 'Ⲉ', 'ⲉ', 'Ⲋ', 'ⲋ', 'Ⲍ', 'ⲍ', 'Ⲏ', 'ⲏ', 'Ⲑ', 'ⲑ', 'Ⲓ', 'ⲓ', 'Ⲕ', 'ⲕ', 'Ⲗ', 'ⲗ', 'Ⲙ', 'ⲙ', 'Ⲛ', 'ⲛ', 'Ⲝ', 'ⲝ', 'Ⲟ', 'ⲟ', 'Ⲡ', 'ⲡ', 'Ⲣ', 'ⲣ', 'Ⲥ', 'ⲥ', 'Ⲧ', 'ⲧ', 'Ⲩ', 'ⲩ', 'Ⲫ', 'ⲫ', 'Ⲭ', 'ⲭ', 'Ⲯ', 'ⲯ', 'Ⲱ', 'ⲱ', 'Ⲳ', 'ⲳ', 'Ⲵ', 'ⲵ', 'Ⲷ', 'ⲷ', 'Ⲹ', 'ⲹ', 'Ⲻ', 'ⲻ', 'Ⲽ', 'ⲽ', 'Ⲿ', 'ⲿ', 'Ⳁ', 'ⳁ', 'Ⳃ', 'ⳃ', 'Ⳅ', 'ⳅ', 'Ⳇ', 'ⳇ', 'Ⳉ', 'ⳉ', 'Ⳋ', 'ⳋ', 'Ⳍ', 'ⳍ', 'Ⳏ', 'ⳏ', 'Ⳑ', 'ⳑ', 'Ⳓ', 'ⳓ', 'Ⳕ', 'ⳕ', 'Ⳗ', 'ⳗ', 'Ⳙ', 'ⳙ', 'Ⳛ', 'ⳛ', 'Ⳝ', 'ⳝ', 'Ⳟ', 'ⳟ', 'Ⳡ', 'ⳡ', 'Ⳣ', 'ⳣ', 'ⳤ', '⳥', '⳦', '⳧', '⳨', '⳩', '⳪', 'Ⳬ', 'ⳬ', 'Ⳮ', 'ⳮ', '⳯', '⳱', 'Ⳳ', 'ⳳ', '⳹', '⳺', '⳻', '⳼', '⳽', '⳾', '⳿', 'ϫ', 'ϩ', 'ϥ', 'ϣ', 'ϭ', 'ϯ'];
     }
@@ -175,7 +175,7 @@ public static class Constants
         public const string Pipe = "|";
 
         public const string Space = " ";
-        
+
         public const string Equal = "=";
     }
 }
