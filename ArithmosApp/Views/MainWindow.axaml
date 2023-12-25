@@ -15,7 +15,7 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
         MinWidth="100"
         MinHeight="250"
         Width="1100"
-        Height="700" 
+        Height="600" 
         WindowStartupLocation="CenterScreen">
     <views:MainView />
     <Window.Resources>
