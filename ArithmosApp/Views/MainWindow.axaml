@@ -13,7 +13,10 @@ License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
         Icon="/Assets/alpha.ico"
         Title="Arithmos - Gematria Calculator &amp; Scanner"
         MinWidth="100"
-        MinHeight="250">
+        MinHeight="250"
+        Width="1100"
+        Height="700" 
+        WindowStartupLocation="CenterScreen">
     <views:MainView />
     <Window.Resources>
         <ResourceDictionary>
