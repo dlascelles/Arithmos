@@ -177,4 +177,18 @@ public class CipherTests
         // Assert
         Assert.IsTrue(isValid);
     }
+    
+    [TestMethod]
+    public void IsValid_SameSeparators_ReturnsFalse()
+    {
+        // Arrange
+        string validInput = "A=1,B=2,C=4,D=13,a=25,d=50,r=45,o=11,t=11,P=13";
+        Cipher cipher = new(validInput) {ValueSeparator = '|', PairSeparator = '|'};
+
+        // Act
+        bool isValid = cipher.IsValid();
+
+        // Assert
+        Assert.IsFalse(isValid);
+    }
 }

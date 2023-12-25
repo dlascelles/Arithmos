@@ -28,6 +28,7 @@ public record Cipher
     public bool IsValid()
     {
         if (string.IsNullOrWhiteSpace(Body)) return false;
+        if (ValueSeparator == PairSeparator) return false;
 
         string pattern = $@"^[\p{{L}}\p{{Lu}}]{Regex.Escape(ValueSeparator.ToString())}\d{{1,6}}({Regex.Escape(PairSeparator.ToString())}[\p{{L}}\p{{Lu}}]{Regex.Escape(ValueSeparator.ToString())}\d{{1,6}})*$";
         if (!Regex.IsMatch(Body, pattern, RegexOptions.IgnoreCase)) return false;
@@ -37,13 +38,11 @@ public record Cipher
         foreach (string pair in pairs)
         {
             char currentChar = Convert.ToChar(pair.Split(ValueSeparator)[0]);
-            if (chars.Contains(currentChar)) return false;
-
-            chars.Add(currentChar);
+            if (!chars.Add(currentChar)) return false;
         }
         return true;
     }
-
+    
     /// <summary>
     /// Gets or sets the body of the cipher.
     /// </summary>
