@@ -3,6 +3,7 @@
 * This code is licensed under The MIT License. See LICENSE file in the project root for full license information.
 * License URL: https://github.com/dlascelles/Arithmos/blob/master/LICENSE
 */
+using System.Reflection.Metadata;
 using System.Text.RegularExpressions;
 
 namespace ArithmosModels;
@@ -29,6 +30,7 @@ public record Cipher
     {
         if (string.IsNullOrWhiteSpace(Body)) return false;
         if (ValueSeparator == PairSeparator) return false;
+        if (!allowedSeparators.Contains(ValueSeparator.ToString()) || !allowedSeparators.Contains(PairSeparator.ToString())) return false;
 
         string pattern = $@"^[\p{{L}}\p{{Lu}}]{Regex.Escape(ValueSeparator.ToString())}\d{{1,6}}({Regex.Escape(PairSeparator.ToString())}[\p{{L}}\p{{Lu}}]{Regex.Escape(ValueSeparator.ToString())}\d{{1,6}})*$";
         if (!Regex.IsMatch(Body, pattern, RegexOptions.IgnoreCase)) return false;
@@ -42,6 +44,11 @@ public record Cipher
         }
         return true;
     }
+    
+    /// <summary>
+    /// An array with all separators that can be used in a cipher
+    /// </summary>
+    private static readonly string[] allowedSeparators = [Constants.Characters.Semicolon, Constants.Characters.Pipe, Constants.Characters.Comma, Constants.Characters.Equal, Constants.Characters.Colon];
     
     /// <summary>
     /// Gets or sets the body of the cipher.
