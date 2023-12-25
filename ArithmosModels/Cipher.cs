@@ -58,10 +58,12 @@ public record Cipher
     /// <summary>
     /// Gets or sets the character used as the value separator.
     /// </summary>
+    /// /// <remarks>Allowed values are = , ; | or :</remarks>
     public char ValueSeparator { get; init; } = '=';
 
     /// <summary>
-    /// Gets or sets the character used as the pair separator.
+    /// Gets or sets the character used as the pair separator. 
     /// </summary>
+    /// <remarks>Allowed values are = , ; | or :</remarks>
     public char PairSeparator { get; init; } = ',';
 }
