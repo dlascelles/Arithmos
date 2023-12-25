@@ -19,15 +19,15 @@ public class TextSeparator(Separator separator)
     public string[] GetSelectedSeparators()
     {
         List<string> separators = [];
-        if (NewLine) separators.AddRange(new List<string> { CharNewLineN, CharNewLineR, CharNewLineRN, CharNewLineNR });
-        if (Comma) separators.Add(CharComma);
-        if (Semicolon) separators.Add(CharSemicolon);
-        if (GreekSemicolon) separators.Add(CharGreekSemicolon);
-        if (Tab) separators.Add(CharTab);
-        if (Colon) separators.Add(CharColon);
-        if (FullStop) separators.Add(CharFullStop);
-        if (Pipe) separators.Add(CharPipe);
-        if (Space) separators.Add(CharSpace);
+        if (NewLine) separators.AddRange(new List<string> { Constants.Characters.NewLineN, Constants.Characters.NewLineR, Constants.Characters.NewLineRN, Constants.Characters.NewLineNR });
+        if (Comma) separators.Add(Constants.Characters.Comma);
+        if (Semicolon) separators.Add(Constants.Characters.Semicolon);
+        if (GreekSemicolon) separators.Add(Constants.Characters.GreekSemicolon);
+        if (Tab) separators.Add(Constants.Characters.Tab);
+        if (Colon) separators.Add(Constants.Characters.Colon);
+        if (FullStop) separators.Add(Constants.Characters.FullStop);
+        if (Pipe) separators.Add(Constants.Characters.Pipe);
+        if (Space) separators.Add(Constants.Characters.Space);
         return separators.ToArray();
     }
 
@@ -38,15 +38,15 @@ public class TextSeparator(Separator separator)
     public string[] GetUnSelectedSeparators()
     {
         List<string> separators = [];
-        if (!NewLine) separators.AddRange(new List<string> { CharNewLineN, CharNewLineR, CharNewLineRN, CharNewLineNR });
-        if (!Comma) separators.Add(CharComma);
-        if (!Semicolon) separators.Add(CharSemicolon);
-        if (!GreekSemicolon) separators.Add(CharGreekSemicolon);
-        if (!Tab) separators.Add(CharTab);
-        if (!Colon) separators.Add(CharColon);
-        if (!FullStop) separators.Add(CharFullStop);
-        if (!Pipe) separators.Add(CharPipe);
-        if (!Space) separators.Add(CharSpace);
+        if (!NewLine) separators.AddRange(new List<string> { Constants.Characters.NewLineN, Constants.Characters.NewLineR, Constants.Characters.NewLineRN, Constants.Characters.NewLineNR });
+        if (!Comma) separators.Add(Constants.Characters.Comma);
+        if (!Semicolon) separators.Add(Constants.Characters.Semicolon);
+        if (!GreekSemicolon) separators.Add(Constants.Characters.GreekSemicolon);
+        if (!Tab) separators.Add(Constants.Characters.Tab);
+        if (!Colon) separators.Add(Constants.Characters.Colon);
+        if (!FullStop) separators.Add(Constants.Characters.FullStop);
+        if (!Pipe) separators.Add(Constants.Characters.Pipe);
+        if (!Space) separators.Add(Constants.Characters.Space);
         return separators.ToArray();
     }
 
@@ -67,39 +67,14 @@ public class TextSeparator(Separator separator)
     public readonly bool Pipe = (separator & Separator.Pipe) != 0;
 
     public readonly bool Space = (separator & Separator.Space) != 0;
-
-
-    public const string CharNewLineN = "\n";
-
-    public const string CharNewLineR = "\r";
-
-    public const string CharNewLineRN = "\r\n";
-
-    public const string CharNewLineNR = "\n\r";
-
-    public const string CharComma = ",";
-
-    public const string CharSemicolon = ";";
-
-    public const string CharGreekSemicolon = "·";
-
-    public const string CharTab = "\t";
-
-    public const string CharColon = ":";
-
-    public const string CharFullStop = ".";
-
-    public const string CharPipe = "|";
-
-    public const string CharSpace = " ";
-
+    
     /// <summary>
     /// Gets an array containing all possible separators, including space.
     /// </summary>
     /// <returns>An array of all possible separator strings.</returns>
     public static string[] GetAllSeparators()
     {
-        return [CharNewLineN, CharNewLineR, CharNewLineRN, CharNewLineNR, CharComma, CharSemicolon, CharGreekSemicolon, CharTab, CharColon, CharFullStop, CharPipe, CharSpace];
+        return [Constants.Characters.NewLineN, Constants.Characters.NewLineR, Constants.Characters.NewLineRN, Constants.Characters.NewLineNR, Constants.Characters.Comma, Constants.Characters.Semicolon, Constants.Characters.GreekSemicolon, Constants.Characters.Tab, Constants.Characters.Colon, Constants.Characters.FullStop, Constants.Characters.Pipe, Constants.Characters.Space];
     }
 
     /// <summary>
@@ -108,6 +83,6 @@ public class TextSeparator(Separator separator)
     /// <returns>An array of all possible separator strings excluding space.</returns>
     public static string[] GetAllSeparatorsExceptSpace()
     {
-        return [CharNewLineN, CharNewLineR, CharNewLineRN, CharNewLineNR, CharComma, CharSemicolon, CharGreekSemicolon, CharTab, CharColon, CharFullStop, CharPipe];
+        return [Constants.Characters.NewLineN, Constants.Characters.NewLineR, Constants.Characters.NewLineRN, Constants.Characters.NewLineNR, Constants.Characters.Comma, Constants.Characters.Semicolon, Constants.Characters.GreekSemicolon, Constants.Characters.Tab, Constants.Characters.Colon, Constants.Characters.FullStop, Constants.Characters.Pipe];
     }
 }

@@ -149,4 +149,33 @@ public static class Constants
 
         public static readonly HashSet<char> Coptic = ['Ⲁ', 'ⲁ', 'Ⲃ', 'ⲃ', 'Ⲅ', 'ⲅ', 'Ⲇ', 'ⲇ', 'Ⲉ', 'ⲉ', 'Ⲋ', 'ⲋ', 'Ⲍ', 'ⲍ', 'Ⲏ', 'ⲏ', 'Ⲑ', 'ⲑ', 'Ⲓ', 'ⲓ', 'Ⲕ', 'ⲕ', 'Ⲗ', 'ⲗ', 'Ⲙ', 'ⲙ', 'Ⲛ', 'ⲛ', 'Ⲝ', 'ⲝ', 'Ⲟ', 'ⲟ', 'Ⲡ', 'ⲡ', 'Ⲣ', 'ⲣ', 'Ⲥ', 'ⲥ', 'Ⲧ', 'ⲧ', 'Ⲩ', 'ⲩ', 'Ⲫ', 'ⲫ', 'Ⲭ', 'ⲭ', 'Ⲯ', 'ⲯ', 'Ⲱ', 'ⲱ', 'Ⲳ', 'ⲳ', 'Ⲵ', 'ⲵ', 'Ⲷ', 'ⲷ', 'Ⲹ', 'ⲹ', 'Ⲻ', 'ⲻ', 'Ⲽ', 'ⲽ', 'Ⲿ', 'ⲿ', 'Ⳁ', 'ⳁ', 'Ⳃ', 'ⳃ', 'Ⳅ', 'ⳅ', 'Ⳇ', 'ⳇ', 'Ⳉ', 'ⳉ', 'Ⳋ', 'ⳋ', 'Ⳍ', 'ⳍ', 'Ⳏ', 'ⳏ', 'Ⳑ', 'ⳑ', 'Ⳓ', 'ⳓ', 'Ⳕ', 'ⳕ', 'Ⳗ', 'ⳗ', 'Ⳙ', 'ⳙ', 'Ⳛ', 'ⳛ', 'Ⳝ', 'ⳝ', 'Ⳟ', 'ⳟ', 'Ⳡ', 'ⳡ', 'Ⳣ', 'ⳣ', 'ⳤ', '⳥', '⳦', '⳧', '⳨', '⳩', '⳪', 'Ⳬ', 'ⳬ', 'Ⳮ', 'ⳮ', '⳯', '⳱', 'Ⳳ', 'ⳳ', '⳹', '⳺', '⳻', '⳼', '⳽', '⳾', '⳿', 'ϫ', 'ϩ', 'ϥ', 'ϣ', 'ϭ', 'ϯ'];
     }
+
+    public static class Characters
+    {
+        public const string NewLineN = "\n";
+
+        public const string NewLineR = "\r";
+
+        public const string NewLineRN = "\r\n";
+
+        public const string NewLineNR = "\n\r";
+
+        public const string Comma = ",";
+
+        public const string Semicolon = ";";
+
+        public const string GreekSemicolon = "·";
+
+        public const string Tab = "\t";
+
+        public const string Colon = ":";
+
+        public const string FullStop = ".";
+
+        public const string Pipe = "|";
+
+        public const string Space = " ";
+        
+        public const string Equal = "=";
+    }
 }

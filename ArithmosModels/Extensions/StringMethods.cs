@@ -96,10 +96,10 @@ public static class StringMethods
 
         replaceWith ??= "";
         return value
-            .Replace(TextSeparator.CharNewLineN, replaceWith)
-            .Replace(TextSeparator.CharNewLineNR, replaceWith)
-            .Replace(TextSeparator.CharNewLineR, replaceWith)
-            .Replace(TextSeparator.CharNewLineRN, replaceWith);
+            .Replace(Constants.Characters.NewLineN, replaceWith)
+            .Replace(Constants.Characters.NewLineNR, replaceWith)
+            .Replace(Constants.Characters.NewLineR, replaceWith)
+            .Replace(Constants.Characters.NewLineRN, replaceWith);
     }
 
     /// <summary>
