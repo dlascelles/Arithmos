@@ -12,6 +12,8 @@ public static class Constants
         public const string EnglishStandard = "A=1,a=1,B=2,b=2,C=3,c=3,D=4,d=4,E=5,e=5,F=6,f=6,G=7,g=7,H=8,h=8,I=9,i=9,J=10,j=10,K=20,k=20,L=30,l=30,M=40,m=40,N=50,n=50,O=60,o=60,P=70,p=70,Q=80,q=80,R=90,r=90,S=100,s=100,T=200,t=200,U=300,u=300,V=400,v=400,W=500,w=500,X=600,x=600,Y=700,y=700,Z=800,z=800";
 
         public const string EnglishOrdinal = "A=1,a=1,B=2,b=2,C=3,c=3,D=4,d=4,E=5,e=5,F=6,f=6,G=7,g=7,H=8,h=8,I=9,i=9,J=10,j=10,K=11,k=11,L=12,l=12,M=13,m=13,N=14,n=14,O=15,o=15,P=16,p=16,Q=17,q=17,R=18,r=18,S=19,s=19,T=20,t=20,U=21,u=21,V=22,v=22,W=23,w=23,X=24,x=24,Y=25,y=25,Z=26,z=26";
+        
+        public const string EnglishReversed = "A=26,a=26,B=25,b=25,C=24,c=24,D=23,d=23,E=22,e=22,F=21,f=21,G=20,g=20,H=19,h=19,I=18,i=18,J=17,j=17,K=16,k=16,L=15,l=15,M=14,m=14,N=13,n=13,O=12,o=12,P=11,p=11,Q=10,q=10,R=9,r=9,S=8,s=8,T=7,t=7,U=6,u=6,V=5,v=5,W=4,w=4,X=3,x=3,Y=2,y=2,Z=1,z=1";
 
         public const string EnglishReduced = "A=1,a=1,B=2,b=2,C=3,c=3,D=4,d=4,E=5,e=5,F=6,f=6,G=7,g=7,H=8,h=8,I=9,i=9,J=1,j=1,K=2,k=2,L=3,l=3,M=4,m=4,N=5,n=5,O=6,o=6,P=7,p=7,Q=8,q=8,R=9,r=9,S=1,s=1,T=2,t=2,U=3,u=3,V=4,v=4,W=5,w=5,X=6,x=6,Y=7,y=7,Z=8,z=8";
 
@@ -30,6 +32,8 @@ public static class Constants
 
         public const string GreekOrdinal = "Α=1,α=1,Β=2,β=2,Γ=3,γ=3,Δ=4,δ=4,Ε=5,ε=5,Ϛ=6,ϛ=6,Ζ=7,ζ=7,Η=8,η=8,Θ=9,θ=9,Ι=10,ι=10,Κ=11,κ=11,Λ=12,λ=12,Μ=13,μ=13,Ν=14,ν=14,Ξ=15,ξ=15,Ο=16,ο=16,Π=17,π=17,Ϙ=18,ϙ=18,Ρ=19,ρ=19,Σ=20,σ=20,ς=20,Τ=21,τ=21,Υ=22,υ=22,Φ=23,φ=23,Χ=24,χ=24,Ψ=25,ψ=25,Ω=26,ω=26,Ϡ=27,ϡ=27";
 
+        public const string GreekReversed = "Α=27,α=27,Β=26,β=26,Γ=25,γ=25,Δ=24,δ=24,Ε=23,ε=23,Ϛ=22,ϛ=22,Ζ=21,ζ=21,Η=20,η=20,Θ=19,θ=19,Ι=18,ι=18,Κ=17,κ=17,Λ=16,λ=16,Μ=15,μ=15,Ν=14,ν=14,Ξ=13,ξ=13,Ο=12,ο=12,Π=11,π=11,Ϙ=10,ϙ=10,Ρ=9,ρ=9,Σ=8,σ=8,ς=8,Τ=7,τ=7,Υ=6,υ=6,Φ=5,φ=5,Χ=4,χ=4,Ψ=3,ψ=3,Ω=2,ω=2,Ϡ=1,ϡ=1";
+        
         public const string GreekReduced = "Α=1,α=1,Β=2,β=2,Γ=3,γ=3,Δ=4,δ=4,Ε=5,ε=5,Ϛ=6,ϛ=6,Ζ=7,ζ=7,Η=8,η=8,Θ=9,θ=9,Ι=1,ι=1,Κ=2,κ=2,Λ=3,λ=3,Μ=4,μ=4,Ν=5,ν=5,Ξ=6,ξ=6,Ο=7,ο=7,Π=8,π=8,Ϙ=9,ϙ=9,Ρ=1,ρ=1,Σ=2,σ=2,ς=2,Τ=3,τ=3,Υ=4,υ=4,Φ=5,φ=5,Χ=6,χ=6,Ψ=7,ψ=7,Ω=8,ω=8,Ϡ=9,ϡ=9";
 
         public const string GreekPrimes = "Α=2,α=2,Β=3,β=3,Γ=5,γ=5,Δ=7,δ=7,Ε=11,ε=11,Ϛ=13,ϛ=13,Ζ=17,ζ=17,Η=19,η=19,Θ=23,θ=23,Ι=29,ι=29,Κ=31,κ=31,Λ=37,λ=37,Μ=41,μ=41,Ν=43,ν=43,Ξ=47,ξ=47,Ο=53,ο=53,Π=59,π=59,Ϙ=61,ϙ=61,Ρ=67,ρ=67,Σ=71,σ=71,ς=71,Τ=73,τ=73,Υ=79,υ=79,Φ=83,φ=83,Χ=89,χ=89,Ψ=97,ψ=97,Ω=101,ω=101,Ϡ=103,ϡ=103";
@@ -44,6 +48,8 @@ public static class Constants
         public const string HebrewStandard = "א=1,ב=2,ג=3,ד=4,ה=5,ו=6,ז=7,ח=8,ט=9,י=10,כ=20,ל=30,מ=40,נ=50,ס=60,ע=70,פ=80,צ=90,ק=100,ר=200,ש=300,ת=400,ך=20,ם=40,ן=50,ף=80,ץ=90";
 
         public const string HebrewOrdinal = "א=1,ב=2,ג=3,ד=4,ה=5,ו=6,ז=7,ח=8,ט=9,י=10,כ=11,ל=12,מ=13,נ=14,ס=15,ע=16,פ=17,צ=18,ק=19,ר=20,ש=21,ת=22,ך=23,ם=24,ן=25,ף=26,ץ=27";
+        
+        public const string HebrewReversed = "א=27,ב=26,ג=25,ד=24,ה=23,ו=22,ז=21,ח=20,ט=19,י=18,כ=17,ל=16,מ=15,נ=14,ס=13,ע=12,פ=11,צ=10,ק=9,ר=8,ש=7,ת=6,ך=5,ם=4,ן=3,ף=2,ץ=1";
 
         public const string HebrewReduced = "א=1,ב=2,ג=3,ד=4,ה=5,ו=6,ז=7,ח=8,ט=9,י=1,כ=2,ל=3,מ=4,נ=5,ס=6,ע=7,פ=8,צ=9,ק=1,ר=2,ש=3,ת=4,ך=2,ם=4,ן=5,ף=8,ץ=9";
 
@@ -61,6 +67,8 @@ public static class Constants
         public const string EnglishStandardName = "English Standard";
 
         public const string EnglishOrdinalName = "English Ordinal";
+        
+        public const string EnglishReversedName = "English Reversed";
 
         public const string EnglishReducedName = "English Reduced";
 
@@ -80,6 +88,8 @@ public static class Constants
         public const string GreekStandardName = "Greek Standard";
 
         public const string GreekOrdinalName = "Greek Ordinal";
+        
+        public const string GreekReversedName = "Greek Reversed";
 
         public const string GreekReducedName = "Greek Reduced";
 
@@ -97,6 +107,8 @@ public static class Constants
         public const string HebrewStandardName = "Hebrew Standard";
 
         public const string HebrewOrdinalName = "Hebrew Ordinal";
+        
+        public const string HebrewReversedName = "Hebrew Reversed";
 
         public const string HebrewReducedName = "Hebrew Reduced";
 

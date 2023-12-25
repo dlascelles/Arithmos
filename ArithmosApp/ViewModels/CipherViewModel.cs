@@ -214,6 +214,11 @@ public partial class CipherViewModel : ViewModelBase
                     GetPairsFromCipher(new Cipher(Constants.Ciphers.EnglishOrdinal)).ForEach(v => GematriaCipher.Add(v));
                     break;
                 }
+            case Constants.Ciphers.EnglishReversedName:
+                {
+                    GetPairsFromCipher(new Cipher(Constants.Ciphers.EnglishReversed)).ForEach(v => GematriaCipher.Add(v));
+                    break;
+                }
             case Constants.Ciphers.EnglishReducedName:
                 {
                     GetPairsFromCipher(new Cipher(Constants.Ciphers.EnglishReduced)).ForEach(v => GematriaCipher.Add(v));
@@ -259,6 +264,11 @@ public partial class CipherViewModel : ViewModelBase
                     GetPairsFromCipher(new Cipher(Constants.Ciphers.GreekOrdinal)).ForEach(v => GematriaCipher.Add(v));
                     break;
                 }
+            case Constants.Ciphers.GreekReversedName:
+                {
+                    GetPairsFromCipher(new Cipher(Constants.Ciphers.GreekReversed)).ForEach(v => GematriaCipher.Add(v));
+                    break;
+                }
             case Constants.Ciphers.GreekReducedName:
                 {
                     GetPairsFromCipher(new Cipher(Constants.Ciphers.GreekReduced)).ForEach(v => GematriaCipher.Add(v));
@@ -297,6 +307,11 @@ public partial class CipherViewModel : ViewModelBase
             case Constants.Ciphers.HebrewOrdinalName:
                 {
                     GetPairsFromCipher(new Cipher(Constants.Ciphers.HebrewOrdinal)).ForEach(v => GematriaCipher.Add(v));
+                    break;
+                }
+            case Constants.Ciphers.HebrewReversedName:
+                {
+                    GetPairsFromCipher(new Cipher(Constants.Ciphers.HebrewReversed)).ForEach(v => GematriaCipher.Add(v));
                     break;
                 }
             case Constants.Ciphers.HebrewReducedName:
@@ -575,7 +590,7 @@ public partial class CipherViewModel : ViewModelBase
         set => SetProperty(ref selectedCipherGroup, value);
     }
 
-    private ObservableCollection<string> cipherGroups = ["", Constants.Ciphers.EnglishAlphabetName, Constants.Ciphers.EnglishStandardName, Constants.Ciphers.EnglishOrdinalName, Constants.Ciphers.EnglishReducedName, Constants.Ciphers.EnglishSumerianName, Constants.Ciphers.EnglishPrimesName, Constants.Ciphers.EnglishFibonacciName, Constants.Ciphers.EnglishTetrahedralName, Constants.Ciphers.EnglishTriangularName, Constants.Ciphers.GreekAlphabetName, Constants.Ciphers.GreekStandardName, Constants.Ciphers.GreekOrdinalName, Constants.Ciphers.GreekReducedName, Constants.Ciphers.GreekPrimesName, Constants.Ciphers.GreekFibonacciName, Constants.Ciphers.GreekTetrahedralName, Constants.Ciphers.GreekTriangularName, Constants.Ciphers.HebrewAlphabetName, Constants.Ciphers.HebrewStandardName, Constants.Ciphers.HebrewOrdinalName, Constants.Ciphers.HebrewReducedName, Constants.Ciphers.HebrewPrimesName, Constants.Ciphers.HebrewFibonacciName, Constants.Ciphers.HebrewTetrahedralName, Constants.Ciphers.HebrewTriangularName, Constants.Ciphers.ArabicAlphabetName, Constants.Ciphers.CyrillicAlphabetName, Constants.Ciphers.CopticAlphabetName];
+    private ObservableCollection<string> cipherGroups = ["", Constants.Ciphers.EnglishAlphabetName, Constants.Ciphers.EnglishStandardName, Constants.Ciphers.EnglishOrdinalName, Constants.Ciphers.EnglishReversedName, Constants.Ciphers.EnglishReducedName, Constants.Ciphers.EnglishSumerianName, Constants.Ciphers.EnglishPrimesName, Constants.Ciphers.EnglishFibonacciName, Constants.Ciphers.EnglishTetrahedralName, Constants.Ciphers.EnglishTriangularName, Constants.Ciphers.GreekAlphabetName, Constants.Ciphers.GreekStandardName, Constants.Ciphers.GreekOrdinalName, Constants.Ciphers.GreekReversedName, Constants.Ciphers.GreekReducedName, Constants.Ciphers.GreekPrimesName, Constants.Ciphers.GreekFibonacciName, Constants.Ciphers.GreekTetrahedralName, Constants.Ciphers.GreekTriangularName, Constants.Ciphers.HebrewAlphabetName, Constants.Ciphers.HebrewStandardName, Constants.Ciphers.HebrewOrdinalName, Constants.Ciphers.HebrewReversedName, Constants.Ciphers.HebrewReducedName, Constants.Ciphers.HebrewPrimesName, Constants.Ciphers.HebrewFibonacciName, Constants.Ciphers.HebrewTetrahedralName, Constants.Ciphers.HebrewTriangularName, Constants.Ciphers.ArabicAlphabetName, Constants.Ciphers.CyrillicAlphabetName, Constants.Ciphers.CopticAlphabetName];
     public ObservableCollection<string> CipherGroups
     {
         get => cipherGroups;
